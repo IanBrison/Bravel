@@ -1,0 +1,6 @@
+php-7.2:
+  build: .
+  ports:
+    - "80:80"
+  volumes:
+    - "../:/var/www/html"
