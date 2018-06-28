@@ -1,2 +1,3 @@
 <?php
-echo 'hello world';
+
+require './bootstrap.php';
