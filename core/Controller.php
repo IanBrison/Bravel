@@ -32,4 +32,22 @@ abstract class Controller {
 
         return $content;
     }
+
+    public function render($variables = array(), $template = null, $layout = 'layout') {
+        $defaults = array(
+            'request'  => $this->request,
+            'base_url' => $this->request->getBaseUrl(),
+            'session'  => $this->session,
+        );
+
+        $view = new View($this->application->getViewDir(), $defaults);
+
+        if (is_null($template)) {
+            $template = $this->action_name;
+        }
+
+        $path = $this->controller_name . '/' . $template;
+
+        return $view->render($path, $variables, $layout);
+    }
 }
