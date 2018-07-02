@@ -50,4 +50,21 @@ abstract class Controller {
 
         return $view->render($path, $variables, $layout);
     }
+
+    protected function forward404() {
+        throw new HttpNotFoundException('Forwarded 404 page from ' . $this->controller_name . '/' . $this->action_name);
+    }
+
+    protected function redirect($url) {
+        if (!preg_match('#https?://#', $url)) {
+            $protocol = $this->request->isSsl() ? 'https://' : 'http://';
+            $host = $this->request->getHost();
+            $base_url = $this->request->getBaseUrl();
+
+            $url = $protocol . $host . $base_url . $url;
+        }
+
+        $this->response->setStatusCode(302, 'Found');
+        $this->response->setHttpHeader('Location', $url);
+    }
 }
