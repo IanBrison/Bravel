@@ -10,6 +10,8 @@ abstract class Controller {
     protected $session;
     protected $db_manager;
 
+    protected $auth_actions = array();
+
     public function __construct($application) {
         $this->controller_name = strtolower(substr(get_class($this), 0, -10));
 
@@ -91,6 +93,31 @@ abstract class Controller {
             unset($tokens[$pos]);
             $this->session->set($key, $tokens);
 
+            return true;
+        }
+
+        return false;
+    }
+
+    public function run($action, $params = array()) {
+        $this->action_name = $action;
+
+        $action_name = $action . 'Action';
+        if (!method_exists($this, $action_method)) {
+            $this->forward404();
+        }
+
+        if ($this->needsAuthentication($action) && !$this->session->isAuthenticated()) {
+            throw new UnauthorizedActionException();
+        }
+
+        $content = $this->$action_method($params);
+
+        return $content;
+    }
+
+    protected function needsAuthentication($action) {
+        if ($this->auth_actions === true || (is_array($this->auth_actions) && in_array($action, $this->auth_actions))) {
             return true;
         }
 
