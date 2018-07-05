@@ -1,5 +1,5 @@
 <p align="center">
-<img src="https://img.shields.io/travis/php-v/symfony/symfony.svg" alt="PHP version">
+<img src="https://img.shields.io/badge/Bravel-fantastic-brightgreen.svg" alt="PHP version">
 </p>
 
 # Bravel
