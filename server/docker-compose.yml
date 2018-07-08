@@ -1,6 +1,19 @@
-php-7.2:
-  build: .
-  ports:
-    - "80:80"
-  volumes:
-    - "../:/var/www/html"
+version: '2'
+services:
+    php-7.2:
+        build: ./php
+        ports:
+            - "80:80"
+        volumes:
+            - "../:/var/www/html"
+        links:
+            - mariadb:db
+    mariadb:
+        build: ./maria
+        volumes:
+            - "./maria/data:/var/lib/mysql"
+        environment:
+            MYSQL_ROOT_PASSWORD: password
+            MYSQL_DATABASE: braveldb
+            MYSQL_USER: braveluser
+            MYSQL_PASSWORD: bravelpassword
