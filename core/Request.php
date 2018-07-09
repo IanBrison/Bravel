@@ -41,14 +41,14 @@ class Request {
         return false;
     }
 
-    public function getRequestUrl() {
+    public function getRequestUri() {
         return $_SERVER['REQUEST_URI'];
     }
 
     public function getBaseUrl() {
         $script_name = $_SERVER['SCRIPT_NAME'];
 
-        $request_uri - $this->getRequestUri();
+        $request_uri = $this->getRequestUri();
 
         if (0 === strpos($request_uri, $script_name)) {
             return $script_name;
