@@ -35,7 +35,7 @@ abstract class Application {
 
     protected function configure() {
         $this->db_manager->connect('master', array(
-            'dsn'      => 'mysql:dbname=bravel;host=mariadb',
+            'dsn'      => 'mysql:dbname=braveldb;host=mariadb',
             'user'     => 'braveluser',
             'password' => 'bravelpassword',
         ));
