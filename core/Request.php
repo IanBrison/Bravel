@@ -26,7 +26,7 @@ class Request {
     }
 
     public function getHost() {
-        if (!empty($_SERVER['HTTP_HOST']) {
+        if (!empty($_SERVER['HTTP_HOST'])) {
             return $_SERVER['HTTP_HOST'];
         }
 

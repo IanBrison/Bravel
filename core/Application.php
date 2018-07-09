@@ -152,5 +152,4 @@ abstract class Application {
 EOF
         );
     }
-    }
 }
