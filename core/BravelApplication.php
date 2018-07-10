@@ -1,6 +1,6 @@
 <?php
 
-abstract class Application {
+abstract class BravelApplication {
 
     protected $debug = false;
     protected $request;
