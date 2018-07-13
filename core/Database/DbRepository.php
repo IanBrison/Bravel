@@ -1,5 +1,7 @@
 <?php
 
+namespace Database;
+
 abstract class DbRepository {
 
     protected $con;

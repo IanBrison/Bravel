@@ -1,5 +1,7 @@
 <?php
 
+namespace Database;
+
 class DbManager {
 
     protected $connections = array();
