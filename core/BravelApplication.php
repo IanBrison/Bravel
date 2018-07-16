@@ -76,19 +76,19 @@ abstract class BravelApplication {
     }
 
     public function getControllerDir() {
-        return $this->getRootDir() . '/controllers';
+        return $this->getRootDir() . '/app/controllers';
     }
 
     public function getViewDir() {
-        return $this->getRootDir() . '/views';
+        return $this->getRootDir() . '/app/views';
     }
 
     public function getModelDir() {
-        return $this->getRootDir() . '/models';
+        return $this->getRootDir() . '/app/models';
     }
 
     public function getWebDir() {
-        return $this->getRootDir() . '/web';
+        return $this->getRootDir() . '/app/web';
     }
 
     public function run() {
