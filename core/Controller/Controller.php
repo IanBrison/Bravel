@@ -2,6 +2,10 @@
 
 namespace Core\Controller;
 
+use Core\View\View;
+use Core\Exceptions\HttpNotFoundException;
+use Core\Exceptions\UnauthorizedActionException;
+
 abstract class Controller {
 
     protected $controller_name;
@@ -15,7 +19,7 @@ abstract class Controller {
     protected $auth_actions = array();
 
     public function __construct($application) {
-        $this->controller_name = strtolower(substr(get_class($this), 0, -10));
+        $this->controller_name = get_class($this);
 
         $this->application = $application;
         $this->request     = $application->getRequest();
@@ -32,12 +36,16 @@ abstract class Controller {
             $this->forward404();
         }
 
+        if ($this->needsAuthentication($action) && !$this->session->isAuthenticated()) {
+            throw new UnauthorizedActionException();
+        }
+
         $content = $this->$action_method($params);
 
         return $content;
     }
 
-    public function render($variables = array(), $template = null, $layout = 'layout') {
+    public function render($variables = array(), $template, $layout = 'layout') {
         $defaults = array(
             'request'  => $this->request,
             'base_url' => $this->request->getBaseUrl(),
@@ -46,13 +54,7 @@ abstract class Controller {
 
         $view = new View($this->application->getViewDir(), $defaults);
 
-        if (is_null($template)) {
-            $template = $this->action_name;
-        }
-
-        $path = $this->controller_name . '/' . $template;
-
-        return $view->render($path, $variables, $layout);
+        return $view->render($template, $variables, $layout);
     }
 
     protected function forward404() {
@@ -75,7 +77,7 @@ abstract class Controller {
     protected function generateCsrfToken($form_name) {
         $key = 'csrf_tokens/' . $form_name;
         $tokens = $this->session->get($key, array());
-        if ($count($tokens) >= 10) {
+        if (count($tokens) >= 10) {
             array_shift($tokens);
         }
 
@@ -99,23 +101,6 @@ abstract class Controller {
         }
 
         return false;
-    }
-
-    public function run($action, $params = array()) {
-        $this->action_name = $action;
-
-        $action_name = $action . 'Action';
-        if (!method_exists($this, $action_method)) {
-            $this->forward404();
-        }
-
-        if ($this->needsAuthentication($action) && !$this->session->isAuthenticated()) {
-            throw new UnauthorizedActionException();
-        }
-
-        $content = $this->$action_method($params);
-
-        return $content;
     }
 
     protected function needsAuthentication($action) {
