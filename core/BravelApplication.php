@@ -75,16 +75,16 @@ abstract class BravelApplication {
         return $this->db_manager;
     }
 
-    public function getControllerDir() {
-        return $this->getRootDir() . '/app/controllers';
+    public function getControllerDirNamespace() {
+        return 'App\\Controllers\\';
     }
 
-    public function getViewDir() {
-        return $this->getRootDir() . '/app/views';
+    public function getViewDirNamespace() {
+        return 'App\\Views\\';
     }
 
-    public function getModelDir() {
-        return $this->getRootDir() . '/app/models';
+    public function getModelDirNamespace() {
+        return 'App\\Models\\';
     }
 
     public function getWebDir() {
@@ -113,9 +113,9 @@ abstract class BravelApplication {
     }
 
     public function runAction($controller_name, $action, $params = array()) {
-        $controller_class = ucfirst($controller_name) . 'Controller';
+        $controller_class = $this->getControllerDirNamespace . $controller_name;
 
-        $controller = $this->findController($controller_class);
+        $controller = new $controller_class($this);
         if ($controller === false) {
             throw new HttpNotFoundException($controller_class . ' controller is not found.');
         }
@@ -123,23 +123,6 @@ abstract class BravelApplication {
         $content = $controller->run($action, $params);
 
         $this->response->setContent($content);
-    }
-
-    public function findController($controller_class) {
-        if (!class_exists($controller_class)) {
-            $controller_file = $this->getControllerDir() . '/' . $controller_class . '.php';
-            if (!is_readable($controller_file)) {
-                return false;
-            } else {
-                require_once $controller_file;
-
-                if (!class_exists($controller_class)) {
-                    return false;
-                }
-            }
-        }
-
-        return new $controller_class($this);
     }
 
     protected function render404Page($e) {
