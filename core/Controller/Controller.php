@@ -1,5 +1,7 @@
 <?php
 
+namespace Controller;
+
 abstract class Controller {
 
     protected $controller_name;
