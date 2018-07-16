@@ -2,6 +2,8 @@
 
 namespace Core\Database;
 
+use \PDO;
+
 abstract class DbRepository {
 
     protected $con;

@@ -2,6 +2,8 @@
 
 namespace Core\Database;
 
+use \PDO;
+
 class DbManager {
 
     protected $connections = array();
