@@ -1,6 +1,6 @@
 <?php
 
-namespace Session;
+namespace Core\Session;
 
 class Session {
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Request;
+namespace Core\Request;
 
 class Request {
     public function isPost() {
