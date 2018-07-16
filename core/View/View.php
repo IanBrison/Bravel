@@ -1,5 +1,7 @@
 <?php
 
+namespace View;
+
 class View {
 
     protected $base_dir;
