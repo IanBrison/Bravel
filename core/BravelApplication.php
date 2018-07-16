@@ -79,12 +79,12 @@ abstract class BravelApplication {
         return 'App\\Controllers\\';
     }
 
-    public function getViewDirNamespace() {
-        return 'App\\Views\\';
-    }
-
     public function getModelDirNamespace() {
         return 'App\\Models\\';
+    }
+
+    public function getViewDir() {
+        return $thit->getRootDir() . '/presentation/views';
     }
 
     public function getWebDir() {
