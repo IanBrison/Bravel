@@ -1,5 +1,5 @@
 <?php
 
-namespace Exceptions;
+namespace Core\Exceptions;
 
-class UnauthorizedActionException extends Exception {};
+class UnauthorizedActionException extends \Exception {};

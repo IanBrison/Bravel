@@ -1,5 +1,5 @@
 <?php
 
-namespace Exceptions;
+namespace Core\Exceptions;
 
-class HttpNotFoundException extends Exception {};
+class HttpNotFoundException extends \Exception {};
