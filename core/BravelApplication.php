@@ -113,7 +113,7 @@ abstract class BravelApplication {
     }
 
     public function runAction($controller_name, $action, $params = array()) {
-        $controller_class = $this->getControllerDirNamespace . $controller_name;
+        $controller_class = $this->getControllerDirNamespace() . $controller_name;
 
         $controller = new $controller_class($this);
         if ($controller === false) {
