@@ -9,7 +9,7 @@ use Core\Exceptions\UnauthorizedActionException;
 abstract class Controller {
 
     protected $controller_name;
-    protected $action_name;
+    protected $action_method;
     protected $application;
     protected $request;
     protected $response;
@@ -28,10 +28,8 @@ abstract class Controller {
         $this->db_manager  = $application->getDbManager();
     }
 
-    public function run($action, $params = array()) {
-        $this->action_name = $action;
-
-        $action_method = $action . 'Action';
+    public function run($action_method, $params = array()) {
+        $this->action_method = $action_method;
         if (!method_exists($this, $action_method)) {
             $this->forward404();
         }
@@ -58,7 +56,7 @@ abstract class Controller {
     }
 
     protected function forward404() {
-        throw new HttpNotFoundException('Forwarded 404 page from ' . $this->controller_name . '/' . $this->action_name);
+        throw new HttpNotFoundException('Forwarded 404 page from ' . $this->controller_name . '/' . $this->action_method);
     }
 
     protected function redirect($url) {
