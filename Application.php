@@ -1,5 +1,7 @@
 <?php
 
+use Core\BravelApplication;
+
 class Application extends BravelApplication {
 
     protected $login_action = array();

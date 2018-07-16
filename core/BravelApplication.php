@@ -1,5 +1,15 @@
 <?php
 
+namespace Core;
+
+use Core\Request\Request;
+use Core\Response\Response;
+use Core\Session\Session;
+use Core\Database\DbManager;
+use Core\Routing\Router;
+use Core\Exceptions\HttpNotFoundException;
+use Core\Exceptions\UnauthorizedActionException;
+
 abstract class BravelApplication {
 
     protected $debug = false;
