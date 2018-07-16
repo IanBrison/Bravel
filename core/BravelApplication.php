@@ -84,7 +84,7 @@ abstract class BravelApplication {
     }
 
     public function getViewDir() {
-        return $thit->getRootDir() . '/presentation/views';
+        return $this->getRootDir() . '/presentation/views';
     }
 
     public function getWebDir() {
