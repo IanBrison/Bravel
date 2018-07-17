@@ -83,6 +83,18 @@ abstract class BravelApplication {
         return 'App\\Models\\';
     }
 
+    public function getEntityDirNamespace() {
+        return 'App\\Models\\Entity\\';
+    }
+
+    public function getRepositoryDirNamespace() {
+        return 'App\\Repositories\\';
+    }
+
+    public function getDaoDirNamespace() {
+        return 'App\\Repositories\\Dao\\';
+    }
+
     public function getViewDir() {
         return $this->getRootDir() . '/presentation/views';
     }
