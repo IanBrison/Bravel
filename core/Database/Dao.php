@@ -4,7 +4,7 @@ namespace Core\Database;
 
 use \PDO;
 
-abstract class DbRepository {
+abstract class Dao {
 
     protected $con;
 
