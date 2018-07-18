@@ -39,7 +39,7 @@ abstract class BravelApplication {
         $this->request = new Request();
         $this->response = new Response();
         $this->session = new Session();
-        $this->db_manager = new DbManager();
+        $this->db_manager = new DbManager($this->getRepositoryDirNamespace(), $this->getDaoDirNamespace());
         $this->router = new Router($this->registerRoutes());
     }
 

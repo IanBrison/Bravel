@@ -6,9 +6,16 @@ use \PDO;
 
 class DbManager {
 
+    protected $repository_namespace;
+    protected $dao_namespace;
     protected $connections = array();
     protected $repository_connection_map = array();
     protected $repositories = array();
+
+    public function __construct($repository_namespace, $dao_namespace) {
+        $this->repository_namespace = $repository_namespace;
+        $this->dao_namespace = $dao_namespace;
+    }
 
     public function connect($name, $params) {
         $params = array_merge(array(
@@ -55,14 +62,14 @@ class DbManager {
 
     public function get($repository_name) {
         if (!isset($this->repositories[$repository_name])) {
-            $repository_class = $repository_name . 'Repository';
+            $dao_class = str_replace($this->repository_namespace, $this->dao_namespace, $repository_name);
             $con = $this->getConnectionForRepository($repository_name);
 
-            $repository = new $repository_class($con);
+            $dao = new $dao_class($con);
 
-            $this->repositories[$repository_name] = $repository;
+            $this->repositories[$repository_name] = $dao;
         }
-        
+
         return $this->repositories[$repository_name];
     }
 
