@@ -36,6 +36,7 @@ abstract class BravelApplication {
     }
 
     protected function initialize() {
+        Environment::setConfigPath($this->getConfigDir());
         $this->request = new Request();
         $this->response = new Response();
         $this->session = new Session();
@@ -44,11 +45,10 @@ abstract class BravelApplication {
     }
 
     protected function configure() {
-        $this->db_manager->connect('master', array(
-            'dsn'      => 'mysql:dbname=braveldb;host=mariadb',
-            'user'     => 'braveluser',
-            'password' => 'bravelpassword',
-        ));
+        $pdo_infos = Environment::getConfig('database');
+        $foreach ($pdo_infos as $connection_name => $pdo_info) {
+            $this->db_manager->connect($connection_name, $pdo_info);
+        }
     }
 
     abstract public function getRootDir();
@@ -97,6 +97,10 @@ abstract class BravelApplication {
 
     public function getViewDir() {
         return $this->getRootDir() . '/presentation/views';
+    }
+
+    public function getConfigDir() {
+        return $this->getRootDir() . '/config';
     }
 
     public function getWebDir() {
