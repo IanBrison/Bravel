@@ -25,6 +25,6 @@ class Environment {
             // abort and throw exception?
         }
 
-        $this->config_path = $config_path;
+        self::$config_path = $config_path;
     }
 }

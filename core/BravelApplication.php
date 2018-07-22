@@ -2,6 +2,7 @@
 
 namespace Core;
 
+use Core\Environment\Environment;
 use Core\Request\Request;
 use Core\Response\Response;
 use Core\Session\Session;
@@ -46,7 +47,7 @@ abstract class BravelApplication {
 
     protected function configure() {
         $pdo_infos = Environment::getConfig('database');
-        $foreach ($pdo_infos as $connection_name => $pdo_info) {
+        foreach ($pdo_infos as $connection_name => $pdo_info) {
             $this->db_manager->connect($connection_name, $pdo_info);
         }
     }
