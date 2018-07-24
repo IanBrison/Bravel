@@ -34,7 +34,7 @@ class DiContainer {
 
     private static function _get(string $singleton_name, bool $forceSave, ...$args) {
         if (isset(self::$singletons[$singleton_name])) {
-            return $singletons[$singleton_name];
+            return self::$singletons[$singleton_name];
         }
 
         $class_name = self::$aliases[$singleton_name] ?? $singleton_name;
