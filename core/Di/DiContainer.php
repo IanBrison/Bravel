@@ -21,15 +21,15 @@ class DiContainer {
     }
 
     public static function get(string $singleton_name, ...$args) {
-        return $this->_get($singleton_name, false, ...$args);
+        return self::_get($singleton_name, false, ...$args);
     }
 
     public static function getForceSave(string $singleton_name, ...$args) {
-        return $this->_get($singleton_name, true, ...$args);
+        return self::_get($singleton_name, true, ...$args);
     }
 
     public static function set(string $singleton_name, $instance) {
-        $this->_set($singleton_name, $instance);
+        self::_set($singleton_name, $instance);
     }
 
     private static function _get(string $singleton_name, bool $forceSave, ...$args) {
@@ -41,7 +41,7 @@ class DiContainer {
         $instance = new $singleton_name(...$args);
 
         if (isset(self::$singletons[$singleton_name]) || $forceSave) {
-            $this->_set($singleton_name, $instance);
+            self::_set($singleton_name, $instance);
         }
 
         return $instance;
