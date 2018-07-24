@@ -2,6 +2,7 @@
 
 namespace Core\Database;
 
+use Core\Environment\Environment;
 use \PDO;
 
 class DbManager {
@@ -15,6 +16,11 @@ class DbManager {
     public function __construct($repository_namespace, $dao_namespace) {
         $this->repository_namespace = $repository_namespace;
         $this->dao_namespace = $dao_namespace;
+
+        $pdo_infos = Environment::getConfig('database');
+        foreach ($pdo_infos as $connection_name => $pdo_info) {
+            $this->connect($connection_name, $pdo_info);
+        }
     }
 
     public function connect($name, $params) {

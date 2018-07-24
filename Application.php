@@ -13,4 +13,6 @@ class Application extends BravelApplication {
     protected function registerRoutes() {
         return array();
     }
+
+    protected function configure() {}
 }
