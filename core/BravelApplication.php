@@ -3,6 +3,7 @@
 namespace Core;
 
 use Core\Environment\Environment;
+use Core\Di\DiContainer as Di;
 use Core\Request\Request;
 use Core\Response\Response;
 use Core\Session\Session;
