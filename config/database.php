@@ -2,7 +2,7 @@
 
 /* 
  * config file for setting the database connection
- * all configurations go in to a PDO instance
+ * all configurations go into a PDO instance
  */
 return [
     'master' => [
