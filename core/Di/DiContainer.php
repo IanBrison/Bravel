@@ -47,7 +47,7 @@ class DiContainer {
         return $instance;
     }
 
-    private static function _set(string $singleton_name) {
+    private static function _set(string $singleton_name, $instance) {
         self::$singletons[$singleton_name] = $instance;
     }
 }
