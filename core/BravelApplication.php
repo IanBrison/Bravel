@@ -38,6 +38,11 @@ abstract class BravelApplication {
         }
     }
 
+    /*
+     * initializes the Application class
+     * you should not override this method unless you really need to
+     * use the 'configure' method instead
+     */
     protected function initialize() {
         Environment::setConfigPath($this->getConfigDir());
         Di::initialize();
