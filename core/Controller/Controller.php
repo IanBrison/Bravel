@@ -5,7 +5,8 @@ namespace Core\Controller;
 use Core\Di\DiContainer as Di;
 use Core\View\View;
 use Core\Session\Session;
-use Core\Reqeust\Request;
+use Core\Response\Response;
+use Core\Request\Request;
 use Core\Exceptions\HttpNotFoundException;
 use Core\Exceptions\UnauthorizedActionException;
 

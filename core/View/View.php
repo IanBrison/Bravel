@@ -4,7 +4,7 @@ namespace Core\View;
 
 use Core\Di\DiContainer as Di;
 use Core\Session\Session;
-use Core\Reqeust\Request;
+use Core\Request\Request;
 
 class View {
 

@@ -51,7 +51,7 @@ abstract class BravelApplication {
         $this->response = Di::get(Response::class);
         $this->session = Di::get(Session::class);
         $this->router = Di::get(Router::class, $this->registerRoutes());
-        Di::set(DbManager::class, new DbManer($this->getRepositoryDirNamespace(), $this->getDaoDirNamespace()));
+        Di::set(DbManager::class, new DbManager($this->getRepositoryDirNamespace(), $this->getDaoDirNamespace()));
         Di::set(View::class, new View($this->getViewDir()));
     }
 
