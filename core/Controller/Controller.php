@@ -2,7 +2,10 @@
 
 namespace Core\Controller;
 
+use Core\Di\DiContainer as Di;
 use Core\View\View;
+use Core\Session\Session;
+use Core\Reqeust\Request;
 use Core\Exceptions\HttpNotFoundException;
 use Core\Exceptions\UnauthorizedActionException;
 
@@ -10,22 +13,11 @@ abstract class Controller {
 
     protected $controller_name;
     protected $action_method;
-    protected $application;
-    protected $request;
-    protected $response;
-    protected $session;
-    protected $db_manager;
 
     protected $auth_actions = array();
 
-    public function __construct($application) {
+    public function __construct() {
         $this->controller_name = get_class($this);
-
-        $this->application = $application;
-        $this->request     = $application->getRequest();
-        $this->response    = $application->getResponse();
-        $this->session     = $application->getSession();
-        $this->db_manager  = $application->getDbManager();
     }
 
     public function run($action_method, $params = array()) {
@@ -34,7 +26,7 @@ abstract class Controller {
             $this->forward404();
         }
 
-        if ($this->needsAuthentication($action_method) && !$this->session->isAuthenticated()) {
+        if ($this->needsAuthentication($action_method) && !Di::get(Session::class)->isAuthenticated()) {
             throw new UnauthorizedActionException();
         }
 
@@ -43,14 +35,8 @@ abstract class Controller {
         return $content;
     }
 
-    public function render($variables = array(), $template, $layout = 'layout') {
-        $defaults = array(
-            'request'  => $this->request,
-            'base_url' => $this->request->getBaseUrl(),
-            'session'  => $this->session,
-        );
-
-        $view = new View($this->application->getViewDir(), $defaults);
+    public function render($variables = array(), $template = null, $layout = 'layout') {
+        $view = Di::get(View::class);
 
         return $view->render($template, $variables, $layout);
     }
@@ -61,20 +47,24 @@ abstract class Controller {
 
     protected function redirect($url) {
         if (!preg_match('#https?://#', $url)) {
-            $protocol = $this->request->isSsl() ? 'https://' : 'http://';
-            $host = $this->request->getHost();
-            $base_url = $this->request->getBaseUrl();
+            $request = Di::get(Request::class);
+            $protocol = $request->isSsl() ? 'https://' : 'http://';
+            $host = $request->getHost();
+            $base_url = $request->getBaseUrl();
 
             $url = $protocol . $host . $base_url . $url;
         }
 
-        $this->response->setStatusCode(302, 'Found');
-        $this->response->setHttpHeader('Location', $url);
+        $response = Di::get(Response::class);
+        $response->setStatusCode(302, 'Found');
+        $response->setHttpHeader('Location', $url);
+        Di::set(Response::class, $response);
     }
 
     protected function generateCsrfToken($form_name) {
+        $session = Di::get(Session::class);
         $key = 'csrf_tokens/' . $form_name;
-        $tokens = $this->session->get($key, array());
+        $tokens = $session->get($key, array());
         if (count($tokens) >= 10) {
             array_shift($tokens);
         }
@@ -82,18 +72,19 @@ abstract class Controller {
         $token = sha1($form_name . session_id() . microtime());
         $tokens[] = $token;
 
-        $this->session->set($key, $tokens);
+        $session->set($key, $tokens);
 
         return $token;
     }
 
     protected function checkCsrfToken($form_name, $token) {
+        $session = Di::get(Session::class);
         $key = 'csrf_tokens/' . $form_name;
-        $tokens = $this->session->get($key, array());
+        $tokens = $session->get($key, array());
 
         if (false !== ($pos = array_search($token, $tokens, true))) {
             unset($tokens[$pos]);
-            $this->session->set($key, $tokens);
+            $session->set($key, $tokens);
 
             return true;
         }

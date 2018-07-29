@@ -9,6 +9,7 @@ use Core\Response\Response;
 use Core\Session\Session;
 use Core\Database\DbManager;
 use Core\Routing\Router;
+use Core\View\View;
 use Core\Exceptions\HttpNotFoundException;
 use Core\Exceptions\UnauthorizedActionException;
 
@@ -18,7 +19,6 @@ abstract class BravelApplication {
     protected $request;
     protected $response;
     protected $session;
-    protected $db_manager;
     protected $router;
 
     public function __construct($debug = false) {
@@ -41,6 +41,7 @@ abstract class BravelApplication {
     /*
      * initializes the Application class
      * you should not override this method unless you really need to
+     *
      * use the 'configure' method instead
      */
     protected function initialize() {
@@ -49,8 +50,9 @@ abstract class BravelApplication {
         $this->request = Di::get(Request::class);
         $this->response = Di::get(Response::class);
         $this->session = Di::get(Session::class);
-        $this->db_manager = Di::get(DbManager::class, $this->getRepositoryDirNamespace(), $this->getDaoDirNamespace());
         $this->router = Di::get(Router::class, $this->registerRoutes());
+        Di::set(DbManager::class, new DbManer($this->getRepositoryDirNamespace(), $this->getDaoDirNamespace()));
+        Di::set(View::class, new View($this->getViewDir()));
     }
 
     abstract public function getRootDir();
@@ -119,7 +121,7 @@ abstract class BravelApplication {
     public function runAction($controller_name, $action, $params = array()) {
         $controller_class = $this->getControllerDirNamespace() . $controller_name;
 
-        $controller = new $controller_class($this);
+        $controller = new $controller_class();
         if ($controller === false) {
             throw new HttpNotFoundException($controller_class . ' controller is not found.');
         }
