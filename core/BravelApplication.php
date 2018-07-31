@@ -98,7 +98,7 @@ abstract class BravelApplication {
     }
 
     public function getWebDir() {
-        return $this->getRootDir() . '/app/web';
+        return $this->getRootDir() . '/web';
     }
 
     public function run() {
