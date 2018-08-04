@@ -8,6 +8,9 @@ return [
     'singletons' => [
         Core\Request\Request::class,
         Core\Response\Response::class,
+        Core\Response\StatusCode::class,
+        Core\Response\HttpHeaders::class,
+        Core\Response\Content::class,
         Core\Session\Session::class,
         Core\Database\DbManager::class,
         Core\Routing\Router::class,

@@ -2,33 +2,27 @@
 
 namespace Core\Response;
 
+use Di\DiContainer as Di;
+
 class Response {
 
     protected $content;
-    protected $status_code = 200;
-    protected $status_text = 'OK';
-    protected $http_headers = array();
+    protected $status_code;
+    protected $http_headers;
+
+    public function __construct() {
+        $this->status_code = Di::get(StatusCode::class, 200);
+        $this->content = Di::get(Content::class, '');
+        $this->http_headers = Di::get(HttpHeaders::class, []);
+    }
 
     public function send() {
-        header('HTTP/1.1 ' . $this->status_code . ' ' . $this->status_text);
+        header('HTTP/1.1 ' . $this->status_code->getCode() . ' ' . $this->status_code->getText());
 
-        foreach ($this->http_headers as $name => $value) {
-            header($name . ': ' . $value);
+        foreach ($this->http_headers->getHeaders() as $http_header) {
+            header($http_header->getName() . ': ' . $http_header->getValue());
         }
 
-        echo $this->content;
-    }
-
-    public function setContent($content) {
-        $this->content = $content;
-    }
-
-    public function setStatusCode($status_code, $status_text = '') {
-        $this->status_code = $status_code;
-        $this->status_text = $status_text;
-    }
-
-    public function setHttpHeader($name, $value) {
-        $this->http_headers[$name] = $value;
+        echo $this->content->get();
     }
 }

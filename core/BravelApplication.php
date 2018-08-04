@@ -6,6 +6,8 @@ use Core\Environment\Environment;
 use Core\Di\DiContainer as Di;
 use Core\Request\Request;
 use Core\Response\Response;
+use Core\Response\StatusCode;
+use Core\Response\Content;
 use Core\Session\Session;
 use Core\Database\DbManager;
 use Core\Routing\Router;
@@ -17,7 +19,6 @@ abstract class BravelApplication {
 
     protected $debug = false;
     protected $request;
-    protected $response;
     protected $session;
     protected $router;
 
@@ -52,7 +53,6 @@ abstract class BravelApplication {
         Environment::setConfigPath($this->getConfigDir());
         Di::initialize();
         $this->request = Di::get(Request::class);
-        $this->response = Di::get(Response::class);
         $this->session = Di::get(Session::class);
         $this->router = Di::get(Router::class, $this->registerRoutes());
         Di::set(DbManager::class, new DbManager($this->getRepositoryDirNamespace(), $this->getDaoDirNamespace()));
@@ -119,7 +119,7 @@ abstract class BravelApplication {
             $this->runAction($controller, $action);
         }
 
-        $this->response->send();
+        Di::get(Response::class)->send();
     }
 
     public function runAction($controller_name, $action, $params = array()) {
@@ -132,15 +132,15 @@ abstract class BravelApplication {
 
         $content = $controller->run($action, $params);
 
-        $this->response->setContent($content);
+        Di::set(Content::class, new Content($content));
     }
 
     protected function render404Page($e) {
-        $this->response->setStatusCode(404, 'Not Found');
+        Di::set(StatusCode::class, new StatusCode(404, 'Not Found'));
         $message = $this->isDebugMode() ? $e->getMessage() : 'Page not found.';
         $message = htmlspecialchars($message, ENT_QUOTES, 'UTF-8');
 
-        $this->response->setContent(<<<EOF
+        Di::set(Content::class, new Content(<<<EOF
 <!DOCTYPE html>
 <html>
 <head>
@@ -152,6 +152,6 @@ abstract class BravelApplication {
 </body>
 </html>
 EOF
-        );
+        ));
     }
 }

@@ -5,7 +5,8 @@ namespace Core\Controller;
 use Core\Di\DiContainer as Di;
 use Core\View\View;
 use Core\Session\Session;
-use Core\Response\Response;
+use Core\Response\HttpHeader;
+use Core\Response\HttpHeaders;
 use Core\Request\Request;
 use Core\Exceptions\HttpNotFoundException;
 use Core\Exceptions\UnauthorizedActionException;
@@ -56,10 +57,9 @@ abstract class Controller {
             $url = $protocol . $host . $base_url . $url;
         }
 
-        $response = Di::get(Response::class);
-        $response->setStatusCode(302, 'Found');
-        $response->setHttpHeader('Location', $url);
-        Di::set(Response::class, $response);
+        Di::set(StatusCode::class, new StatusCode(302, 'Found'));
+        $http_header = new HttpHeader('Location', $url);
+        Di::set(HttpHeaders::class, new HttpHeaders($http_header, Di::get(HttpHeaders::class)));
     }
 
     protected function generateCsrfToken($form_name) {
