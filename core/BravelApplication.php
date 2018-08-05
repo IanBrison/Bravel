@@ -8,7 +8,6 @@ use Core\Request\Request;
 use Core\Response\Response;
 use Core\Response\StatusCode;
 use Core\Response\Content;
-use Core\Session\Session;
 use Core\Database\DbManager;
 use Core\Routing\Router;
 use Core\View\View;
@@ -18,9 +17,6 @@ use Core\Exceptions\UnauthorizedActionException;
 abstract class BravelApplication {
 
     protected $debug = false;
-    protected $request;
-    protected $session;
-    protected $router;
 
     public function __construct($debug = false) {
         $this->setDebugMode($debug);
@@ -52,9 +48,6 @@ abstract class BravelApplication {
     protected function initialize() {
         Environment::setConfigPath($this->getConfigDir());
         Di::initialize();
-        $this->request = Di::get(Request::class);
-        $this->session = Di::get(Session::class);
-        $this->router = Di::get(Router::class, $this->registerRoutes());
         Di::set(DbManager::class, new DbManager($this->getRepositoryDirNamespace(), $this->getDaoDirNamespace()));
         Di::set(View::class, new View($this->getViewDir()));
     }
@@ -103,9 +96,10 @@ abstract class BravelApplication {
 
     public function run() {
         try {
-            $params = $this->router->resolve($this->request->getPathInfo());
+            $request = Di::get(Request::class);
+            $params = Di::get(Router::class, $this->registerRoutes())->resolve($request->getPathInfo());
             if ($params === false) {
-                throw new HttpNotFoundException('No route found for ' . $this->request->getPathInfo());
+                throw new HttpNotFoundException('No route found for ' . $request->getPathInfo());
             }
 
             $controller = $params['controller'];
