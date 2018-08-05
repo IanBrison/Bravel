@@ -26,6 +26,7 @@ abstract class BravelApplication {
 
     /*
      * set to debug mode to stacktrace the errors when something occurs
+     *
      * don't forget to unset it in production environment
      */
     public function setDebugMode($debug) {

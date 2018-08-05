@@ -9,6 +9,7 @@ class DbManager {
 
     protected $repository_namespace;
     protected $dao_namespace;
+    protected $default_connection_name;
     protected $connections = array();
     protected $repository_connection_map = array();
     protected $repositories = array();
@@ -17,8 +18,9 @@ class DbManager {
         $this->repository_namespace = $repository_namespace;
         $this->dao_namespace = $dao_namespace;
 
-        $pdo_infos = Environment::getConfig('database');
-        foreach ($pdo_infos as $connection_name => $pdo_info) {
+        $database_settings = Environment::getConfig('database');
+        $default_connection_name = $database_settings['options']['default'];
+        foreach ($database_settings['connections'] as $connection_name => $pdo_info) {
             $this->connect($connection_name, $pdo_info);
         }
     }
@@ -44,9 +46,7 @@ class DbManager {
     }
 
     public function getConnection($name = null) {
-        if (is_null($name)) {
-            return current($this->connections);
-        }
+        $name = $name ?? $this->default_connection_name;
 
         return $this->connections[$name];
     }
