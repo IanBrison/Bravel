@@ -7,7 +7,7 @@ use Core\Di\DiContainer as Di;
 use Core\Request\Request;
 use Core\Response\Response;
 use Core\Response\StatusCode;
-use Core\Response\Content;
+use Core\Response\Content as ResponseContent;
 use Core\Database\DbManager;
 use Core\Routing\Router;
 use Core\View\View;
@@ -126,7 +126,7 @@ abstract class BravelApplication {
 
         $content = $controller->run($action, $params);
 
-        Di::set(Content::class, new Content($content));
+        Di::set(ResponseContent::class, new ResponseContent($content));
     }
 
     protected function render404Page($e) {
@@ -134,7 +134,7 @@ abstract class BravelApplication {
         $message = $this->isDebugMode() ? $e->getMessage() : 'Page not found.';
         $message = htmlspecialchars($message, ENT_QUOTES, 'UTF-8');
 
-        Di::set(Content::class, new Content(<<<EOF
+        Di::set(ResponseContent::class, new ResponseContent(<<<EOF
 <!DOCTYPE html>
 <html>
 <head>
