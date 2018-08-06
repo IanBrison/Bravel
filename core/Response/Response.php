@@ -2,7 +2,7 @@
 
 namespace Core\Response;
 
-use Di\DiContainer as Di;
+use Core\Di\DiContainer as Di;
 
 class Response {
 
