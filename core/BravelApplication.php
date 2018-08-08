@@ -63,35 +63,35 @@ abstract class BravelApplication {
         return $this->debug;
     }
 
-    public function getControllerDirNamespace() {
+    public function getControllerDirNamespace(): string {
         return 'App\\Controllers\\';
     }
 
-    public function getModelDirNamespace() {
+    public function getModelDirNamespace(): string {
         return 'App\\Models\\';
     }
 
-    public function getEntityDirNamespace() {
+    public function getEntityDirNamespace(): string {
         return 'App\\Models\\Entity\\';
     }
 
-    public function getRepositoryDirNamespace() {
+    public function getRepositoryDirNamespace(): string {
         return 'App\\Repositories\\';
     }
 
-    public function getDaoDirNamespace() {
+    public function getDaoDirNamespace(): string {
         return 'App\\Repositories\\Dao\\';
     }
 
-    public function getViewDir() {
+    public function getViewDir(): string {
         return $this->getRootDir() . '/presentation/views';
     }
 
-    public function getConfigDir() {
+    public function getConfigDir(): string {
         return $this->getRootDir() . '/config';
     }
 
-    public function getWebDir() {
+    public function getWebDir(): string {
         return $this->getRootDir() . '/web';
     }
 
