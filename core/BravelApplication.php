@@ -59,7 +59,7 @@ abstract class BravelApplication {
 
     abstract protected function configure();
 
-    public function isDebugMode() {
+    public function isDebugMode(): bool {
         return $this->debug;
     }
 
