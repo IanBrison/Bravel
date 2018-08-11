@@ -10,7 +10,7 @@ class Application extends BravelApplication {
         return dirname(__FILE__);
     }
 
-    protected function registerRoutes() {
+    protected function registerRoutes(): array {
         return array();
     }
 
