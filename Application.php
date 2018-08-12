@@ -6,7 +6,7 @@ class Application extends BravelApplication {
 
     protected $login_action = array();
 
-    public function getRootDir() {
+    public function getRootDir(): string {
         return dirname(__FILE__);
     }
 
