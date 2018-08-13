@@ -53,9 +53,9 @@ abstract class BravelApplication {
         Di::set(View::class, new View($this->getViewDir()));
     }
 
-    abstract public function getRootDir();
+    abstract public function getRootDir(): string;
 
-    abstract protected function registerRoutes();
+    abstract protected function registerRoutes(): array;
 
     abstract protected function configure();
 
