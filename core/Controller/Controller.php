@@ -78,7 +78,7 @@ abstract class Controller {
         return $token;
     }
 
-    protected function checkCsrfToken($form_name, $token) {
+    protected function checkCsrfToken($form_name, $token): bool {
         $session = Di::get(Session::class);
         $key = 'csrf_tokens/' . $form_name;
         $tokens = $session->get($key, array());
