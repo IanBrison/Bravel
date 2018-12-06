@@ -15,9 +15,9 @@ class DiContainer {
     ];
 
     public static function initialize() {
-        $di_configs = Environment::getConfig('di');
-        self::$singletons = array_fill_keys($di_configs['singletons'], null);
-        self::$aliases = $di_configs['aliases'];
+        $di_config = Environment::getConfig('di');
+        self::$singletons = array_fill_keys($di_config['singletons'], null);
+        self::$aliases = $di_config['aliases'];
     }
 
     public static function get(string $singleton_name, ...$args) {
