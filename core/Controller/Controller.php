@@ -57,9 +57,10 @@ abstract class Controller {
             $url = $protocol . $host . $base_url . $url;
         }
 
-        Di::set(StatusCode::class, new StatusCode(302, 'Found'));
-        $http_header = new HttpHeader('Location', $url);
-        Di::set(HttpHeaders::class, new HttpHeaders($http_header, Di::get(HttpHeaders::class)));
+        $status_code = Di::get(StatusCode::class)->setCode(302)->setText('Found');
+        $header = Di::get(HttpHeader::class)->setName('Location')->setValue($url);
+        $http_headers = Di::get(HttpHeaders::class)->addHeader($header);
+        Di::set(Response::class, Di::get(Response::class)->setStatusCode($status_code)->setHttpHeaders($http_headers));
     }
 
     protected function generateCsrfToken($form_name) {

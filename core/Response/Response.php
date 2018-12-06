@@ -14,9 +14,24 @@ class Response {
     protected $http_headers;
 
     public function __construct() {
-        $this->status_code = Di::get(StatusCode::class, 200);
-        $this->content = Di::get(Content::class, '');
-        $this->http_headers = Di::get(HttpHeaders::class, []);
+        $this->content = '';
+        $this->status_code = Di::get(StatusCode::class);
+        $this->http_headers = Di::get(HttpHeaders::class);
+    }
+
+    public function setContent(String $content): Response {
+        $this->content = $content;
+        return $this;
+    }
+
+    public function setStatusCode(StatusCode $status_code): Response {
+        $this->status_code = $status_code;
+        return $this;
+    }
+
+    public function setHttpHeaders(HttpHeaders $http_headers): Response {
+        $this->http_headers = $http_headers;
+        return $this;
     }
 
     public function send() {
@@ -26,6 +41,6 @@ class Response {
             header($http_header->getName() . ': ' . $http_header->getValue());
         }
 
-        echo $this->content->get();
+        echo $this->content;
     }
 }

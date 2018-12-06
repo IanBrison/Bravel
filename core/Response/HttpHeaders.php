@@ -6,16 +6,18 @@ use Core\Response\HttpHeader;
 
 class HttpHeaders {
 
-    protected $http_headers;
+    protected $headers;
 
-    public function __construct(?HttpHeader $http_header = null, ?HttpHeaders $http_headers = null) {
-        $this->http_headers = is_null($http_headers) ? array() : $http_headers->getHeaders();
-        if (!is_null($http_header)) {
-            array_push($this->http_headers, $http_header);
-        }
+    public function __construct() {
+        $this->headers = [];
+    }
+
+    public function addHeader(HttpHeader $header): HttpHeaders {
+        $this->headers[] = $header;
+        return $this;
     }
 
     public function getHeaders(): array {
-        return $this->http_headers;
+        return $this->headers;
     }
 }
