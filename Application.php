@@ -4,7 +4,7 @@ use Core\BravelApplication;
 
 class Application extends BravelApplication {
 
-    protected $login_action = array();
+    protected $login_url = '/login';
 
     public function getRootDir(): string {
         return dirname(__FILE__);

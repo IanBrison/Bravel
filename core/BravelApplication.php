@@ -12,6 +12,7 @@ use Core\Routing\Router;
 use Core\View\View;
 use Core\Exceptions\HttpNotFoundException;
 use Core\Exceptions\UnauthorizedActionException;
+use Core\Exceptions\UnexpectedException;
 
 abstract class BravelApplication {
 
@@ -107,10 +108,11 @@ abstract class BravelApplication {
 
             $this->runAction($controller, $action, $params);
         } catch (HttpNotFoundException $e) {
-            $this->render404Page($e);
+            $e->render($this->isDebugMode());
         } catch (UnauthorizedActionException $e) {
-            list($controller, $action) = $this->login_action;
-            $this->runAction($controller, $action);
+            $e->setLoginUrl($this->login_url)->render($this->isDebugMode());
+        } catch (\Throwable $e) {
+            Di::get(UnexpectedException::class)->setException($e)->render();
         }
 
         Di::get(Response::class)->send();
@@ -127,25 +129,5 @@ abstract class BravelApplication {
         $content = $controller->run($action, $params);
 
         Di::set(Response::class, Di::get(Response::class)->setContent($content));
-    }
-
-    protected function render404Page($e) {
-        $status_code = Di::get(StatusCode::class)->setCode(404)->setText('Not Found');
-        $message = $this->isDebugMode() ? $e->getMessage() : 'Page not found.';
-        $message = htmlspecialchars($message, ENT_QUOTES, 'UTF-8');
-
-        $content = <<< EOF
-<!DOCTYPE html>
-<html>
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>404</title>
-</head>
-<body>
-    {$message}
-</body>
-</html>
-EOF;
-        Di::set(Response::class, Di::get(Response::class)->setStatusCode($status_code)->setContent($content));
     }
 }
