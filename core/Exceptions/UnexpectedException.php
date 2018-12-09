@@ -17,11 +17,12 @@ class UnexpectedException extends \Exception implements BravelException {
 
     public function render($is_debub_mode = false) {
         $status_code = Di::get(StatusCode::class)->setCode(500)->setText('Internal Server Error');
+        $main_message = "{$this->e->getMessage()} in {$this->e->getfile()} line {$this->e->getLine()} code {$this->e->getCode()}";
         $message_stack = array();
         foreach ($this->e->getTrace() as $trace) {
-            $file = $trace['file'];
-            $function = $trace['function'];
-            $line = $trace['line'];
+            $file = $trace['file'] ?? '';
+            $function = $trace['function'] ?? '';
+            $line = $trace['line'] ?? '';
             $message = "file:$file, function:$function, line:$line";
             $message = htmlspecialchars($message, ENT_QUOTES, 'UTF-8');
             $message_stack[] = $message;
@@ -37,6 +38,10 @@ class UnexpectedException extends \Exception implements BravelException {
 </head>
 <body>
     Something Unexpected Occured.
+    <br>
+    MainMessage: {$main_message}
+    <br>
+    StackTrace
     <br>
     {$trace_error_in_string}
 </body>
