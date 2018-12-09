@@ -7,83 +7,50 @@ use \PDO;
 
 class DbManager {
 
-    protected $repository_namespace;
-    protected $dao_namespace;
     protected $default_connection_name;
-    protected $connections = array();
-    protected $repository_connection_map = array();
-    protected $repositories = array();
+    protected $connections;
+    protected $connection_params;
 
-    public function __construct($repository_namespace, $dao_namespace) {
-        $this->repository_namespace = $repository_namespace;
-        $this->dao_namespace = $dao_namespace;
-
+    public function __construct() {
         $database_settings = Environment::getConfig('database');
+
         $this->default_connection_name = $database_settings['options']['default'];
+        $this->connections = array();
+        $this->connection_params = array();
         foreach ($database_settings['connections'] as $connection_name => $pdo_info) {
-            $this->connect($connection_name, $pdo_info);
+            $this->connection_params[$connection_name] = $this->getParams($pdo_info);
         }
     }
 
-    public function connect($name, $params) {
-        $params = array_merge(array(
+    public function getParams(array $params): array {
+        return array_merge(array(
             'dsn'      => null,
             'user'     => '',
             'password' => '',
             'options'  => array(),
         ), $params);
+    }
 
+    public function getConnection(?String $connection_name = null) {
+        $connection_name = $connection_name ?? $this->default_connection_name;
+        return $this->connections[$connection_name] ?? $this->_getConnection($connection_name);
+    }
+
+    private function _getConnection(String $connection_name): PDO {
+        $params = $this->connection_params[$connection_name];
         $con = new PDO(
             $params['dsn'],
             $params['user'],
             $params['password'],
             $params['options']
         );
-
         $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        $this->connections[$name] = $con;
-    }
-
-    public function getConnection($name = null) {
-        $name = $name ?? $this->default_connection_name;
-
-        return $this->connections[$name];
-    }
-
-    public function setRepositoryConnectionMap($repository_name, $name) {
-        $this->repository_connection_map[$repository_name] = $name;
-    }
-
-    public function getConnectionForRepository($repository_name) {
-        if (isset($this->repository_connection_map[$repository_name])) {
-            $name = $this->repository_connection_map[$repository_name];
-            $con = $this->getConnection($name);
-        } else {
-            $con = $this->getConnection();
-        }
-
-        return $con;
-    }
-
-    public function get($repository_name) {
-        if (!isset($this->repositories[$repository_name])) {
-            $dao_class = str_replace($this->repository_namespace, $this->dao_namespace, $repository_name);
-            $con = $this->getConnectionForRepository($repository_name);
-
-            $dao = new $dao_class($con);
-
-            $this->repositories[$repository_name] = $dao;
-        }
-
-        return $this->repositories[$repository_name];
+        $this->connections[$connection_name] = $con;
+        return $this->connections[$connection_name];
     }
 
     public function __destruct() {
-        foreach ($this->repositories as $repository) {
-            unset($repository);
-        }
-
         foreach ($this->connections as $con) {
             unset($con);
         }

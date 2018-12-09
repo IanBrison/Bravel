@@ -3,21 +3,24 @@
 namespace Core\Datasource;
 
 use \PDO;
+use Core\Di\DiContainer as Di;
+use Core\Datasource\DbManager;
 
 abstract class Dao {
 
-    protected $con;
+    protected $connection_name;
 
-    public function __construct($con) {
-        $this->setConnection($con);
+    public function __construct() {
+        $this->connection_name = null;
     }
 
-    public function setConnection($con) {
-        $this->con = $con;
+    public function setConnectionName($connection_name) {
+        $this->connection_name = $connection_name;
+        return $this;
     }
 
     public function execute($sql, $params = array()) {
-        $stmt = $this->con->prepare($sql);
+        $stmt = Di::get(DbManager::class)->getConnection($this->connection_name)->prepare($sql);
         $stmt->execute($params);
 
         return $stmt;

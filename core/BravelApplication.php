@@ -7,7 +7,6 @@ use Core\Di\DiContainer as Di;
 use Core\Request\Request;
 use Core\Response\Response;
 use Core\Response\StatusCode;
-use Core\Datasource\DbManager;
 use Core\Routing\Router;
 use Core\View\View;
 use Core\Exceptions\HttpNotFoundException;
@@ -49,7 +48,6 @@ abstract class BravelApplication {
     protected function initialize() {
         Environment::setConfigPath($this->getConfigDir());
         Di::initialize();
-        Di::set(DbManager::class, new DbManager($this->getRepositoryDirNamespace(), $this->getDaoDirNamespace()));
         Di::set(View::class, new View($this->getViewDir()));
     }
 
