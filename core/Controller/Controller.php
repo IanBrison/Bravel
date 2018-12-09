@@ -5,6 +5,8 @@ namespace Core\Controller;
 use Core\Di\DiContainer as Di;
 use Core\View\View;
 use Core\Session\Session;
+use Core\Response\Response;
+use Core\Response\StatusCode;
 use Core\Response\HttpHeader;
 use Core\Response\HttpHeaders;
 use Core\Request\Request;

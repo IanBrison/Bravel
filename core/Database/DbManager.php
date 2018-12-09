@@ -19,7 +19,7 @@ class DbManager {
         $this->dao_namespace = $dao_namespace;
 
         $database_settings = Environment::getConfig('database');
-        $default_connection_name = $database_settings['options']['default'];
+        $this->default_connection_name = $database_settings['options']['default'];
         foreach ($database_settings['connections'] as $connection_name => $pdo_info) {
             $this->connect($connection_name, $pdo_info);
         }
