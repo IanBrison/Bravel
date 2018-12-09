@@ -48,7 +48,7 @@ abstract class BravelApplication {
     protected function initialize() {
         Environment::setConfigPath($this->getConfigDir());
         Di::initialize();
-        Di::set(View::class, new View($this->getViewDir()));
+        Di::set(View::class, Di::get(View::class)->setBaseDir($this->getViewDir()));
     }
 
     abstract public function getRootDir(): string;

@@ -9,10 +9,16 @@ use Core\Request\Request;
 class View {
 
     protected $base_dir;
-    protected $layout_variables = array();
+    protected $layout_variables;
 
-    public function __construct($base_dir) {
+    public function __construct() {
+        $this->base_dir = null;
+        $this->layout_variables = array();
+    }
+
+    public function setBaseDir(String $base_dir): View {
         $this->base_dir = $base_dir;
+        return $this;
     }
 
     public function setLayoutVar($name, $value) {
