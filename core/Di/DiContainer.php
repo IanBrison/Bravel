@@ -38,7 +38,7 @@ class DiContainer {
         }
 
         $class_name = self::$aliases[$singleton_name] ?? $singleton_name;
-        $instance = new $singleton_name(...$args);
+        $instance = new $class_name(...$args);
 
         if (array_key_exists($singleton_name, self::$singletons) || $forceSave) {
             self::_set($singleton_name, $instance);
