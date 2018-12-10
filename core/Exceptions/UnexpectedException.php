@@ -6,13 +6,16 @@ use Core\Di\DiContainer as Di;
 use Core\Response\Response;
 use Core\Response\StatusCode;
 
-class UnexpectedException extends \Exception implements BravelException {
+use \Exception;
+use \Throwable;
+
+class UnexpectedException extends Exception implements BravelException {
 
     protected $e;
 
     public function __construct() {
         parent::__construct();
-        $this->e = new \Exception();
+        $this->e = new Exception();
     }
 
     public function render($is_debub_mode = false) {
@@ -50,7 +53,7 @@ EOF;
         Di::set(Response::class, Di::get(Response::class)->setStatusCode($status_code)->setContent($content));
     }
 
-    public function setException(\Throwable $e): UnexpectedException {
+    public function setException(Throwable $e): UnexpectedException {
         $this->e = $e;
         return $this;
     }

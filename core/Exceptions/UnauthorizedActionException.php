@@ -9,7 +9,9 @@ use Core\Response\StatusCode;
 use Core\Response\HttpHeader;
 use Core\Response\HttpHeaders;
 
-class UnauthorizedActionException extends \Exception implements BravelException {
+use \Exception;
+
+class UnauthorizedActionException extends Exception implements BravelException {
 
     protected $login_url;
 

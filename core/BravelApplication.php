@@ -13,6 +13,8 @@ use Core\Exceptions\HttpNotFoundException;
 use Core\Exceptions\UnauthorizedActionException;
 use Core\Exceptions\UnexpectedException;
 
+use \Throwable;
+
 abstract class BravelApplication {
 
     protected $debug = false;
@@ -93,7 +95,7 @@ abstract class BravelApplication {
             $e->render($this->isDebugMode());
         } catch (UnauthorizedActionException $e) {
             $e->setLoginUrl($this->login_url)->render($this->isDebugMode());
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             Di::get(UnexpectedException::class)->setException($e)->render();
         }
 

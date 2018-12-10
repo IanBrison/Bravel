@@ -6,7 +6,9 @@ use Core\Di\DiContainer as Di;
 use Core\Response\Response;
 use Core\Response\StatusCode;
 
-class HttpNotFoundException extends \Exception implements BravelException {
+use \Exception;
+
+class HttpNotFoundException extends Exception implements BravelException {
 
     public function render($is_debub_mode = false) {
         $status_code = Di::get(StatusCode::class)->setCode(404)->setText('Not Found');
