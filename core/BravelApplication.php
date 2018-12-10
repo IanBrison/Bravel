@@ -48,7 +48,7 @@ abstract class BravelApplication {
      * use the 'configure' method instead
      */
     protected function initialize() {
-        Environment::setConfigPath($this->getConfigDir());
+        Environment::initialize($this->getRootDir(), $this->getConfigPath());
         Di::initialize();
         Di::set(View::class, Di::get(View::class)->setBaseDir($this->getViewDir()));
     }
@@ -71,8 +71,8 @@ abstract class BravelApplication {
         return $this->getRootDir() . '/presentation/views';
     }
 
-    public function getConfigDir(): string {
-        return $this->getRootDir() . '/config';
+    public function getConfigPath(): string {
+        return '/config';
     }
 
     public function getWebDir(): string {
