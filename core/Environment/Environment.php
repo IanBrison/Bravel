@@ -47,7 +47,7 @@ class Environment {
 
     public static function initialize(string $root_dir, string $config_path) {
         self::$root_dir = $root_dir;
-        self::$config_dir = $root_dir . $config_path;
+        self::$config_dir = self::getDir($config_path);
         self::$cached_configs = array();
     }
 }
