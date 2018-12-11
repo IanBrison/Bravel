@@ -50,7 +50,6 @@ abstract class BravelApplication {
     protected function initialize() {
         Environment::initialize($this->getRootDir(), $this->getConfigPath());
         Di::initialize();
-        Di::set(View::class, Di::get(View::class)->setBaseDir($this->getViewDir()));
     }
 
     abstract public function getRootDir(): string;
@@ -65,10 +64,6 @@ abstract class BravelApplication {
 
     public function getControllerDirNamespace(): string {
         return 'App\\Controllers\\';
-    }
-
-    public function getViewDir(): string {
-        return $this->getRootDir() . '/presentation/views';
     }
 
     public function getConfigPath(): string {

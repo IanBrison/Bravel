@@ -2,6 +2,7 @@
 
 namespace Core\View;
 
+use Core\Environment\Environment;
 use Core\Di\DiContainer as Di;
 use Core\Session\Session;
 use Core\Request\Request;
@@ -12,13 +13,8 @@ class View {
     protected $layout_variables;
 
     public function __construct() {
-        $this->base_dir = null;
+        $this->base_dir = Environment::getDir(Environment::getConfig('view.base_path'));
         $this->layout_variables = array();
-    }
-
-    public function setBaseDir(String $base_dir): View {
-        $this->base_dir = $base_dir;
-        return $this;
     }
 
     public function setLayoutVar($name, $value) {

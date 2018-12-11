@@ -40,9 +40,7 @@ abstract class Controller {
     }
 
     public function render($variables = array(), $template = null, $layout = 'layout') {
-        $view = Di::get(View::class);
-
-        return $view->render($template, $variables, $layout);
+        return Di::get(View::class)->render($template, $variables, $layout);
     }
 
     protected function forward404() {
