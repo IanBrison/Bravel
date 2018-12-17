@@ -2,7 +2,11 @@
 
 namespace Core\Response;
 
+use Core\Exceptions\UnacceptableException;
+
 class StatusCode {
+
+    const AVAIABLE_CODES = [200, 403, 404, 500];
 
     protected $code;
     protected $text;
@@ -13,8 +17,12 @@ class StatusCode {
     }
 
     public function setCode(int $code): StatusCode {
-        $this->code = $code;
-        return $this;
+        if (in_array($code, self::AVAIABLE_CODES)) {
+            $this->code = $code;
+            return $this;
+        }
+
+        throw new UnacceptableException();
     }
 
     public function setText(string $text): StatusCode {
