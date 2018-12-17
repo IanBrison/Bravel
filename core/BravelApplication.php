@@ -11,7 +11,7 @@ use Core\Routing\Router;
 use Core\View\View;
 use Core\Exceptions\HttpNotFoundException;
 use Core\Exceptions\UnauthorizedActionException;
-use Core\Exceptions\UnexpectedException;
+use Core\Exceptions\BravelExceptionHandler;
 
 use \Throwable;
 
@@ -87,11 +87,11 @@ abstract class BravelApplication {
 
             $this->runAction($controller, $action, $params);
         } catch (HttpNotFoundException $e) {
-            $e->render($this->isDebugMode());
+            $e->handle($this->isDebugMode());
         } catch (UnauthorizedActionException $e) {
-            $e->setLoginUrl($this->login_url)->render($this->isDebugMode());
+            $e->setLoginUrl($this->login_url)->handle($this->isDebugMode());
         } catch (Throwable $e) {
-            Di::get(UnexpectedException::class, $e)->render($this->isDebugMode());
+            Di::get(BravelExceptionHandler::class, $e)->handle($this->isDebugMode());
         }
 
         Di::get(Response::class)->send();

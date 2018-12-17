@@ -9,7 +9,7 @@ use Core\Response\StatusCode;
 use \Exception;
 use \Throwable;
 
-class UnexpectedException extends Exception implements BravelException {
+class BravelExceptionHandler extends Exception implements BravelException {
 
     protected $e;
 
@@ -18,7 +18,7 @@ class UnexpectedException extends Exception implements BravelException {
         $this->e = $e;
     }
 
-    public function render($is_debub_mode = false) {
+    public function handle($is_debub_mode = false) {
         $status_code = Di::get(StatusCode::class)->setCode(500)->setText('Internal Server Error');
         $main_message = "{$this->e->getMessage()} in {$this->e->getfile()} line {$this->e->getLine()} code {$this->e->getCode()}";
         $message_stack = array();

@@ -10,7 +10,7 @@ use \Exception;
 
 class HttpNotFoundException extends Exception implements BravelException {
 
-    public function render($is_debub_mode = false) {
+    public function handle($is_debub_mode = false) {
         $status_code = Di::get(StatusCode::class)->setCode(404)->setText('Not Found');
         $message = $is_debub_mode ? $this->getMessage() : 'Page not found.';
         $message = htmlspecialchars($message, ENT_QUOTES, 'UTF-8');

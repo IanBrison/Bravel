@@ -6,6 +6,6 @@ use \Exception;
 
 class UnacceptableSettingException extends Exception implements BravelException {
 
-    public function render($is_debub_mode = false) {
+    public function handle($is_debub_mode = false) {
     }
 }

@@ -15,7 +15,7 @@ class UnauthorizedActionException extends Exception implements BravelException {
 
     protected $login_url;
 
-    public function render($is_debub_mode = false) {
+    public function handle($is_debub_mode = false) {
         if (!empty($login_url)) {
             $this->redirectToLoginUrl();
             return;
