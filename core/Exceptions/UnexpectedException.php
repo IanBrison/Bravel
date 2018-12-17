@@ -13,9 +13,9 @@ class UnexpectedException extends Exception implements BravelException {
 
     protected $e;
 
-    public function __construct() {
+    public function __construct(Throwable $e) {
         parent::__construct();
-        $this->e = new Exception();
+        $this->e = $e;
     }
 
     public function render($is_debub_mode = false) {
@@ -51,10 +51,5 @@ class UnexpectedException extends Exception implements BravelException {
 </html>
 EOF;
         Di::set(Response::class, Di::get(Response::class)->setStatusCode($status_code)->setContent($content));
-    }
-
-    public function setException(Throwable $e): UnexpectedException {
-        $this->e = $e;
-        return $this;
     }
 }

@@ -29,8 +29,4 @@ class HttpNotFoundException extends Exception implements BravelException {
 EOF;
         Di::set(Response::class, Di::get(Response::class)->setStatusCode($status_code)->setContent($content));
     }
-
-    public function setMessage(String $message): HttpNotFoundException {
-        return new self($message);
-    }
 }

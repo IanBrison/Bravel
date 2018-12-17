@@ -91,7 +91,7 @@ abstract class BravelApplication {
         } catch (UnauthorizedActionException $e) {
             $e->setLoginUrl($this->login_url)->render($this->isDebugMode());
         } catch (Throwable $e) {
-            Di::get(UnexpectedException::class)->setException($e)->render();
+            Di::get(UnexpectedException::class, $e)->render($this->isDebugMode());
         }
 
         Di::get(Response::class)->send();

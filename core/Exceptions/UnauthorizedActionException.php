@@ -15,12 +15,16 @@ class UnauthorizedActionException extends Exception implements BravelException {
 
     protected $login_url;
 
-    public function __construct() {
-        parent::__construct();
-        $this->login_url = '/';
+    public function render($is_debub_mode = false) {
+        if (!empty($login_url)) {
+            $this->redirectToLoginUrl();
+            return;
+        }
+
+        return 'unauthorized view';
     }
 
-    public function render($is_debub_mode = false) {
+    private function redirectToLoginUrl() {
         $url = $this->login_url;
         if (!preg_match('#https?://#', $url)) {
             $request = Di::get(Request::class);
