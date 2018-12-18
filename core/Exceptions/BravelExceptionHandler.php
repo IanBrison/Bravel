@@ -5,6 +5,7 @@ namespace Core\Exceptions;
 use Core\Di\DiContainer as Di;
 use Core\Response\Response;
 use Core\Response\StatusCode;
+use Core\View\View;
 
 use \Exception;
 use \Throwable;
@@ -32,24 +33,7 @@ class BravelExceptionHandler extends Exception implements BravelException {
         }
         $trace_error_in_string = implode("<br>", $message_stack);
 
-        $content = <<< EOF
-<!DOCTYPE html>
-<html>
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>500</title>
-</head>
-<body>
-    Something Unexpected Occured.
-    <br>
-    MainMessage: {$main_message}
-    <br>
-    StackTrace
-    <br>
-    {$trace_error_in_string}
-</body>
-</html>
-EOF;
+        $content = Di::get(View::class)->render('error/handler', ['main_message' => $main_message, 'trace_error_in_string' => $trace_error_in_string], null);
         Di::set(Response::class, Di::get(Response::class)->setStatusCode($status_code)->setContent($content));
     }
 }
