@@ -70,10 +70,6 @@ abstract class BravelApplication {
         return '/config';
     }
 
-    public function getWebDir(): string {
-        return $this->getRootDir() . '/web';
-    }
-
     public function run() {
         try {
             $request = Di::get(Request::class);
