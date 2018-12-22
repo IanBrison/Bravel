@@ -72,11 +72,7 @@ abstract class BravelApplication {
 
     public function run() {
         try {
-            $request = Di::get(Request::class);
-            $params = Di::get(Router::class, $this->registerRoutes())->resolve($request->getPathInfo());
-            if ($params === false) {
-                throw new HttpNotFoundException('No route found for ' . $request->getPathInfo());
-            }
+            $params = Di::get(Router::class, $this->registerRoutes())->resolve();
 
             $controller = $params['controller'];
             $action = $params['action'];

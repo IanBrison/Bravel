@@ -2,6 +2,9 @@
 
 namespace Core\Routing;
 
+use Core\Di\DiContainer as Di;
+use Core\Request\Request;
+
 class Router {
 
     protected $routes;
@@ -30,7 +33,8 @@ class Router {
         return $routes;
     }
 
-    public function resolve($path_info) {
+    public function resolve() {
+        $path_info = Di::get(Request::class)->getPathInfo();
         if ('/' !== substr($path_info, 0, 1)) {
             $path_info = '/' . $path_info;
         }
@@ -43,6 +47,6 @@ class Router {
             }
         }
 
-        return false;
+        throw new HttpNotFoundException('No route found for ' . $path_info);
     }
 }
