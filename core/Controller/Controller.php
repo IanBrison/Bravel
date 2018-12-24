@@ -94,7 +94,7 @@ abstract class Controller {
         return false;
     }
 
-    protected function needsAuthentication($action_method) {
+    protected function needsAuthentication($action_method): bool {
         if ($this->auth_actions === true || (is_array($this->auth_actions) && in_array($action_method, $this->auth_actions))) {
             return true;
         }
