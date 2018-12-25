@@ -1,6 +1,7 @@
 <?php
 
 use Core\BravelApplication;
+use Core\Routing\Router;
 
 class Application extends BravelApplication {
 
@@ -12,6 +13,7 @@ class Application extends BravelApplication {
 
     protected function registerRoutes(): array {
         return [
+            Router::get('/', 'ExampleController', 'getWelcome'),
         ];
     }
 
