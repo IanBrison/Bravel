@@ -13,8 +13,8 @@ class Router {
     protected $post_routes;
 
     public function __construct() {
-        $get_routes = array();
-        $post_routes = array();
+        $this->get_routes = array();
+        $this->post_routes = array();
     }
 
     public function compileRoutes(array $routes) {
