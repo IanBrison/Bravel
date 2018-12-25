@@ -45,7 +45,7 @@ class Router {
             $path_info = '/' . $path_info;
         }
 
-        $routes = Di::get(Request::class)->isGet() ? $this->get_routes : $this->post_routes;
+        $routes = Di::get(Request::class)->isPost() ? $this->post_routes : $this->get_routes;
         foreach ($routes as $pattern => $route) {
             if (preg_match('#^' . $pattern . '$#', $path_info, $matches)) {
                 if ($route->needsAuth() && !Di::get(Session::class)->isAuthenticated()) {
