@@ -45,7 +45,7 @@ class Session {
         $this->regenerate();
     }
 
-    public function isAuthenticated() {
+    public function isAuthenticated(): bool {
         return $this->get('_authenticated', false);
     }
 }
