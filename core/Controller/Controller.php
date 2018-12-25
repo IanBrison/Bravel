@@ -16,7 +16,7 @@ use Core\Exceptions\UnauthorizedActionException;
 abstract class Controller {
 
     protected $controller_name;
-    protected $action_method;
+    protected $method;
 
     protected $auth_actions = array();
 
@@ -24,17 +24,13 @@ abstract class Controller {
         $this->controller_name = get_class($this);
     }
 
-    public function run($action_method, $params = array()) {
-        $this->action_method = $action_method;
-        if (!method_exists($this, $action_method)) {
+    public function run($method, $params = array()) {
+        $this->method = $method;
+        if (!method_exists($this, $method)) {
             $this->forward404();
         }
 
-        if ($this->needsAuthentication($action_method) && !Di::get(Session::class)->isAuthenticated()) {
-            throw new UnauthorizedActionException();
-        }
-
-        $content = $this->$action_method($params);
+        $content = $this->$method($params);
 
         return $content;
     }
@@ -44,7 +40,7 @@ abstract class Controller {
     }
 
     protected function forward404() {
-        throw new HttpNotFoundException('Forwarded 404 page from ' . $this->controller_name . '/' . $this->action_method);
+        throw new HttpNotFoundException('Forwarded 404 page from ' . $this->controller_name . '/' . $this->method);
     }
 
     protected function redirect($url) {
@@ -88,14 +84,6 @@ abstract class Controller {
             unset($tokens[$pos]);
             $session->set($key, $tokens);
 
-            return true;
-        }
-
-        return false;
-    }
-
-    protected function needsAuthentication($action_method): bool {
-        if ($this->auth_actions === true || (is_array($this->auth_actions) && in_array($action_method, $this->auth_actions))) {
             return true;
         }
 

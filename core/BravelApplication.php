@@ -72,12 +72,9 @@ abstract class BravelApplication {
 
     public function run() {
         try {
-            $params = Di::get(Router::class, $this->registerRoutes())->resolve();
+            $action = Di::get(Router::class)->compileRoutes($this->registerRoutes())->resolve();
 
-            $controller = $params['controller'];
-            $action = $params['action'];
-
-            $this->runAction($controller, $action, $params);
+            $this->runAction($action->getController(), $action->getMethod(), $action->getParams());
         } catch (HttpNotFoundException $e) {
             $e->handle($this->isDebugMode());
         } catch (UnauthorizedActionException $e) {
@@ -89,7 +86,7 @@ abstract class BravelApplication {
         Di::get(Response::class)->send();
     }
 
-    public function runAction($controller_name, $action, $params = array()) {
+    public function runAction($controller_name, $method, $params = array()) {
         $controller_class = $this->getControllerDirNamespace() . $controller_name;
 
         $controller = new $controller_class();
@@ -97,7 +94,7 @@ abstract class BravelApplication {
             throw new HttpNotFoundException($controller_class . ' controller is not found.');
         }
 
-        $content = $controller->run($action, $params);
+        $content = $controller->run($method, $params);
 
         Di::set(Response::class, Di::get(Response::class)->setContent($content));
     }

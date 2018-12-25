@@ -4,20 +4,22 @@ namespace Core\Routing;
 
 use Core\Di\DiContainer as Di;
 use Core\Request\Request;
+use Core\Exceptions\UnauthorizedException;
+use Core\Exceptions\HttpNotFoundException;
 
 class Router {
 
-    protected $routes;
+    protected $get_routes;
+    protected $post_routes;
 
-    public function __construct($definitions) {
-        $this->routes = $this->compileRoutes($definitions);
+    public function __construct() {
+        $get_routes = array();
+        $post_routes = array();
     }
 
-    public function compileRoutes($definitions) {
-        $routes = array();
-
-        foreach ($definitions as $url => $params) {
-            $tokens = explode('/', ltrim($url, '/'));
+    public function compileRoutes(array $routes) {
+        foreach ($routes as $route) {
+            $tokens = explode('/', ltrim($route->getUrlPath(), '/'));
             foreach ($tokens as $i => $token) {
                 if (0 === strpos($token, ':')) {
                     $name = substr($token, 1);
@@ -25,28 +27,42 @@ class Router {
                 }
                 $tokens[$i] = $token;
             }
-
             $pattern = '/' . implode('/', $tokens);
-            $routes[$pattern] = $params;
+
+            if ($route instanceof GetRoute) {
+                $this->get_routes[$pattern] = $route;
+            } else if ($route instanceof PostRoute) {
+                $this->post_routes[$pattern] = $route;
+            }
         }
 
-        return $routes;
+        return $this;
     }
 
-    public function resolve() {
+    public function resolve(): Action {
         $path_info = Di::get(Request::class)->getPathInfo();
         if ('/' !== substr($path_info, 0, 1)) {
             $path_info = '/' . $path_info;
         }
 
-        foreach ($this->routes as $pattern => $params) {
+        $routes = Di::get(Request::class)->isGet() ? $this->get_routes : $this->post_routes;
+        foreach ($routes as $pattern => $route) {
             if (preg_match('#^' . $pattern . '$#', $path_info, $matches)) {
-                $params = array_merge($params, $matches);
-
-                return $params;
+                if ($route->needsAuth() && !Di::get(Session::class)->isAuthenticated()) {
+                    throw new UnauthorizedException();
+                }
+                return $route->getAction()->setParams($matches);
             }
         }
 
         throw new HttpNotFoundException('No route found for ' . $path_info);
+    }
+
+    public static function get(string $url_path, string $controller, string $method): GetRoute {
+        return new GetRoute($url_path, new Action($controller, $method));
+    }
+
+    public static function post(string $url_path, string $controller, string $method): PostRoute {
+        return new PostRoute($url_path, new Action($controller, $method));
     }
 }
