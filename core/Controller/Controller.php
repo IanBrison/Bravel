@@ -35,7 +35,7 @@ abstract class Controller {
         return $content;
     }
 
-    public function render($variables = array(), $template = null, $layout = 'layout') {
+    public function render($template = null, $variables = array(), $layout = 'layout') {
         return Di::get(View::class)->render($template, $variables, $layout);
     }
 
