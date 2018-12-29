@@ -35,8 +35,8 @@ abstract class Controller {
         return $content;
     }
 
-    public function render($template = null, $variables = array(), $layout = 'layout') {
-        return Di::get(View::class)->render($template, $variables, $layout);
+    public function render(string $template, array $variables = array()) {
+        return Di::get(View::class)->render($template, $variables);
     }
 
     protected function forward404() {
