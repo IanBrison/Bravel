@@ -31,9 +31,8 @@ class BravelExceptionHandler extends Exception implements BravelException {
             $message = htmlspecialchars($message, ENT_QUOTES, 'UTF-8');
             $message_stack[] = $message;
         }
-        $trace_error_in_string = implode("<br>", $message_stack);
 
-        $content = Di::get(View::class)->render('error/handler', ['main_message' => $main_message, 'trace_error_in_string' => $trace_error_in_string], null);
+        $content = Di::get(View::class)->render('error/handler.twig', ['main_message' => $main_message, 'message_stack' => $message_stack]);
         Di::set(Response::class, Di::get(Response::class)->setStatusCode($status_code)->setContent($content));
     }
 }

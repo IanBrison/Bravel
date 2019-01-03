@@ -7,10 +7,12 @@
 <body>
     Something Unexpected Occured.
     <br>
-    MainMessage: <?php echo $main_message; ?>
+    MainMessage: {{ main_message }}
     <br>
     StackTrace
+    {% for message in message_stack %}
     <br>
-    <?php echo $trace_error_in_string; ?>
+    {{ message }}
+    {% endfor %}
 </body>
 </html>
