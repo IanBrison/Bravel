@@ -11,9 +11,9 @@ return [
 
     'connections' => [
         'master' => [
-            'dsn'      => 'mysql:dbname=braveldb;host=mariadb',
-            'user'     => 'braveluser',
-            'password' => 'bravelpassword',
+            'dsn'      => getenv('DATABASE_DSN'),
+            'user'     => getenv('DATABASE_USER'),
+            'password' => getenv('DATABASE_PASSWORD'),
             'options'  => [],
         ],
     ]

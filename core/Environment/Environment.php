@@ -2,6 +2,7 @@
 
 namespace core\Environment;
 
+use Dotenv\Dotenv;
 use \Exception;
 
 class Environment {
@@ -49,5 +50,6 @@ class Environment {
         self::$root_dir = $root_dir;
         self::$config_dir = self::getDir($config_path);
         self::$cached_configs = array();
+        Dotenv::create($root_dir)->load();
     }
 }
