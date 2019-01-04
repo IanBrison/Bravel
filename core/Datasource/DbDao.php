@@ -6,7 +6,7 @@ use \PDO;
 use Core\Di\DiContainer as Di;
 use Core\Datasource\DbManager;
 
-abstract class Dao {
+abstract class DbDao {
 
     protected $connection_name;
 

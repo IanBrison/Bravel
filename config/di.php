@@ -15,5 +15,6 @@ return [
     ],
 
     'aliases' => [
+        App\Repositories\ExampleRepository::class => App\Repositories\Dao\ExampleDbDao::class,
     ]
 ];
