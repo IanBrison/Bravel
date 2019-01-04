@@ -18,6 +18,8 @@ use \Throwable;
 abstract class BravelApplication {
 
     protected $debug = false;
+    protected $controller_dir_namespace = 'App\\Controllers\\';
+    protected $config_path = '/config';
 
     public function __construct($debug = false) {
         $this->setDebugMode($debug);
@@ -62,12 +64,16 @@ abstract class BravelApplication {
         return $this->debug;
     }
 
+    public function getLoginUrl(): string {
+        return $this->login_url;
+    }
+
     public function getControllerDirNamespace(): string {
-        return 'App\\Controllers\\';
+        return $this->controller_dir_namespace;
     }
 
     public function getConfigPath(): string {
-        return '/config';
+        return $this->config_path;
     }
 
     public function run() {
@@ -78,7 +84,7 @@ abstract class BravelApplication {
         } catch (HttpNotFoundException $e) {
             $e->handle($this->isDebugMode());
         } catch (UnauthorizedActionException $e) {
-            $e->setLoginUrl($this->login_url)->handle($this->isDebugMode());
+            $e->setLoginUrl($this->getLoginUrl())->handle($this->isDebugMode());
         } catch (Throwable $e) {
             Di::get(BravelExceptionHandler::class, $e)->handle($this->isDebugMode());
         }
