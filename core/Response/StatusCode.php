@@ -2,7 +2,7 @@
 
 namespace Core\Response;
 
-use Core\Exceptions\UnacceptableException;
+use Core\Exceptions\UnacceptableSettingException;
 
 class StatusCode {
 
@@ -22,7 +22,7 @@ class StatusCode {
             return $this;
         }
 
-        throw new UnacceptableException();
+        throw new UnacceptableSettingException();
     }
 
     public function setText(string $text): StatusCode {
