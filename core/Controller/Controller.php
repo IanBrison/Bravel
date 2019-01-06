@@ -16,7 +16,6 @@ use Core\Exceptions\UnauthorizedActionException;
 abstract class Controller {
 
     protected $controller_name;
-    protected $method;
 
     protected $auth_actions = array();
 
@@ -25,9 +24,8 @@ abstract class Controller {
     }
 
     public function run($method, $params = array()) {
-        $this->method = $method;
         if (!method_exists($this, $method)) {
-            $this->forward404();
+            throw new HttpNotFoundException('Forwarded 404 page from ' . $this->controller_name . '/' . $method);
         }
 
         $content = $this->$method($params);
@@ -37,10 +35,6 @@ abstract class Controller {
 
     public function render(string $template, array $variables = array()) {
         return Di::get(View::class)->render($template, $variables);
-    }
-
-    protected function forward404() {
-        throw new HttpNotFoundException('Forwarded 404 page from ' . $this->controller_name . '/' . $this->method);
     }
 
     protected function redirect($url) {
