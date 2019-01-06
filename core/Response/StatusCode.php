@@ -6,7 +6,7 @@ use Core\Exceptions\UnacceptableSettingException;
 
 class StatusCode {
 
-    const AVAIABLE_CODES = [200, 403, 404, 500];
+    const AVAIABLE_CODES = [200, 302, 403, 404, 500];
 
     protected $code;
     protected $text;
