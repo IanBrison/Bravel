@@ -5,7 +5,7 @@ namespace Core\Routing;
 use Core\Di\DiContainer as Di;
 use Core\Request\Request;
 use Core\Session\Session;
-use Core\Exceptions\UnauthorizedException;
+use Core\Exceptions\UnauthorizedActionException;
 use Core\Exceptions\HttpNotFoundException;
 
 class Router {
@@ -50,7 +50,7 @@ class Router {
         foreach ($routes as $pattern => $route) {
             if (preg_match('#^' . $pattern . '$#', $path_info, $matches)) {
                 if ($route->needsAuth() && !Di::get(Session::class)->isAuthenticated()) {
-                    throw new UnauthorizedException();
+                    throw new UnauthorizedActionException();
                 }
                 return $route->getAction()->setParams($matches);
             }
