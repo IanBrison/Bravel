@@ -4,6 +4,7 @@ namespace Core\Routing;
 
 use Core\Di\DiContainer as Di;
 use Core\Request\Request;
+use Core\Session\Session;
 use Core\Exceptions\UnauthorizedException;
 use Core\Exceptions\HttpNotFoundException;
 
