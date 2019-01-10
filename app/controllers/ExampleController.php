@@ -13,6 +13,6 @@ class ExampleController extends Controller {
         $variables = [
             'example_model' => $example_model,
         ];
-        return $this->render('welcome.twig', $variables);
+        return $this->render('welcome', $variables);
     }
 }

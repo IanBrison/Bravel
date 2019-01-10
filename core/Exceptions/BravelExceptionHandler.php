@@ -32,7 +32,7 @@ class BravelExceptionHandler extends Exception implements BravelException {
             $message_stack[] = $message;
         }
 
-        $content = Di::get(View::class)->render('error/handler.twig', ['main_message' => $main_message, 'message_stack' => $message_stack]);
+        $content = Di::get(View::class)->render('error/handler', ['main_message' => $main_message, 'message_stack' => $message_stack]);
         Di::set(Response::class, Di::get(Response::class)->setStatusCode($status_code)->setContent($content));
     }
 }
