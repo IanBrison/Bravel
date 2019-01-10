@@ -18,7 +18,7 @@ class View {
         $loader = new Twig_FilesystemLoader($base_dir);
         $this->twig = new Twig_Environment($loader);
 
-        $this->extension = Environment::getDir(Environment::getConfig('view.extension'));
+        $this->extension = Environment::getConfig('view.extension');
     }
 
     public function render(string $template, array $variables = array()) {
