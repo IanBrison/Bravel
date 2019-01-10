@@ -15,9 +15,10 @@ class View {
 
     public function __construct() {
         $base_dir = Environment::getDir(Environment::getConfig('view.base_path'));
-        $extension = Environment::getDir(Environment::getConfig('view.extension'));
         $loader = new Twig_FilesystemLoader($base_dir);
         $this->twig = new Twig_Environment($loader);
+
+        $this->extension = Environment::getDir(Environment::getConfig('view.extension'));
     }
 
     public function render(string $template, array $variables = array()) {
