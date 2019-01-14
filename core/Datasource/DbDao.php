@@ -19,6 +19,11 @@ abstract class DbDao {
         return $this;
     }
 
+    public function getLastInsertId(string $column_name = 'id'): int {
+        $id = Di::get(DbManager::class)->getConnection($this->connection_name)->lastInsertId($column_name);
+        return (int)$id;
+    }
+
     public function execute($sql, $params = array()) {
         $stmt = Di::get(DbManager::class)->getConnection($this->connection_name)->prepare($sql);
         $stmt->execute($params);
