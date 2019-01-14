@@ -30,6 +30,7 @@ class Session {
 
     public function clear() {
         $_SESSION = array();
+        return $this;
     }
 
     public function regenerate($destroy = true) {
@@ -38,6 +39,7 @@ class Session {
 
             self::$sessionIdRegenerated = true;
         }
+        return $this;
     }
 
     public function setAuthenticated($bool) {
