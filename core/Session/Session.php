@@ -17,6 +17,7 @@ class Session {
 
     public function set($name, $value) {
         $_SESSION[$name] = $value;
+        return $this;
     }
 
     public function get($name, $default = null) {
@@ -43,6 +44,7 @@ class Session {
         $this->set('_authenticated', (bool)$bool);
 
         $this->regenerate();
+        return $this;
     }
 
     public function isAuthenticated(): bool {
