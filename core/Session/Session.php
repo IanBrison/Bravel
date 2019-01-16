@@ -4,8 +4,12 @@ namespace Core\Session;
 
 class Session {
 
+    const ONE_TIME_KEYS_SESSION_KEY = '_onetimes';
+
     protected static $sessionStarted = false;
     protected static $sessionIdRegenerated = false;
+
+    private $generatedOneTimeKeys = array();
 
     public function __construct() {
         if (!self::$sessionStarted) {
@@ -51,5 +55,23 @@ class Session {
 
     public function isAuthenticated(): bool {
         return $this->get('_authenticated', false);
+    }
+
+    public function oneTimeSet($name, $value) {
+        $this->generatedOneTimeKeys[] = $name;
+
+        return $this->set($name, $value);
+    }
+
+    public function __destruct() {
+        foreach ($this->get(self::ONE_TIME_KEYS_SESSION_KEY, []) as $key) {
+            unset($_SESSION[$key]);
+        }
+
+        $oneTimeKeys = array();
+        foreach ($this->generatedOneTimeKeys as $key) {
+            $oneTimeKeys[] = $key;
+        }
+        $this->set(self::ONE_TIME_KEYS_SESSION_KEY, $oneTimeKeys);
     }
 }
