@@ -2,8 +2,8 @@
 
 namespace core\Environment;
 
-use Dotenv\Dotenv;
 use \Exception;
+use Dotenv\Dotenv;
 
 class Environment {
 

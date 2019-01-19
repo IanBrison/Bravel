@@ -14,7 +14,7 @@ abstract class DbDao {
         $this->connection_name = null;
     }
 
-    public function setConnectionName($connection_name) {
+    public function connection(string $connection_name): DbDao {
         $this->connection_name = $connection_name;
         return $this;
     }
@@ -35,7 +35,7 @@ abstract class DbDao {
         return $this->execute($sql, $params)->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function fetchAll($sql, $params = array()) {
+    public function fetchAll($sql, $params = array()): array {
         return $this->execute($sql, $params)->fetchAll(PDO::FETCH_ASSOC);
     }
 }

@@ -2,8 +2,9 @@
 
 namespace Core\Datasource;
 
-use Core\Environment\Environment;
 use \PDO;
+use \Exception;
+use Core\Environment\Environment;
 
 class DbManager {
 
@@ -31,12 +32,15 @@ class DbManager {
         ), $params);
     }
 
-    public function getConnection(?String $connection_name = null) {
+    public function getConnection(?String $connection_name = null): PDO {
         $connection_name = $connection_name ?? $this->default_connection_name;
         return $this->connections[$connection_name] ?? $this->_getConnection($connection_name);
     }
 
     private function _getConnection(String $connection_name): PDO {
+        if (empty($this->connection_params[$connection_name])) {
+            throw new Exception("No db connection params configured for `$connection_name`");
+        }
         $params = $this->connection_params[$connection_name];
         $con = new PDO(
             $params['dsn'],
