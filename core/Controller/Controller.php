@@ -53,7 +53,7 @@ abstract class Controller {
         Di::set(Response::class, Di::get(Response::class)->setStatusCode($status_code)->setHttpHeaders($http_headers));
     }
 
-    protected function generateCsrfToken($form_name) {
+    protected function generateCsrfToken($form_name): string {
         $session = Di::get(Session::class);
         $key = 'csrf_tokens/' . $form_name;
         $tokens = $session->get($key, array());
