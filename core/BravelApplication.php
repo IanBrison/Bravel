@@ -18,8 +18,8 @@ use \Throwable;
 abstract class BravelApplication {
 
     protected $debug = false;
-    protected $controller_dir_namespace = 'App\\Controllers\\';
-    protected $config_path = '/config';
+    protected $controllerDirNamespace = 'App\\Controllers\\';
+    protected $configPath = '/config';
 
     public function __construct($debug = false) {
         $this->setDebugMode($debug);
@@ -65,15 +65,15 @@ abstract class BravelApplication {
     }
 
     public function getLoginUrl(): string {
-        return $this->login_url;
+        return $this->loginUrl;
     }
 
     public function getControllerDirNamespace(): string {
-        return $this->controller_dir_namespace;
+        return $this->controllerDirNamespace;
     }
 
     public function getConfigPath(): string {
-        return $this->config_path;
+        return $this->configPath;
     }
 
     public function run() {
@@ -92,12 +92,12 @@ abstract class BravelApplication {
         Di::get(Response::class)->send();
     }
 
-    public function runAction($controller_name, $method, $params = array()) {
-        $controller_class = $this->getControllerDirNamespace() . $controller_name;
+    public function runAction($controllerName, $method, $params = array()) {
+        $controllerClass = $this->getControllerDirNamespace() . $controllerName;
 
-        $controller = new $controller_class();
+        $controller = new $controllerClass();
         if ($controller === false) {
-            throw new HttpNotFoundException($controller_class . ' controller is not found.');
+            throw new HttpNotFoundException($controllerClass . ' controller is not found.');
         }
 
         $content = $controller->run($method, $params);
