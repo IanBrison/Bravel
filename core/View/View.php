@@ -33,8 +33,8 @@ class View {
         return $this->twig->render($template . $this->extension, $variables);
     }
 
-    public function generateCsrfTokenViewModel(string $postPath): CsrfToken {
-        $token = Di::get(Session::class)->generateCsrfToken($postPath);
+    public function generateCsrfTokenViewModel(): CsrfToken {
+        $token = Di::get(Session::class)->generateCsrfToken();
         return new CsrfToken($token);
     }
 }
