@@ -63,6 +63,35 @@ class Session {
         return $this->set($name, $value);
     }
 
+    public function generateCsrfToken(string $postPath) {
+        $key = 'csrf_tokens/' . $postPath;
+        $tokens = $this->get($key, array());
+        if (count($tokens) >= 10) {
+            array_shift($tokens);
+        }
+
+        $token = sha1($postPath . session_id() . microtime());
+        $tokens[] = $token;
+
+        $this->set($key, $tokens);
+
+        return $token;
+    }
+
+    public function checkCsrfToken(string $postPath, string $token): bool {
+        $key = 'csrf_tokens/' . $postPath;
+        $tokens = $this->get($key, array());
+
+        if (false !== ($pos = array_search($token, $tokens, true))) {
+            unset($tokens[$pos]);
+            $this->set($key, $tokens);
+
+            return true;
+        }
+
+        return false;
+    }
+
     public function __destruct() {
         foreach ($this->get(self::ONE_TIME_KEYS_SESSION_KEY, []) as $key) {
             unset($_SESSION[$key]);

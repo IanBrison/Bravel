@@ -2,6 +2,7 @@
 
 namespace Core\Routing;
 
+use Exception;
 use Core\Di\DiContainer as Di;
 use Core\Request\Request;
 use Core\Session\Session;
@@ -51,6 +52,9 @@ class Router {
             if (preg_match('#^' . $pattern . '$#', $path_info, $matches)) {
                 if ($route->needsAuth() && !Di::get(Session::class)->isAuthenticated()) {
                     throw new UnauthorizedActionException();
+                }
+                if (Di::get(Request::class)->isPost() && !Di::get(Session::class)->checkCsrfToken($route->getUrlPath(), Di::get(Request::class)->getPost('_token'))) {
+                    throw new Exception("Doesn't have the csrf_token for ".$route->getUrlPath());
                 }
                 return $route->getAction()->setParams($matches);
             }

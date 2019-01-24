@@ -4,7 +4,6 @@ namespace Core\Controller;
 
 use Core\Di\DiContainer as Di;
 use Core\View\View;
-use Core\Session\Session;
 use Core\Response\Response;
 use Core\Response\StatusCode;
 use Core\Response\HttpHeader;
@@ -49,36 +48,5 @@ abstract class Controller {
         $header = Di::get(HttpHeader::class)->setName('Location')->setValue($url);
         $httpHeaders = Di::get(HttpHeaders::class)->addHeader($header);
         Di::set(Response::class, Di::get(Response::class)->setStatusCode($statusCode)->setHttpHeaders($httpHeaders));
-    }
-
-    protected function generateCsrfToken($formName): string {
-        $session = Di::get(Session::class);
-        $key = 'csrf_tokens/' . $formName;
-        $tokens = $session->get($key, array());
-        if (count($tokens) >= 10) {
-            array_shift($tokens);
-        }
-
-        $token = sha1($formName . session_id() . microtime());
-        $tokens[] = $token;
-
-        $session->set($key, $tokens);
-
-        return $token;
-    }
-
-    protected function checkCsrfToken($formName, $token): bool {
-        $session = Di::get(Session::class);
-        $key = 'csrf_tokens/' . $formName;
-        $tokens = $session->get($key, array());
-
-        if (false !== ($pos = array_search($token, $tokens, true))) {
-            unset($tokens[$pos]);
-            $session->set($key, $tokens);
-
-            return true;
-        }
-
-        return false;
     }
 }
