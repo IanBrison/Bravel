@@ -4,18 +4,26 @@ namespace Core\View;
 
 use Twig\Loader\FilesystemLoader as Twig_FilesystemLoader;
 use Twig\Environment as Twig_Environment;
-
-use Core\Environment\Environment;
 use Core\Di\DiContainer as Di;
+use Core\Environment\Environment;
+use Core\Session\Session;
+use Core\View\BuiltIns\Models\CsrfToken;
 
 class View {
+
+    const BRAVEL_CORE_TEMLATE_DIRECTORY = '/core/View/BuiltIns/Views';
 
     protected $twig;
     protected $extension;
 
     public function __construct() {
         $base_dir = Environment::getDir(Environment::getConfig('view.base_path'));
-        $loader = new Twig_FilesystemLoader($base_dir);
+        $bravelDir = Environment::getDir(self::BRAVEL_CORE_TEMLATE_DIRECTORY);
+        $templateDirectories = array(
+            $base_dir,
+            $bravelDir,
+        );
+        $loader = new Twig_FilesystemLoader($templateDirectories);
         $this->twig = new Twig_Environment($loader);
 
         $this->extension = Environment::getConfig('view.extension');
@@ -23,5 +31,10 @@ class View {
 
     public function render(string $template, array $variables = array()) {
         return $this->twig->render($template . $this->extension, $variables);
+    }
+
+    public function generateCsrfTokenViewModel(string $postPath): CsrfToken {
+        $token = Di::get(Session::class)->generateCsrfToken($postPath);
+        return new CsrfToken($token);
     }
 }
