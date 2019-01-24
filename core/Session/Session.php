@@ -70,7 +70,7 @@ class Session {
             array_shift($tokens);
         }
 
-        $token = sha1($postPath . session_id() . microtime());
+        $token = sha1($session_id() . microtime());
         $tokens[] = $token;
 
         $this->set($key, $tokens);
