@@ -25,12 +25,12 @@ abstract class Controller {
             throw new HttpNotFoundException('Forwarded 404 page from ' . $this->controllerName . '/' . $method);
         }
 
-        $content = $this->$method($params);
+        $content = call_user_func_array(array($this, $method), $params);
 
         return $content;
     }
 
-    public function render(string $template, array $variables = array()) {
+    protected function render(string $template, array $variables = array()) {
         return Di::get(View::class)->render($template, $variables);
     }
 

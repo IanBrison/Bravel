@@ -2,18 +2,18 @@
 
 namespace Core;
 
+use \Throwable;
 use Core\Environment\Environment;
 use Core\Di\DiContainer as Di;
 use Core\Request\Request;
 use Core\Response\Response;
 use Core\Response\StatusCode;
 use Core\Routing\Router;
+use Core\Routing\Action;
 use Core\View\View;
 use Core\Exceptions\HttpNotFoundException;
 use Core\Exceptions\UnauthorizedActionException;
 use Core\Exceptions\BravelExceptionHandler;
-
-use \Throwable;
 
 abstract class BravelApplication {
 
@@ -80,7 +80,7 @@ abstract class BravelApplication {
         try {
             $action = Di::get(Router::class)->compileRoutes($this->registerRoutes())->resolve();
 
-            $this->runAction($action->getController(), $action->getMethod(), $action->getParams());
+            $this->runAction($action);
         } catch (HttpNotFoundException $e) {
             $e->handle($this->isDebugMode());
         } catch (UnauthorizedActionException $e) {
@@ -92,15 +92,15 @@ abstract class BravelApplication {
         Di::get(Response::class)->send();
     }
 
-    public function runAction($controllerName, $method, $params = array()) {
-        $controllerClass = $this->getControllerDirNamespace() . $controllerName;
+    public function runAction(Action $action) {
+        $controllerClass = $this->getControllerDirNamespace() . $action->getController();
 
         $controller = new $controllerClass();
         if ($controller === false) {
             throw new HttpNotFoundException($controllerClass . ' controller is not found.');
         }
 
-        $content = $controller->run($method, $params);
+        $content = $controller->run($action->getMethod(), $action->getParams());
 
         Di::set(Response::class, Di::get(Response::class)->setContent($content));
     }
