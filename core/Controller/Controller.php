@@ -20,7 +20,7 @@ abstract class Controller {
         $this->controllerName = get_class($this);
     }
 
-    public function run($method, $params = array()) {
+    public function run(string $method, array $params = array()) {
         if (!method_exists($this, $method)) {
             throw new HttpNotFoundException('Forwarded 404 page from ' . $this->controllerName . '/' . $method);
         }
@@ -34,7 +34,7 @@ abstract class Controller {
         return Di::get(View::class)->render($template, $variables);
     }
 
-    protected function redirect($url) {
+    protected function redirect(string $url) {
         if (!preg_match('#https?://#', $url)) {
             $request = Di::get(Request::class);
             $protocol = $request->isSsl() ? 'https://' : 'http://';
