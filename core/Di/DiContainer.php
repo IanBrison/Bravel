@@ -19,34 +19,34 @@ class DiContainer {
         self::$aliases = Environment::getConfig('di.aliases');
     }
 
-    public static function get(string $singleton_name, ...$args) {
-        return self::_get($singleton_name, false, ...$args);
+    public static function get(string $dependencyName, ...$args) {
+        return self::_get($dependencyName, false, ...$args);
     }
 
-    public static function getForceSave(string $singleton_name, ...$args) {
-        return self::_get($singleton_name, true, ...$args);
+    public static function getForceSave(string $dependencyName, ...$args) {
+        return self::_get($dependencyName, true, ...$args);
     }
 
-    public static function set(string $singleton_name, $instance) {
-        self::_set($singleton_name, $instance);
+    public static function set(string $dependencyName, $instance) {
+        self::_set($dependencyName, $instance);
     }
 
-    private static function _get(string $singleton_name, bool $forceSave, ...$args) {
-        if (isset(self::$singletons[$singleton_name])) {
-            return self::$singletons[$singleton_name];
+    private static function _get(string $dependencyName, bool $forceSave, ...$args) {
+        if (isset(self::$singletons[$dependencyName])) {
+            return self::$singletons[$dependencyName];
         }
 
-        $class_name = self::$aliases[$singleton_name] ?? $singleton_name;
-        $instance = new $class_name(...$args);
+        $className = self::$aliases[$dependencyName] ?? $dependencyName;
+        $instance = new $className(...$args);
 
-        if (array_key_exists($singleton_name, self::$singletons) || $forceSave) {
-            self::_set($singleton_name, $instance);
+        if (array_key_exists($dependencyName, self::$singletons) || $forceSave) {
+            self::_set($dependencyName, $instance);
         }
 
         return $instance;
     }
 
-    private static function _set(string $singleton_name, $instance) {
-        self::$singletons[$singleton_name] = $instance;
+    private static function _set(string $dependencyName, $instance) {
+        self::$singletons[$dependencyName] = $instance;
     }
 }
