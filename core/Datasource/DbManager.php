@@ -8,18 +8,18 @@ use Core\Environment\Environment;
 
 class DbManager {
 
-    protected $default_connection_name;
+    protected $defaultConnectionName;
     protected $connections;
-    protected $connection_params;
+    protected $connectionParams;
 
     public function __construct() {
-        $database_settings = Environment::getConfig('database');
+        $databaseSettings = Environment::getConfig('database');
 
-        $this->default_connection_name = $database_settings['options']['default'];
+        $this->defaultConnectionName = $databaseSettings['options']['default'];
         $this->connections = array();
-        $this->connection_params = array();
-        foreach ($database_settings['connections'] as $connection_name => $pdo_info) {
-            $this->connection_params[$connection_name] = $this->getParams($pdo_info);
+        $this->connectionParams = array();
+        foreach ($databaseSettings['connections'] as $connectionName => $pdoInfo) {
+            $this->connectionParams[$connectionName] = $this->getParams($pdoInfo);
         }
     }
 
@@ -32,16 +32,16 @@ class DbManager {
         ), $params);
     }
 
-    public function getConnection(?String $connection_name = null): PDO {
-        $connection_name = $connection_name ?? $this->default_connection_name;
-        return $this->connections[$connection_name] ?? $this->_getConnection($connection_name);
+    public function getConnection(?String $connectionName = null): PDO {
+        $connectionName = $connectionName ?? $this->defaultConnectionName;
+        return $this->connections[$connectionName] ?? $this->_getConnection($connectionName);
     }
 
-    private function _getConnection(String $connection_name): PDO {
-        if (empty($this->connection_params[$connection_name])) {
-            throw new Exception("No db connection params configured for `$connection_name`");
+    private function _getConnection(String $connectionName): PDO {
+        if (empty($this->connectionParams[$connectionName])) {
+            throw new Exception("No db connection params configured for `$connectionName`");
         }
-        $params = $this->connection_params[$connection_name];
+        $params = $this->connectionParams[$connectionName];
         $con = new PDO(
             $params['dsn'],
             $params['user'],
@@ -50,8 +50,8 @@ class DbManager {
         );
         $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        $this->connections[$connection_name] = $con;
-        return $this->connections[$connection_name];
+        $this->connections[$connectionName] = $con;
+        return $this->connections[$connectionName];
     }
 
     public function __destruct() {

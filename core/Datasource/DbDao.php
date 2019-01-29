@@ -8,24 +8,24 @@ use Core\Datasource\DbManager;
 
 abstract class DbDao {
 
-    protected $connection_name;
+    protected $connectionName;
 
     public function __construct() {
-        $this->connection_name = null;
+        $this->connectionName = null;
     }
 
-    public function connection(string $connection_name): DbDao {
-        $this->connection_name = $connection_name;
+    public function connection(string $connectionName): DbDao {
+        $this->connectionName = $connectionName;
         return $this;
     }
 
-    public function getLastInsertId(string $column_name = 'id'): int {
-        $id = Di::get(DbManager::class)->getConnection($this->connection_name)->lastInsertId($column_name);
+    public function getLastInsertId(string $columnName = 'id'): int {
+        $id = Di::get(DbManager::class)->getConnection($this->connectionName)->lastInsertId($columnName);
         return (int)$id;
     }
 
     public function execute($sql, $params = array()) {
-        $stmt = Di::get(DbManager::class)->getConnection($this->connection_name)->prepare($sql);
+        $stmt = Di::get(DbManager::class)->getConnection($this->connectionName)->prepare($sql);
         $stmt->execute($params);
 
         return $stmt;
