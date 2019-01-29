@@ -7,49 +7,49 @@ use Dotenv\Dotenv;
 
 class Environment {
 
-    private static $root_dir;
-    private static $config_dir;
+    private static $rootDir;
+    private static $configDir;
 
-    private static $cached_configs;
+    private static $cachedConfigs;
 
-    public static function getConfig(string $config_str) {
-        $config_str_array = explode('.', $config_str);
+    public static function getConfig(string $configStr) {
+        $configStrArray = explode('.', $configStr);
 
-        $value = self::setConfigCache($config_str_array[0]);
+        $value = self::setConfigCache($configStrArray[0]);
 
-        foreach ($config_str_array as $config_str_index) {
-            if (!array_key_exists($config_str_index, $value)) {
-                throw new Exception("No such config value as {$config_str} as the index '{$config_str_index}' didn`t have a value");
+        foreach ($configStrArray as $configStrIndex) {
+            if (!array_key_exists($configStrIndex, $value)) {
+                throw new Exception("No such config value as {$configStr} as the index '{$configStrIndex}' didn`t have a value");
             }
-            $value = $value[$config_str_index];
+            $value = $value[$configStrIndex];
         }
 
         return $value;
     }
 
-    private static function setConfigCache(string $config_file_name): array {
-        if (array_key_exists($config_file_name, self::$cached_configs)) {
-            return self::$cached_configs;
+    private static function setConfigCache(string $configFileName): array {
+        if (array_key_exists($configFileName, self::$cachedConfigs)) {
+            return self::$cachedConfigs;
         }
 
-        $file = self::$config_dir . '/' . $config_file_name . '.php';
+        $file = self::$configDir . '/' . $configFileName . '.php';
         if (!is_readable($file)) {
-            $config_dir = self::$config_dir;
-            throw new Exception("No such config file as '{$config_file_name}' found in {$config_dir}");
+            $configDir = self::$configDir;
+            throw new Exception("No such config file as '{$configFileName}' found in {$configDir}");
         }
 
-        self::$cached_configs[$config_file_name] = require $file;
-        return self::$cached_configs;
+        self::$cachedConfigs[$configFileName] = require $file;
+        return self::$cachedConfigs;
     }
 
     public static function getDir(string $path): string {
-        return self::$root_dir . $path;
+        return self::$rootDir . $path;
     }
 
-    public static function initialize(string $root_dir, string $config_path) {
-        self::$root_dir = $root_dir;
-        self::$config_dir = self::getDir($config_path);
-        self::$cached_configs = array();
-        Dotenv::create($root_dir)->load();
+    public static function initialize(string $rootDir, string $configPath) {
+        self::$rootDir = $rootDir;
+        self::$configDir = self::getDir($configPath);
+        self::$cachedConfigs = array();
+        Dotenv::create($rootDir)->load();
     }
 }
