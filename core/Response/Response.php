@@ -10,13 +10,13 @@ use Core\Response\HttpHeaders;
 class Response {
 
     protected $content;
-    protected $status_code;
-    protected $http_headers;
+    protected $statusCode;
+    protected $httpHeaders;
 
     public function __construct() {
         $this->content = '';
-        $this->status_code = Di::get(StatusCode::class);
-        $this->http_headers = Di::get(HttpHeaders::class);
+        $this->statusCode = Di::get(StatusCode::class);
+        $this->httpHeaders = Di::get(HttpHeaders::class);
     }
 
     public function setContent(String $content): Response {
@@ -24,21 +24,21 @@ class Response {
         return $this;
     }
 
-    public function setStatusCode(StatusCode $status_code): Response {
-        $this->status_code = $status_code;
+    public function setStatusCode(StatusCode $statusCode): Response {
+        $this->statusCode = $statusCode;
         return $this;
     }
 
-    public function setHttpHeaders(HttpHeaders $http_headers): Response {
-        $this->http_headers = $http_headers;
+    public function setHttpHeaders(HttpHeaders $httpHeaders): Response {
+        $this->httpHeaders = $httpHeaders;
         return $this;
     }
 
     public function send() {
-        header('HTTP/1.1 ' . $this->status_code->getCode() . ' ' . $this->status_code->getText());
+        header('HTTP/1.1 ' . $this->statusCode->getCode() . ' ' . $this->statusCode->getText());
 
-        foreach ($this->http_headers->getHeaders() as $http_header) {
-            header($http_header->getName() . ': ' . $http_header->getValue());
+        foreach ($this->httpHeaders->getHeaders() as $httpHeader) {
+            header($httpHeader->getName() . ': ' . $httpHeader->getValue());
         }
 
         echo $this->content;

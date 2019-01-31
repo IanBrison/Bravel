@@ -48,29 +48,29 @@ class Request {
     }
 
     public function getBaseUrl() {
-        $script_name = $_SERVER['SCRIPT_NAME'];
+        $scriptName = $_SERVER['SCRIPT_NAME'];
 
-        $request_uri = $this->getRequestUri();
+        $requestUri = $this->getRequestUri();
 
-        if (0 === strpos($request_uri, $script_name)) {
-            return $script_name;
-        } else if (0 === strpos($request_uri, dirname($script_name))) {
-            return rtrim(dirname($script_name), '/');
+        if (0 === strpos($requestUri, $scriptName)) {
+            return $scriptName;
+        } else if (0 === strpos($requestUri, dirname($scriptName))) {
+            return rtrim(dirname($scriptName), '/');
         }
 
         return '';
     }
 
     public function getPathInfo() {
-        $base_url = $this->getBaseUrl();
-        $request_uri = $this->getRequestUri();
+        $baseUrl = $this->getBaseUrl();
+        $requestUri = $this->getRequestUri();
 
-        if (false !== ($pos = strpos($request_uri, '?'))) {
-            $request_uri = substr($request_uri, 0, $pos);
+        if (false !== ($pos = strpos($requestUri, '?'))) {
+            $requestUri = substr($requestUri, 0, $pos);
         }
 
-        $path_info = (string)substr($request_uri, strlen($base_url));
+        $pathInfo = (string)substr($requestUri, strlen($baseUrl));
 
-        return $path_info;
+        return $pathInfo;
     }
 }
