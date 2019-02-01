@@ -17,10 +17,10 @@ class View {
     protected $extension;
 
     public function __construct() {
-        $base_dir = Environment::getDir(Environment::getConfig('view.base_path'));
+        $baseDir = Environment::getDir(Environment::getConfig('view.base_path'));
         $bravelDir = Environment::getDir(self::BRAVEL_CORE_TEMLATE_DIRECTORY);
         $templateDirectories = array(
-            $base_dir,
+            $baseDir,
             $bravelDir,
         );
         $loader = new Twig_FilesystemLoader($templateDirectories);
