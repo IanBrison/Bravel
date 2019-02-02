@@ -11,12 +11,12 @@ use Core\Exceptions\HttpNotFoundException;
 
 class Router {
 
-    protected $get_routes;
-    protected $post_routes;
+    protected $getRoutes;
+    protected $postRoutes;
 
     public function __construct() {
-        $this->get_routes = array();
-        $this->post_routes = array();
+        $this->getRoutes = array();
+        $this->postRoutes = array();
     }
 
     public function compileRoutes(array $routes) {
@@ -32,9 +32,9 @@ class Router {
             $pattern = '/' . implode('/', $tokens);
 
             if ($route instanceof GetRoute) {
-                $this->get_routes[$pattern] = $route;
+                $this->getRoutes[$pattern] = $route;
             } else if ($route instanceof PostRoute) {
-                $this->post_routes[$pattern] = $route;
+                $this->postRoutes[$pattern] = $route;
             }
         }
 
@@ -42,14 +42,14 @@ class Router {
     }
 
     public function resolve(): Action {
-        $path_info = Di::get(Request::class)->getPathInfo();
-        if ('/' !== substr($path_info, 0, 1)) {
-            $path_info = '/' . $path_info;
+        $pathInfo = Di::get(Request::class)->getPathInfo();
+        if ('/' !== substr($pathInfo, 0, 1)) {
+            $pathInfo = '/' . $pathInfo;
         }
 
-        $routes = Di::get(Request::class)->isPost() ? $this->post_routes : $this->get_routes;
+        $routes = Di::get(Request::class)->isPost() ? $this->postRoutes : $this->getRoutes;
         foreach ($routes as $pattern => $route) {
-            if (preg_match('#^' . $pattern . '$#', $path_info, $matches)) {
+            if (preg_match('#^' . $pattern . '$#', $pathInfo, $matches)) {
                 if ($route->needsAuth() && !Di::get(Session::class)->isAuthenticated()) {
                     throw new UnauthorizedActionException();
                 }
@@ -63,14 +63,14 @@ class Router {
             }
         }
 
-        throw new HttpNotFoundException('No route found for ' . $path_info);
+        throw new HttpNotFoundException('No route found for ' . $pathInfo);
     }
 
-    public static function get(string $url_path, string $controller, string $method): GetRoute {
-        return new GetRoute($url_path, new Action($controller, $method));
+    public static function get(string $urlPath, string $controller, string $method): GetRoute {
+        return new GetRoute($urlPath, new Action($controller, $method));
     }
 
-    public static function post(string $url_path, string $controller, string $method): PostRoute {
-        return new PostRoute($url_path, new Action($controller, $method));
+    public static function post(string $urlPath, string $controller, string $method): PostRoute {
+        return new PostRoute($urlPath, new Action($controller, $method));
     }
 }

@@ -4,23 +4,23 @@ namespace Core\Routing;
 
 abstract class Route {
 
-    protected $url_path; // the path this route serves
+    protected $urlPath; // the path this route serves
     protected $action; // the action this route executes
-    protected $needs_auth; // whether the route needs authentication
+    protected $needsAuth; // whether the route needs authentication
 
-    public function __construct(string $url_path, Action $action) {
-        $this->url_path = $url_path;
+    public function __construct(string $urlPath, Action $action) {
+        $this->urlPath = $urlPath;
         $this->action = $action;
-        $this->needs_auth = false;
+        $this->needsAuth = false;
     }
 
     public function withAuth(): self {
-        $this->needs_auth = true;
+        $this->needsAuth = true;
         return $this;
     }
 
     public function getUrlPath(): string {
-        return $this->url_path;
+        return $this->urlPath;
     }
 
     public function getAction(): Action {
@@ -28,6 +28,6 @@ abstract class Route {
     }
 
     public function needsAuth(): bool {
-        return $this->needs_auth;
+        return $this->needsAuth;
     }
 }
