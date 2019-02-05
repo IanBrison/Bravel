@@ -19,7 +19,7 @@ class Router {
         $this->postRoutes = array();
     }
 
-    public function compileRoutes(array $routes) {
+    public function compileRoutes(array $routes): self {
         foreach ($routes as $route) {
             $tokens = explode('/', ltrim($route->getUrlPath(), '/'));
             foreach ($tokens as $i => $token) {
