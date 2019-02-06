@@ -32,7 +32,7 @@ class Session {
         return $default;
     }
 
-    public function clear() {
+    public function clear(): self {
         $_SESSION = array();
         return $this;
     }
