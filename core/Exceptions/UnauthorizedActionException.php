@@ -13,10 +13,10 @@ use \Exception;
 
 class UnauthorizedActionException extends Exception implements BravelException {
 
-    protected $login_url;
+    protected $loginUrl;
 
     public function handle($is_debub_mode = false) {
-        if (!empty($this->login_url)) {
+        if (!empty($this->loginUrl)) {
             $this->redirectToLoginUrl();
             return;
         }
@@ -25,7 +25,7 @@ class UnauthorizedActionException extends Exception implements BravelException {
     }
 
     private function redirectToLoginUrl() {
-        $url = $this->login_url;
+        $url = $this->loginUrl;
         if (!preg_match('#https?://#', $url)) {
             $request = Di::get(Request::class);
             $protocol = $request->isSsl() ? 'https://' : 'http://';
@@ -41,8 +41,8 @@ class UnauthorizedActionException extends Exception implements BravelException {
         Di::set(Response::class, Di::get(Response::class)->setStatusCode($status_code)->setHttpHeaders($http_headers));
     }
 
-    public function setLoginUrl(String $login_url): UnauthorizedActionException {
-        $this->login_url = $login_url;
+    public function setLoginUrl(String $loginUrl): UnauthorizedActionException {
+        $this->loginUrl = $loginUrl;
         return $this;
     }
 }
