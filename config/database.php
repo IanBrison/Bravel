@@ -1,8 +1,9 @@
 <?php
 
 /*
- * config file for setting the database connection
- * all configurations go into a PDO instance
+ * config file for setting the database connections
+ *
+ * all connection configurations go into PDO instances
  */
 return [
     'options' => [
