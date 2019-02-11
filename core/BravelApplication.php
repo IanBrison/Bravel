@@ -54,6 +54,7 @@ abstract class BravelApplication {
         Di::initialize();
     }
 
+    // return the absolute RootDir Path for configuring relative Paths
     abstract public function getRootDir(): string;
 
     abstract protected function registerRoutes(): array;
