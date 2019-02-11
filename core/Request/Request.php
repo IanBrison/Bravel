@@ -2,6 +2,8 @@
 
 namespace Core\Request;
 
+use Core\Storage\File;
+
 class Request {
     public function isPost() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -22,6 +24,14 @@ class Request {
     public function getPost($name, $default = null) {
         if (isset($_POST[$name])) {
             return $_POST[$name];
+        }
+
+        return $default;
+    }
+
+    public function getFile($name, $default = null): ?File {
+        if (isset($_FILES[$name])) {
+            return File::constructFromRequest($_FILES[$name]);
         }
 
         return $default;
