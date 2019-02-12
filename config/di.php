@@ -14,6 +14,7 @@ return [
         Core\Datasource\DbManager::class,
         Core\Datasource\GhostDbDao::class,
         Core\Routing\Router::class,
+        Core\Storage\Storage::class,
     ],
 
     'aliases' => [
