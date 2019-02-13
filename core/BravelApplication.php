@@ -57,6 +57,7 @@ abstract class BravelApplication {
     // return the absolute RootDir Path for configuring relative Paths
     abstract public function getRootDir(): string;
 
+    // declare routes in the array which you want to register
     abstract protected function registerRoutes(): array;
 
     abstract protected function configure();
