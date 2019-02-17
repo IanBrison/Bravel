@@ -60,6 +60,7 @@ abstract class BravelApplication {
     // declare routes in the array which you want to register
     abstract protected function registerRoutes(): array;
 
+    // configure things for the qpplication at the beginning
     abstract protected function configure();
 
     public function isDebugMode(): bool {
