@@ -63,6 +63,7 @@ abstract class BravelApplication {
     // configure things for the qpplication at the beginning
     abstract protected function configure();
 
+    // return if the application is in debug mode
     public function isDebugMode(): bool {
         return $this->debug;
     }
