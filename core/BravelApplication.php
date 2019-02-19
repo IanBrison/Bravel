@@ -68,6 +68,7 @@ abstract class BravelApplication {
         return $this->debug;
     }
 
+    // return the url to redirect when not authorized
     public function getLoginUrl(): string {
         return $this->loginUrl;
     }
