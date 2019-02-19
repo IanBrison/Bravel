@@ -73,6 +73,7 @@ abstract class BravelApplication {
         return $this->loginUrl;
     }
 
+    // return the controllers base namespace for concatenating the class name
     public function getControllerDirNamespace(): string {
         return $this->controllerDirNamespace;
     }
