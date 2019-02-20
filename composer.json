@@ -8,6 +8,11 @@
             "email": "ianbrison222@gmail.com"
         }
     ],
+    "scripts": {
+        "framework-test": [
+            "docker run -v $PWD:/root/Bravel php:7.2-cli /root/Bravel/vendor/bin/phpunit /root/Bravel/core/tests/"
+        ]
+    },
     "require": {
         "twig/twig": "^2.0",
         "vlucas/phpdotenv": "^3.0"
@@ -18,5 +23,8 @@
             "Core\\": "core/",
             "Presentation\\": "presentation/"
         }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8"
     }
 }
