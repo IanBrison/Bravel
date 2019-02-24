@@ -79,6 +79,7 @@ abstract class BravelApplication {
         return $this->controllerDirNamespace;
     }
 
+    // return the configuration path for configuring the application's settings
     public function getConfigPath(): string {
         return $this->configPath;
     }
