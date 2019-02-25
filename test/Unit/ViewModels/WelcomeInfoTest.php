@@ -1,6 +1,6 @@
 <?php
 
-namespace Test\Unit;
+namespace Test\Unit\ViewModels;
 
 use \Mockery;
 use Test\TestCase;
