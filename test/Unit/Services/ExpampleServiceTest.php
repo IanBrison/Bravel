@@ -19,7 +19,7 @@ class ExampleServiceTest extends TestCase {
      * @test
      * @covers ::getWelcomeInfo
      */
-    public function testgetWelcomeInfoReturnsViewModel() {
+    public function testGetWelcomeInfoReturnsViewModel() {
         $exampleModel = Mockery::mock(ExampleModel::class);
         $exampleRepository = Mockery::mock(ExampleRepository::class);
         $exampleRepository->shouldReceive('getExampleModel')->andReturn($exampleModel);
