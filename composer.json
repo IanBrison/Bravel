@@ -9,6 +9,9 @@
         }
     ],
     "scripts": {
+        "test": [
+            "docker run -v $PWD:/root/Bravel php:7.2-cli /root/Bravel/vendor/bin/phpunit --testdox /root/Bravel/test/"
+        ],
         "framework-test": [
             "docker run -v $PWD:/root/Bravel php:7.2-cli /root/Bravel/vendor/bin/phpunit --testdox /root/Bravel/core/Test/FrameworkTests/"
         ]
