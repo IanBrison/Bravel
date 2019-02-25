@@ -100,7 +100,7 @@ abstract class BravelApplication {
         Di::get(Response::class)->send();
     }
 
-    private function runAction(Action $action) {
+    protected function runAction(Action $action) {
         $controllerClass = $this->getControllerDirNamespace() . $action->getController();
 
         $controller = new $controllerClass();
