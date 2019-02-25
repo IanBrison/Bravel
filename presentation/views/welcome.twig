@@ -5,8 +5,6 @@
 
 {% block content %}
 
-<p>Welcome To Bravel</p>
-<p>DB Connection Status: {{ example_model.getWelcomeContent }}</p>
-<a href="https://github.com/IanBrison/Bravel">Github</a>
+{{ welcomeInfo.present | raw }}
 
 {% endblock %}

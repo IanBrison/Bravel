@@ -3,15 +3,15 @@
 namespace App\Controllers;
 
 use Core\Controller\Controller;
-use Core\Di\DiContainer as Di;
-use App\Repositories\ExampleRepository;
+use App\Services\ExampleService;
 
 class ExampleController extends Controller {
 
     public function getWelcome() {
-        $example_model = Di::get(ExampleRepository::class)->getExampleModel();
+        $exampleService = new ExampleService();
+        $welcomeInfoViewModel = $exampleService->getWelcomeInfo();
         $variables = [
-            'example_model' => $example_model,
+            'welcomeInfo' => $welcomeInfoViewModel,
         ];
         return $this->render('welcome', $variables);
     }

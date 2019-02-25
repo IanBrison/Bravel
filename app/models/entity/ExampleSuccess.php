@@ -6,8 +6,7 @@ use App\Models\ExampleModel;
 
 class ExampleSuccess implements ExampleModel {
 
-    public function getWelcomeContent(): string {
-        return 'Database Connected Successfully!!';
+    public function isConnected(): bool {
+        return true;
     }
-
 }

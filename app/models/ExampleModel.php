@@ -4,6 +4,6 @@ namespace App\Models;
 
 interface ExampleModel {
 
-    public function getWelcomeContent(): string;
+    public function isConnected(): bool;
 
 }
