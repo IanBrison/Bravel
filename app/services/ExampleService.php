@@ -10,7 +10,7 @@ class ExampleService {
 
     public function getWelcomeInfo(): WelcomeInfo {
         $exampleModel = Di::get(ExampleRepository::class)->getExampleModel();
-        $welcomeInfoViewModel = new WelcomeInfo($exampleModel);
+        $welcomeInfoViewModel = Di::get(WelcomeInfo::class, $exampleModel);
 
         return $welcomeInfoViewModel;
     }
