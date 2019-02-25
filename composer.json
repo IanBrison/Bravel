@@ -21,7 +21,8 @@
         "psr-4": {
             "App\\" : "app/",
             "Core\\": "core/",
-            "Presentation\\": "presentation/"
+            "Presentation\\": "presentation/",
+            "Test\\": "test/"
         }
     },
     "require-dev": {
