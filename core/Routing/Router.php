@@ -11,8 +11,8 @@ use Core\Exceptions\HttpNotFoundException;
 
 class Router {
 
-    protected $getRoutes;
-    protected $postRoutes;
+    private $getRoutes;
+    private $postRoutes;
 
     public function __construct() {
         $this->getRoutes = array();
