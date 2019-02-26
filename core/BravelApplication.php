@@ -2,7 +2,6 @@
 
 namespace Core;
 
-use \Throwable;
 use Core\Environment\Environment;
 use Core\Di\DiContainer as Di;
 use Core\Request\Request;
@@ -11,9 +10,7 @@ use Core\Response\StatusCode;
 use Core\Routing\Router;
 use Core\Routing\Action;
 use Core\View\View;
-use Core\Exceptions\HttpNotFoundException;
-use Core\Exceptions\UnauthorizedActionException;
-use Core\Exceptions\BravelExceptionHandler;
+use Core\Exception\BravelExceptionHandler;
 
 abstract class BravelApplication {
 
@@ -89,11 +86,7 @@ abstract class BravelApplication {
             $action = Di::get(Router::class)->compileRoutes($this->registerRoutes())->resolve();
 
             $this->runAction($action);
-        } catch (HttpNotFoundException $e) {
-            $e->handle($this->isDebugMode());
-        } catch (UnauthorizedActionException $e) {
-            $e->setLoginUrl($this->getLoginUrl())->handle($this->isDebugMode());
-        } catch (Throwable $e) {
+        } catch (\Throwable $e) {
             Di::get(BravelExceptionHandler::class, $e)->handle($this->isDebugMode());
         }
 

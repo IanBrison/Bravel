@@ -1,25 +1,29 @@
 <?php
 
-namespace Core\Exceptions;
+namespace Core\Exception;
 
 use Core\Di\DiContainer as Di;
+use Core\Environment\Environment;
 use Core\Response\Response;
 use Core\Response\StatusCode;
 use Core\View\View;
 
-use \Exception;
-use \Throwable;
+class BravelExceptionHandler extends \Exception implements BravelException {
 
-class BravelExceptionHandler extends Exception implements BravelException {
+    private $e;
+    private $registeredExceptions;
 
-    protected $e;
-
-    public function __construct(Throwable $e) {
+    public function __construct(\Throwable $e) {
         parent::__construct();
         $this->e = $e;
+        $this->registeredExceptions = Environment::getConfig('exception.registeredExceptions');
     }
 
-    public function handle($is_debub_mode = false) {
+    public function handle($isDebubMode) {
+        if (in_array(get_class($this->e), $this->registeredExceptions)) {
+            return $this->e->handle($isDebubMode);
+        }
+
         $status_code = Di::get(StatusCode::class)->setCode(500)->setText('Internal Server Error');
         $main_message = "{$this->e->getMessage()} in {$this->e->getfile()} line {$this->e->getLine()} code {$this->e->getCode()}";
         $message_stack = array();

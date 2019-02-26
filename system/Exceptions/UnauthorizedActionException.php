@@ -1,27 +1,26 @@
 <?php
 
-namespace Core\Exceptions;
+namespace System\Exceptions;
 
 use Core\Di\DiContainer as Di;
+use Core\Exception\BravelException;
 use Core\Request\Request;
 use Core\Response\Response;
 use Core\Response\StatusCode;
 use Core\Response\HttpHeader;
 use Core\Response\HttpHeaders;
 
-use \Exception;
-
-class UnauthorizedActionException extends Exception implements BravelException {
+class UnauthorizedActionException extends \Exception implements BravelException {
 
     protected $loginUrl;
 
-    public function handle($is_debub_mode = false) {
+    public function handle($isDebubMode) {
         if (!empty($this->loginUrl)) {
             $this->redirectToLoginUrl();
             return;
         }
 
-        return 'unauthorized view';
+        Di::set(Response::class, Di::get(Response::class)->setContent('unauthorized view'));
     }
 
     private function redirectToLoginUrl() {

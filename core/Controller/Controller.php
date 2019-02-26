@@ -9,8 +9,7 @@ use Core\Response\StatusCode;
 use Core\Response\HttpHeader;
 use Core\Response\HttpHeaders;
 use Core\Request\Request;
-use Core\Exceptions\HttpNotFoundException;
-use Core\Exceptions\UnauthorizedActionException;
+use System\Exceptions\HttpNotFoundException;
 
 abstract class Controller {
 
