@@ -6,8 +6,8 @@ use Exception;
 use Core\Di\DiContainer as Di;
 use Core\Request\Request;
 use Core\Session\Session;
-use System\Exceptions\UnauthorizedActionException;
-use System\Exceptions\HttpNotFoundException;
+use App\System\Exception\UnauthorizedActionException;
+use App\System\Exception\HttpNotFoundException;
 
 class Router {
 
