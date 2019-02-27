@@ -16,7 +16,8 @@ abstract class BravelApplication {
 
     protected $debug = false;
     protected $loginUrl = '/login';
-    protected $controllerDirNamespace = "App\\System\\Controller\\";
+    protected $controllerDirNamespace = 'App\\System\\Controller\\';
+    protected $routingDir = '/App/System/Routing/';
     protected $configPath = '/config';
 
     public function __construct($debug = false) {
@@ -55,9 +56,6 @@ abstract class BravelApplication {
     // return the absolute RootDir Path for configuring relative Paths
     abstract public function getRootDir(): string;
 
-    // declare routes in the array which you want to register
-    abstract protected function registerRoutes(): array;
-
     // configure things for the qpplication at the beginning
     abstract protected function configure();
 
@@ -76,14 +74,28 @@ abstract class BravelApplication {
         return $this->controllerDirNamespace;
     }
 
+    // return the routing directory to register
+    public function getRoutingDir(): string {
+        return Environment::getDir($this->routingDir);
+    }
+
     // return the configuration path for configuring the application's settings
     public function getConfigPath(): string {
         return $this->configPath;
     }
 
+    // collect the declared routes which you want to register
+    private function collectRoutes(): array {
+        $routes = [];
+        foreach (glob($this->getRoutingDir() . "*.php") as $routingFilename) {
+            $routes = array_merge($routes, require $routingFilename);
+        }
+        return $routes;
+    }
+
     public function run() {
         try {
-            $action = Di::get(Router::class)->compileRoutes($this->registerRoutes())->resolve();
+            $action = Di::get(Router::class)->compileRoutes($this->collectRoutes())->resolve();
 
             $this->runAction($action);
         } catch (\Throwable $e) {
