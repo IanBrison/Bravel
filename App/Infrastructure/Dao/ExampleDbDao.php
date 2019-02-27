@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Repositories\Dao;
+namespace App\Infrastructure\Dao;
 
 use Core\Datasource\DbDao;
-use App\Repositories\ExampleRepository;
-use App\Models\ExampleModel;
-use App\Models\Entity\ExampleSuccess;
-use App\Models\Entity\ExampleFail;
+use App\Domain\Repository\ExampleRepository;
+use App\Domain\Model\ExampleModel;
+use App\Infrastructure\Entity\ExampleSuccess;
+use App\Infrastructure\Entity\ExampleFail;
 
 class ExampleDbDao extends DbDao implements ExampleRepository {
 

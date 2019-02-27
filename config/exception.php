@@ -7,7 +7,7 @@
  */
 return [
     'registeredExceptions' => [
-        System\Exceptions\HttpNotFoundException::class,
-        System\Exceptions\UnauthorizedActionException::class,
+        App\System\Exception\HttpNotFoundException::class,
+        App\System\Exception\UnauthorizedActionException::class,
     ]
 ];

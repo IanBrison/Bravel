@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Models\Entity;
+namespace App\Infrastructure\Entity;
 
-use App\Models\ExampleModel;
+use App\Domain\Model\ExampleModel;
 
 class ExampleSuccess implements ExampleModel {
 

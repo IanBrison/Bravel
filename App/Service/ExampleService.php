@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Services;
+namespace App\Service;
 
 use Core\Di\DiContainer as Di;
-use App\Repositories\ExampleRepository;
-use Presentation\Models\WelcomeInfo;
+use App\Domain\Repository\ExampleRepository;
+use App\Service\ViewModel\WelcomeInfo;
 
 class ExampleService {
 

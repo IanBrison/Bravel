@@ -1,6 +1,6 @@
 <?php
 
-namespace System\Exceptions;
+namespace App\System\Exception;
 
 use Core\Di\DiContainer as Di;
 use Core\Exception\BravelException;

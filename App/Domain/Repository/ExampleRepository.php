@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Repositories;
+namespace App\Domain\Repository;
 
-use App\Models\ExampleModel;
+use App\Domain\Model\ExampleModel;
 
 interface ExampleRepository {
 

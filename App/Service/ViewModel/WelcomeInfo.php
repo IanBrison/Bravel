@@ -1,9 +1,9 @@
 <?php
 
-namespace Presentation\Models;
+namespace App\Service\ViewModel;
 
 use Core\View\ViewModel;
-use App\Models\ExampleModel;
+use App\Domain\Model\ExampleModel;
 
 class WelcomeInfo extends ViewModel {
 

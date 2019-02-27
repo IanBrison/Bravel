@@ -1,6 +1,6 @@
 <?php
 
-namespace System\Exceptions;
+namespace App\System\Exception;
 
 class UnacceptableSettingException extends \Exception {
 }

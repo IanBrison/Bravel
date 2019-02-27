@@ -7,7 +7,7 @@
  * extension is the file extension of the template files
  */
 return [
-    'base_path' => '/presentation/views',
+    'base_path' => '/App/Presentation/views',
 
     'extension' => '.twig',
 ];

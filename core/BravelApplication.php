@@ -16,7 +16,7 @@ abstract class BravelApplication {
 
     protected $debug = false;
     protected $loginUrl = '/login';
-    protected $controllerDirNamespace = 'App\\Controllers\\';
+    protected $controllerDirNamespace = "App\\System\\Controller\\";
     protected $configPath = '/config';
 
     public function __construct($debug = false) {

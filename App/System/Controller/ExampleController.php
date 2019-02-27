@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Controllers;
+namespace App\System\Controller;
 
 use Core\Controller\Controller;
-use App\Services\ExampleService;
+use App\Service\ExampleService;
 
 class ExampleController extends Controller {
 
