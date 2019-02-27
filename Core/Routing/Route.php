@@ -14,8 +14,9 @@ abstract class Route {
         $this->needsAuth = false;
     }
 
-    public function withAuth(): self {
+    public function withAuth(string $redirectUrl = ''): self {
         $this->needsAuth = true;
+        $this->action->setRedirect($redirectUrl);
         return $this;
     }
 
@@ -30,4 +31,6 @@ abstract class Route {
     public function needsAuth(): bool {
         return $this->needsAuth;
     }
+
+    abstract public function isGet(): bool;
 }

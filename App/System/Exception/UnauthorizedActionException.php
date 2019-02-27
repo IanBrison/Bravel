@@ -9,22 +9,21 @@ use Core\Response\Response;
 use Core\Response\StatusCode;
 use Core\Response\HttpHeader;
 use Core\Response\HttpHeaders;
+use Core\Routing\Router;
 
 class UnauthorizedActionException extends \Exception implements BravelException {
 
-    protected $loginUrl;
-
     public function handle($isDebubMode) {
-        if (!empty($this->loginUrl)) {
-            $this->redirectToLoginUrl();
+        $redirectUrl = Di::get(Router::class)->getAction()->getRedirectUrl();
+        if (!empty($redirectUrl)) {
+            $this->redirectToLoginUrl($redirectUrl);
             return;
         }
 
         Di::set(Response::class, Di::get(Response::class)->setContent('unauthorized view'));
     }
 
-    private function redirectToLoginUrl() {
-        $url = $this->loginUrl;
+    private function redirectToLoginUrl(string $url) {
         if (!preg_match('#https?://#', $url)) {
             $request = Di::get(Request::class);
             $protocol = $request->isSsl() ? 'https://' : 'http://';
@@ -38,10 +37,5 @@ class UnauthorizedActionException extends \Exception implements BravelException 
         $header = Di::get(HttpHeader::class)->setName('Location')->setValue($url);
         $http_headers = Di::get(HttpHeaders::class)->addHeader($header);
         Di::set(Response::class, Di::get(Response::class)->setStatusCode($status_code)->setHttpHeaders($http_headers));
-    }
-
-    public function setLoginUrl(String $loginUrl): UnauthorizedActionException {
-        $this->loginUrl = $loginUrl;
-        return $this;
     }
 }

@@ -31,9 +31,9 @@ class Router {
             }
             $pattern = '/' . implode('/', $tokens);
 
-            if ($route instanceof GetRoute) {
+            if ($route->isGet()) {
                 $this->getRoutes[$pattern] = $route;
-            } else if ($route instanceof PostRoute) {
+            } else {
                 $this->postRoutes[$pattern] = $route;
             }
         }
@@ -41,7 +41,7 @@ class Router {
         return $this;
     }
 
-    public function resolve(): Action {
+    public function resolve(): self {
         $pathInfo = Di::get(Request::class)->getPathInfo();
         if ('/' !== substr($pathInfo, 0, 1)) {
             $pathInfo = '/' . $pathInfo;
@@ -51,6 +51,7 @@ class Router {
         foreach ($routes as $pattern => $route) {
             if (preg_match('#^' . $pattern . '$#', $pathInfo, $matches)) {
                 if ($route->needsAuth() && !Di::get(Session::class)->isAuthenticated()) {
+                    Di::set(Action::class, $route->getAction());
                     throw new UnauthorizedActionException();
                 }
                 if (Di::get(Request::class)->isPost() && !Di::get(Session::class)->checkCsrfToken(Di::get(Request::class)->getPost('_token'))) {
@@ -59,11 +60,16 @@ class Router {
                 $params = array_filter($matches, function ($key) {
                     return !is_numeric($key);
                 }, ARRAY_FILTER_USE_KEY);
-                return $route->getAction()->setParams($params);
+                Di::set(Action::class, $route->getAction());
+                return $this;
             }
         }
 
         throw new HttpNotFoundException('No route found for ' . $pathInfo);
+    }
+
+    public function getAction(): Action {
+        return Di::get(Action::class);
     }
 
     public static function get(string $urlPath, string $controller, string $method): GetRoute {

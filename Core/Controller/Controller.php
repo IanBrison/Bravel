@@ -26,7 +26,7 @@ abstract class Controller {
 
         $content = call_user_func_array(array($this, $method), $params);
 
-        return $content;
+        Di::set(Response::class, Di::get(Response::class)->setContent($content));
     }
 
     protected function render(string $template, array $variables = array()) {

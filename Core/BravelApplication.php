@@ -95,26 +95,19 @@ abstract class BravelApplication {
 
     public function run() {
         try {
-            $action = Di::get(Router::class)->compileRoutes($this->collectRoutes())->resolve();
+            $action = Di::get(Router::class)->compileRoutes($this->collectRoutes())->resolve()->getAction();
 
-            $this->runAction($action);
+            $controllerClass = $this->getControllerDirNamespace() . $action->getController();
+            $controller = new $controllerClass();
+            if ($controller === false) {
+                throw new HttpNotFoundException($controllerClass . ' controller is not found.');
+            }
+
+            $controller->run($action->getMethod(), $action->getParams());
         } catch (\Throwable $e) {
             Di::get(BravelExceptionHandler::class, $e)->handle($this->isDebugMode());
         }
 
         Di::get(Response::class)->send();
-    }
-
-    protected function runAction(Action $action) {
-        $controllerClass = $this->getControllerDirNamespace() . $action->getController();
-
-        $controller = new $controllerClass();
-        if ($controller === false) {
-            throw new HttpNotFoundException($controllerClass . ' controller is not found.');
-        }
-
-        $content = $controller->run($action->getMethod(), $action->getParams());
-
-        Di::set(Response::class, Di::get(Response::class)->setContent($content));
     }
 }

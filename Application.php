@@ -1,11 +1,8 @@
 <?php
 
 use Core\BravelApplication;
-use Core\Routing\Router;
 
 class Application extends BravelApplication {
-
-    protected $loginUrl = '/login';
 
     public function getRootDir(): string {
         return dirname(__FILE__);

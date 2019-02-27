@@ -19,17 +19,17 @@ class Response {
         $this->httpHeaders = Di::get(HttpHeaders::class);
     }
 
-    public function setContent(String $content): Response {
+    public function setContent(String $content): self {
         $this->content = $content;
         return $this;
     }
 
-    public function setStatusCode(StatusCode $statusCode): Response {
+    public function setStatusCode(StatusCode $statusCode): self {
         $this->statusCode = $statusCode;
         return $this;
     }
 
-    public function setHttpHeaders(HttpHeaders $httpHeaders): Response {
+    public function setHttpHeaders(HttpHeaders $httpHeaders): self {
         $this->httpHeaders = $httpHeaders;
         return $this;
     }
