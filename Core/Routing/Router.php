@@ -60,7 +60,7 @@ class Router {
                 $params = array_filter($matches, function ($key) {
                     return !is_numeric($key);
                 }, ARRAY_FILTER_USE_KEY);
-                Di::set(Action::class, $route->getAction());
+                Di::set(Action::class, $route->getAction()->setParams($params));
                 return $this;
             }
         }

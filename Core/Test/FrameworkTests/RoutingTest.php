@@ -11,8 +11,8 @@ use Core\Routing\Action;
 use Core\Routing\Router;
 use Core\Routing\GetRoute;
 use Core\Routing\PostRoute;
-use Core\Exceptions\UnauthorizedActionException;
-use Core\Exceptions\HttpNotFoundException;
+use App\System\Exception\UnauthorizedActionException;
+use App\System\Exception\HttpNotFoundException;
 
 /**
  * @coversDefaultClass \Core\Routing\Router
@@ -94,6 +94,7 @@ class RoutingTest extends BravelTestCase {
      * @depends testRouterRegistersPostRoutes
      * @covers Router::compileRoutes
      * @covers Router::resolve
+     * @covers Router::getAction
      * @covers Action::getController
      * @covers Action::getMethod
      */
@@ -102,7 +103,7 @@ class RoutingTest extends BravelTestCase {
 
         $this->prepareGetRequest('/normal/get', false);
 
-        $action = $router->resolve();
+        $action = $router->resolve()->getAction();
         $this->assertSame('NormalGetController', $action->getController());
         $this->assertSame('normalGet', $action->getMethod());
     }
@@ -113,6 +114,7 @@ class RoutingTest extends BravelTestCase {
      * @depends testRouterRegistersPostRoutes
      * @covers Router::compileRoutes
      * @covers Router::resolve
+     * @covers Router::getAction
      * @covers Action::getController
      * @covers Action::getMethod
      */
@@ -121,7 +123,7 @@ class RoutingTest extends BravelTestCase {
 
         $this->preparePostRequest('/normal/post', true, false);
 
-        $action = $router->resolve();
+        $action = $router->resolve()->getAction();
         $this->assertSame('NormalPostController', $action->getController());
         $this->assertSame('normalPost', $action->getMethod());
     }
@@ -132,6 +134,7 @@ class RoutingTest extends BravelTestCase {
      * @depends testRouterRegistersPostRoutes
      * @covers Router::compileRoutes
      * @covers Router::resolve
+     * @covers Router::getAction
      * @covers Action::setParams
      * @covers Action::getController
      * @covers Action::getMethod
@@ -142,7 +145,7 @@ class RoutingTest extends BravelTestCase {
 
         $this->prepareGetRequest('/complex/222/get', false);
 
-        $action = $router->resolve();
+        $action = $router->resolve()->getAction();
         $this->assertSame('ComplexGetController', $action->getController());
         $this->assertSame('complexGet', $action->getMethod());
         $this->assertSame(['id' => '222'], $action->getParams());
@@ -154,6 +157,7 @@ class RoutingTest extends BravelTestCase {
      * @depends testRouterRegistersPostRoutes
      * @covers Router::compileRoutes
      * @covers Router::resolve
+     * @covers Router::getAction
      * @covers Action::setParams
      * @covers Action::getController
      * @covers Action::getMethod
@@ -164,7 +168,7 @@ class RoutingTest extends BravelTestCase {
 
         $this->preparePostRequest('/complex/222/post', true, false);
 
-        $action = $router->resolve();
+        $action = $router->resolve()->getAction();
         $this->assertSame('ComplexPostController', $action->getController());
         $this->assertSame('complexPost', $action->getMethod());
         $this->assertSame(['id' => '222'], $action->getParams());
@@ -176,6 +180,7 @@ class RoutingTest extends BravelTestCase {
      * @depends testRouterRegistersPostRoutes
      * @covers Router::compileRoutes
      * @covers Router::resolve
+     * @covers Router::getAction
      * @covers Action::getController
      * @covers Action::getMethod
      */
@@ -184,7 +189,7 @@ class RoutingTest extends BravelTestCase {
 
         $this->prepareGetRequest('/auth/get', true);
 
-        $action = $router->resolve();
+        $action = $router->resolve()->getAction();
         $this->assertSame('AuthGetController', $action->getController());
         $this->assertSame('authGet', $action->getMethod());
     }
@@ -195,6 +200,7 @@ class RoutingTest extends BravelTestCase {
      * @depends testRouterRegistersPostRoutes
      * @covers Router::compileRoutes
      * @covers Router::resolve
+     * @covers Router::getAction
      * @covers Action::getController
      * @covers Action::getMethod
      */
@@ -203,7 +209,7 @@ class RoutingTest extends BravelTestCase {
 
         $this->preparePostRequest('/auth/post', true, true);
 
-        $action = $router->resolve();
+        $action = $router->resolve()->getAction();
         $this->assertSame('AuthPostController', $action->getController());
         $this->assertSame('authPost', $action->getMethod());
     }
@@ -214,6 +220,7 @@ class RoutingTest extends BravelTestCase {
      * @depends testRouterRegistersPostRoutes
      * @covers Router::compileRoutes
      * @covers Router::resolve
+     * @covers Router::getAction
      */
     public function testRouterThrowsExceptionWithoutAuthGetRequest($getRoutes, $postRoutes) {
         $router = $this->prepareRouter($getRoutes, $postRoutes);
@@ -221,7 +228,7 @@ class RoutingTest extends BravelTestCase {
         $this->prepareGetRequest('/auth/get', false);
 
         $this->expectException(UnauthorizedActionException::class);
-        $action = $router->resolve();
+        $action = $router->resolve()->getAction();
     }
 
     /**
@@ -230,6 +237,7 @@ class RoutingTest extends BravelTestCase {
      * @depends testRouterRegistersPostRoutes
      * @covers Router::compileRoutes
      * @covers Router::resolve
+     * @covers Router::getAction
      */
     public function testRouterThrowsExceptionWithoutAuthPostRequest($getRoutes, $postRoutes) {
         $router = $this->prepareRouter($getRoutes, $postRoutes);
@@ -237,7 +245,7 @@ class RoutingTest extends BravelTestCase {
         $this->preparePostRequest('/auth/post', true, false);
 
         $this->expectException(UnauthorizedActionException::class);
-        $action = $router->resolve();
+        $action = $router->resolve()->getAction();
     }
 
     /**
@@ -246,6 +254,7 @@ class RoutingTest extends BravelTestCase {
      * @depends testRouterRegistersPostRoutes
      * @covers Router::compileRoutes
      * @covers Router::resolve
+     * @covers Router::getAction
      */
     public function testRouterThrowsExceptionWrongCsrfPostRequest($getRoutes, $postRoutes) {
         $router = $this->prepareRouter($getRoutes, $postRoutes);
@@ -253,7 +262,7 @@ class RoutingTest extends BravelTestCase {
         $this->preparePostRequest('/normal/post', false, false);
 
         $this->expectException(\Exception::class);
-        $action = $router->resolve();
+        $action = $router->resolve()->getAction();
     }
 
     /**
@@ -262,6 +271,7 @@ class RoutingTest extends BravelTestCase {
      * @depends testRouterRegistersPostRoutes
      * @covers Router::compileRoutes
      * @covers Router::resolve
+     * @covers Router::getAction
      */
     public function testRouterThrowsExceptionNoRouteGetRequest($getRoutes, $postRoutes) {
         $router = $this->prepareRouter($getRoutes, $postRoutes);
@@ -269,7 +279,7 @@ class RoutingTest extends BravelTestCase {
         $this->prepareGetRequest('/get', false);
 
         $this->expectException(HttpNotFoundException::class);
-        $action = $router->resolve();
+        $action = $router->resolve()->getAction();
     }
 
     /**
@@ -278,6 +288,7 @@ class RoutingTest extends BravelTestCase {
      * @depends testRouterRegistersPostRoutes
      * @covers Router::compileRoutes
      * @covers Router::resolve
+     * @covers Router::getAction
      */
     public function testRouterThrowsExceptionNoRoutePostRequest($getRoutes, $postRoutes) {
         $router = $this->prepareRouter($getRoutes, $postRoutes);
@@ -285,6 +296,6 @@ class RoutingTest extends BravelTestCase {
         $this->preparePostRequest('/post', true, false);
 
         $this->expectException(HttpNotFoundException::class);
-        $action = $router->resolve();
+        $action = $router->resolve()->getAction();
     }
 }
