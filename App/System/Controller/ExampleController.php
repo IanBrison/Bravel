@@ -3,7 +3,7 @@
 namespace App\System\Controller;
 
 use Core\Controller\Controller;
-use App\Service\ExampleService;
+use App\Service\Usecase\ExampleService;
 
 class ExampleController extends Controller {
 

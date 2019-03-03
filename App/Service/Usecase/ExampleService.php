@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service;
+namespace App\Service\Usecase;
 
 use Core\Di\DiContainer as Di;
 use App\Domain\Repository\ExampleRepository;
