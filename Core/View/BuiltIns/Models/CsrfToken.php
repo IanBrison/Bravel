@@ -3,6 +3,7 @@
 namespace Core\View\BuiltIns\Models;
 
 use Core\View\ViewModel;
+use Core\Request\Request;
 
 class CsrfToken extends ViewModel {
 
@@ -16,5 +17,9 @@ class CsrfToken extends ViewModel {
 
     public function token(): string {
         return $this->_token;
+    }
+
+    public function tokenFormName(): string {
+        return Request::CSRF_TOKEN_FORM_NAME;
     }
 }

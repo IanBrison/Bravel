@@ -54,7 +54,7 @@ class Router {
                     Di::set(Action::class, $route->getAction());
                     throw new UnauthorizedActionException();
                 }
-                if (Di::get(Request::class)->isPost() && !Di::get(Session::class)->checkCsrfToken(Di::get(Request::class)->getPost('_token'))) {
+                if (Di::get(Request::class)->isPost() && !Di::get(Session::class)->checkCsrfToken(Di::get(Request::class)->getCsrfToken())) {
                     throw new Exception("Doesn't have the csrf_token for ".$route->getUrlPath());
                 }
                 $params = array_filter($matches, function ($key) {

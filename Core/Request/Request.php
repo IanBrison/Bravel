@@ -5,6 +5,9 @@ namespace Core\Request;
 use Core\Storage\File;
 
 class Request {
+
+    const CSRF_TOKEN_FORM_NAME = '_token';
+
     public function isPost() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             return true;
@@ -27,6 +30,10 @@ class Request {
         }
 
         return $default;
+    }
+
+    public function getCsrfToken(): string {
+        return $this->getPost(self::CSRF_TOKEN_FORM_NAME, '');
     }
 
     public function getFile($name, $default = null): ?File {
