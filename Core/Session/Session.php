@@ -4,6 +4,8 @@ namespace Core\Session;
 
 class Session {
 
+    const AUTHENTICATION_SESSION_KEY = '_authenticated';
+    const CSRF_TOKENS_SESSION_KEY = 'csrf_tokens';
     const ONE_TIME_KEYS_SESSION_KEY = '_onetimes';
 
     protected static $sessionStarted = false;
@@ -19,12 +21,12 @@ class Session {
         }
     }
 
-    public function set($name, $value) {
+    public function set(string $name, $value) {
         $_SESSION[$name] = $value;
         return $this;
     }
 
-    public function get($name, $default = null) {
+    public function get(string $name, $default = null) {
         if (isset($_SESSION[$name])) {
             return $_SESSION[$name];
         }
@@ -37,7 +39,7 @@ class Session {
         return $this;
     }
 
-    public function regenerate($destroy = true) {
+    public function regenerate(bool $destroy = true) {
         if (!self::$sessionIdRegenerated) {
             session_regenerate_id($destroy);
 
@@ -46,26 +48,25 @@ class Session {
         return $this;
     }
 
-    public function setAuthenticated($bool) {
-        $this->set('_authenticated', (bool)$bool);
+    public function setAuthenticated(bool $bool) {
+        $this->set(self::AUTHENTICATION_SESSION_KEY, $bool);
 
         $this->regenerate();
         return $this;
     }
 
     public function isAuthenticated(): bool {
-        return $this->get('_authenticated', false);
+        return $this->get(self::AUTHENTICATION_SESSION_KEY, false);
     }
 
-    public function oneTimeSet($name, $value) {
+    public function oneTimeSet(string $name, $value) {
         $this->generatedOneTimeKeys[] = $name;
 
         return $this->set($name, $value);
     }
 
     public function generateCsrfToken() {
-        $key = 'csrf_tokens';
-        $tokens = $this->get($key, array());
+        $tokens = $this->get(self::CSRF_TOKENS_SESSION_KEY, array());
         if (count($tokens) >= 10) {
             array_shift($tokens);
         }
@@ -73,18 +74,17 @@ class Session {
         $token = sha1(session_id() . microtime());
         $tokens[] = $token;
 
-        $this->set($key, $tokens);
+        $this->set(self::CSRF_TOKENS_SESSION_KEY, $tokens);
 
         return $token;
     }
 
     public function checkCsrfToken(string $token): bool {
-        $key = 'csrf_tokens';
-        $tokens = $this->get($key, array());
+        $tokens = $this->get(self::CSRF_TOKENS_SESSION_KEY, array());
 
         if (false !== ($pos = array_search($token, $tokens, true))) {
             unset($tokens[$pos]);
-            $this->set($key, $tokens);
+            $this->set(self::CSRF_TOKENS_SESSION_KEY, $tokens);
 
             return true;
         }
