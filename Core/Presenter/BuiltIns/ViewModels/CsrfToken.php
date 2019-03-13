@@ -1,9 +1,9 @@
 <?php
 
-namespace Core\View\BuiltIns\ViewModels;
+namespace Core\Presenter\BuiltIns\ViewModels;
 
-use Core\View\ViewModel;
-use Core\View\BasicViewModel;
+use Core\Presenter\ViewModel;
+use Core\Presenter\BasicViewModel;
 use Core\Request\Request;
 
 class CsrfToken implements ViewModel {

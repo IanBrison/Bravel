@@ -7,7 +7,7 @@ use Twig\Environment as Twig_Environment;
 use Core\Di\DiContainer as Di;
 use Core\Environment\Environment;
 use Core\Session\Session;
-use Core\Presenter\BuiltIns\Models\CsrfToken;
+use Core\Presenter\BuiltIns\ViewModels\CsrfToken;
 
 class View {
 
