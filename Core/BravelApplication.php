@@ -93,6 +93,7 @@ abstract class BravelApplication {
         return $routes;
     }
 
+    // handles the whole web application procedure
     public function run() {
         try {
             $action = Di::get(Router::class)->compileRoutes($this->collectRoutes())->resolve()->getAction();
