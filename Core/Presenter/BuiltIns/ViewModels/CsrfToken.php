@@ -1,11 +1,14 @@
 <?php
 
-namespace Core\View\BuiltIns\Models;
+namespace Core\View\BuiltIns\ViewModels;
 
 use Core\View\ViewModel;
+use Core\View\BasicViewModel;
 use Core\Request\Request;
 
-class CsrfToken extends ViewModel {
+class CsrfToken implements ViewModel {
+
+    use BasicViewModel;
 
     protected $template = 'csrf_token';
 

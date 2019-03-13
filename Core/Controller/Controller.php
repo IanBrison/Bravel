@@ -3,7 +3,7 @@
 namespace Core\Controller;
 
 use Core\Di\DiContainer as Di;
-use Core\View\View;
+use Core\Presenter\View;
 use Core\Response\Response;
 use Core\Response\StatusCode;
 use Core\Response\HttpHeader;

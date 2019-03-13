@@ -1,17 +1,17 @@
 <?php
 
-namespace Core\View;
+namespace Core\Presenter;
 
 use Twig\Loader\FilesystemLoader as Twig_FilesystemLoader;
 use Twig\Environment as Twig_Environment;
 use Core\Di\DiContainer as Di;
 use Core\Environment\Environment;
 use Core\Session\Session;
-use Core\View\BuiltIns\Models\CsrfToken;
+use Core\Presenter\BuiltIns\Models\CsrfToken;
 
 class View {
 
-    const BRAVEL_CORE_TEMLATE_DIRECTORY = '/core/View/BuiltIns/Views';
+    const BRAVEL_CORE_TEMLATE_DIRECTORY = '/core/Presenter/BuiltIns/Views';
 
     protected $twig;
     protected $extension;

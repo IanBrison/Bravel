@@ -1,14 +1,12 @@
 <?php
 
-namespace Core\View;
+namespace Core\Presenter;
 
 use Core\Di\DiContainer as Di;
-use Core\View\View;
-use Core\View\Builtins\Models\CsrfToken;
+use Core\Presenter\View;
+use Core\Presenter\Builtins\ViewModels\CsrfToken;
 
-abstract class ViewModel {
-
-    protected $template;
+trait BasicViewModel {
 
     public function template(): string {
         return $this->template;

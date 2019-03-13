@@ -1,11 +1,14 @@
 <?php
 
-namespace App\Service\ViewModel;
+namespace App\Service\Presenter;
 
-use Core\View\ViewModel;
+use Core\Presenter\ViewModel;
+use Core\Presenter\BasicViewModel;
 use App\Domain\Model\ExampleModel;
 
-class WelcomeInfo extends ViewModel {
+class WelcomeInfo implements ViewModel {
+
+    use BasicViewModel;
 
     protected $template = 'welcome_info';
 

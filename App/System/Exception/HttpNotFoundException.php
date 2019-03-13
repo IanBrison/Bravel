@@ -6,7 +6,7 @@ use Core\Di\DiContainer as Di;
 use Core\Exception\BravelException;
 use Core\Response\Response;
 use Core\Response\StatusCode;
-use Core\View\View;
+use Core\Presenter\View;
 
 class HttpNotFoundException extends \Exception implements BravelException {
 
