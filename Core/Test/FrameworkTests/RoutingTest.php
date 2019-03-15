@@ -44,7 +44,7 @@ class RoutingTest extends BravelTestCase {
         $request = Mockery::mock(Request::class);
         $request->shouldReceive('getPathInfo')->andReturn($pathInfo);
         $request->shouldReceive('isPost')->andReturn(true);
-        $request->shouldReceive('getPost')->with('_token')->andReturn('test_csrf_token');
+        $request->shouldReceive('getCsrfToken')->andReturn('test_csrf_token');
 
         $session = Mockery::mock(Session::class);
         $session->shouldReceive('checkCsrfToken')->with('test_csrf_token')->andReturn($checkCsrfToken);
