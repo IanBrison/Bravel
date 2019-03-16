@@ -14,9 +14,15 @@ class DiContainer {
     static $aliases = [
     ];
 
+    // prevent from initializing more then once
+    static $hasInitialized = false;
+
     public static function initialize() {
+        if (self::$hasInitialized) return;
+
         self::$singletons = array_fill_keys(Environment::getConfig('di.singletons'), null);
         self::$aliases = Environment::getConfig('di.aliases');
+        self::$hasInitialized = true;
     }
 
     public static function get(string $dependencyName, ...$args) {
