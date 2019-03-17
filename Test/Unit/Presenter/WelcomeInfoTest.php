@@ -1,15 +1,15 @@
 <?php
 
-namespace Test\Unit\ViewModels;
+namespace Test\Unit\Presenter;
 
 use \Mockery;
 use Test\TestCase;
 use Core\Di\DiContainer as Di;
-use App\Models\ExampleModel;
-use Presentation\Models\WelcomeInfo;
+use App\Domain\Model\ExampleModel;
+use App\Service\Presenter\WelcomeInfo;
 
 /**
- * @coversDefaultClass \Presentation\Models\WelcomeInfo
+ * @coversDefaultClass \App\Service\Presenter\WelcomeInfo
  */
 class WelcomeInfoTest extends TestCase {
 

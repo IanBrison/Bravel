@@ -1,17 +1,17 @@
 <?php
 
-namespace Test\Unit\Services;
+namespace Test\Unit\Usecase;
 
 use \Mockery;
 use Test\TestCase;
 use Core\Di\DiContainer as Di;
-use App\Models\ExampleModel;
-use App\Repositories\ExampleRepository;
-use App\Services\ExampleService;
-use Presentation\Models\WelcomeInfo;
+use App\Domain\Model\ExampleModel;
+use App\Domain\Repository\ExampleRepository;
+use App\Service\Usecase\ExampleService;
+use App\Service\Presenter\WelcomeInfo;
 
 /**
- * @coversDefaultClass \App\Services\ExampleService
+ * @coversDefaultClass \App\Service\Usecase\ExampleService
  */
 class ExampleServiceTest extends TestCase {
 
