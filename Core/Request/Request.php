@@ -16,7 +16,7 @@ class Request {
         return false;
     }
 
-    public function getGet($name, $default = null) {
+    public function getGet(string $name, $default = null) {
         if (isset($_GET[$name])) {
             return $_GET[$name];
         }
@@ -24,7 +24,7 @@ class Request {
         return $default;
     }
 
-    public function getPost($name, $default = null) {
+    public function getPost(string $name, $default = null) {
         if (isset($_POST[$name])) {
             return $_POST[$name];
         }
@@ -36,7 +36,7 @@ class Request {
         return $this->getPost(self::CSRF_TOKEN_FORM_NAME, '');
     }
 
-    public function getFile($name, $default = null): ?File {
+    public function getFile(string $name, $default = null): ?File {
         if (isset($_FILES[$name])) {
             return File::constructFromRequest($_FILES[$name]);
         }
