@@ -16,6 +16,7 @@ class LocalDriver implements StorageDriver {
     public function __construct(string $path) {
         $this->urlDir = Environment::getConfig('storage.drivers.Local.basePath') . $path . '/';
         $this->baseDir = Environment::getDir(self::LOCAL_STORAGE_DIRECTORY . $this->urlDir);
+        if (!is_dir($this->baseDir)) mkdir($this->baseDir, 0777, true);
     }
 
     public function save(File $file, string $fileName): bool {
