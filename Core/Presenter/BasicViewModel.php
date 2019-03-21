@@ -9,6 +9,9 @@ use Core\Presenter\Builtins\ViewModels\CsrfToken;
 trait BasicViewModel {
 
     public function template(): string {
+        if (empty($this->template)) {
+            throw new \Exception('No template specified');
+        }
         return $this->template;
     }
 

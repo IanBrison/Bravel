@@ -4,6 +4,7 @@ namespace Core\Controller;
 
 use Core\Di\DiContainer as Di;
 use Core\Presenter\View;
+use Core\Presenter\ViewModel;
 use Core\Response\Response;
 use Core\Response\StatusCode;
 use Core\Response\HttpHeader;
@@ -31,6 +32,10 @@ abstract class Controller {
 
     protected function render(string $template, array $variables = array()) {
         return Di::get(View::class)->render($template, $variables);
+    }
+
+    protected function view(ViewModel $vm) {
+        return $vm->present();
     }
 
     protected function redirect(string $url) {
