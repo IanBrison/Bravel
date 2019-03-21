@@ -24,7 +24,7 @@ class View {
             $bravelDir,
         );
         $loader = new Twig_FilesystemLoader($templateDirectories);
-        $this->twig = new Twig_Environment($loader);
+        $this->twig = new Twig_Environment($loader, ['strict_variables' => true]);
 
         $this->extension = Environment::getConfig('view.extension');
     }
