@@ -11,16 +11,22 @@ use App\System\Exception\HttpNotFoundException;
 
 class Router {
 
-    private $getRoutes;
-    private $postRoutes;
+    private $getRoutes;  // the given get routes
+    private $postRoutes; // the given post routes
 
     public function __construct() {
         $this->getRoutes = array();
         $this->postRoutes = array();
     }
 
+    // compile the given routes
     public function compileRoutes(array $routes): self {
         foreach ($routes as $route) {
+            if (is_array($route)) {
+                // compile the routes recursively
+                $this->compileRoutes($route);
+                continue;
+            }
             $tokens = explode('/', ltrim($route->getUrlPath(), '/'));
             foreach ($tokens as $i => $token) {
                 if (0 === strpos($token, ':')) {
@@ -41,6 +47,7 @@ class Router {
         return $this;
     }
 
+    // resolve the specific action from the requested route
     public function resolve(): self {
         $pathInfo = Di::get(Request::class)->getPathInfo();
         if ('/' !== substr($pathInfo, 0, 1)) {
@@ -68,15 +75,30 @@ class Router {
         throw new HttpNotFoundException('No route found for ' . $pathInfo);
     }
 
+    // return the resolved Action
     public function getAction(): Action {
         return Di::get(Action::class);
     }
 
+    // set a get route
     public static function get(string $urlPath, string $controller, string $method): GetRoute {
         return new GetRoute($urlPath, new Action($controller, $method));
     }
 
+    // set a post route
     public static function post(string $urlPath, string $controller, string $method): PostRoute {
         return new PostRoute($urlPath, new Action($controller, $method));
+    }
+
+    // group the same urlPaths to shorten the declaration
+    public static function group(string $groupUrlPath, array $routes): array {
+        return array_map(function($route) use ($groupUrlPath) {
+            if (is_array($route)) {
+                // group the routes recursively
+                return self::group($groupUrlPath, $route);
+            }
+            $routeClassName = get_class($route);
+            return new $routeClassName($groupUrlPath . $route->getUrlPath(), $route->getAction());
+        }, $routes);
     }
 }
