@@ -97,8 +97,17 @@ class Router {
                 // group the routes recursively
                 return self::group($groupUrlPath, $route);
             }
-            $routeClassName = get_class($route);
-            return new $routeClassName($groupUrlPath . $route->getUrlPath(), $route->getAction());
+            return self::applyGroupUrlPathToRoute($route, $groupUrlPath);
         }, $routes);
+    }
+
+    // concatenate the group url path to the front of the registerd route's url path
+    private static function applyGroupUrlPathToRoute(Route $route, string $groupUrlPath): Route {
+        $routeClassName = get_class($route);
+        $newRoute = new $routeClassName($groupUrlPath . $route->getUrlPath(), $route->getAction());
+        if ($route->needsAuth()) {
+            $newRoute = $newRoute->withAuth($route->getAction()->getRedirectUrl());
+        }
+        return $newRoute;
     }
 }
