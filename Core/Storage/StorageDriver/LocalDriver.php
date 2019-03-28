@@ -11,7 +11,7 @@ class LocalDriver implements StorageDriver {
     const LOCAL_STORAGE_DIRECTORY = '/web';
 
     private $urlDir;
-    private $storageDir;
+    private $baseDir;
 
     public function __construct(string $path) {
         $this->urlDir = Environment::getConfig('storage.drivers.Local.basePath') . $path . '/';
