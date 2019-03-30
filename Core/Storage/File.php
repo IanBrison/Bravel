@@ -10,10 +10,6 @@ class File {
         $this->path = $path;
     }
 
-    public static function constructFromRequest(array $request) {
-        return new self($request['tmp_name']);
-    }
-
     public function path(): string {
         return $this->path;
     }

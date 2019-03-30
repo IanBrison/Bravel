@@ -36,9 +36,9 @@ class Request {
         return $this->getPost(self::CSRF_TOKEN_FORM_NAME, '');
     }
 
-    public function getFile(string $name, $default = null): ?File {
-        if (isset($_FILES[$name])) {
-            return File::constructFromRequest($_FILES[$name]);
+    public function getFile(string $name, $default = null) {
+        if (isset($_FILES[$name]['tmp_name'])) {
+            return new File($_FILES[$name]['tmp_name']);
         }
 
         return $default;
