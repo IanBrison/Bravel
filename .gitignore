@@ -1,3 +1,4 @@
 /web/storage
 /vendor/
 .env
+.idea
