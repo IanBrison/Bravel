@@ -14,6 +14,7 @@ use App\System\Exception\HttpNotFoundException;
 
 abstract class Controller {
 
+    // controller name of the class extending this
     protected $controllerName;
 
     public function __construct() {
