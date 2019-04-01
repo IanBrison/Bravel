@@ -13,8 +13,8 @@ class View {
 
     const BRAVEL_CORE_TEMLATE_DIRECTORY = '/core/Presenter/BuiltIns/Views';
 
-    protected $twig;
-    protected $extension;
+    protected $twig; // the twig instance itself
+    protected $extension; // the extension of the template files
 
     public function __construct() {
         $baseDir = Environment::getDir(Environment::getConfig('view.base_path'));
