@@ -1,10 +1,94 @@
 {% extends "_base.twig" %}
 
-{% block title %}Welcome To Bravel{% endblock %}
-{% block description %}The Welcome-Page for the Bravel starter{% endblock %}
-
 {% block content %}
 
-{{ welcomeInfo.present | raw }}
+    <!-- Header -->
+    <header class="masthead d-flex">
+        <div class="container text-center my-auto">
+            <h1 class="mb-1">Bravel</h1>
+            <h3 class="mb-5">
+                <em>The Next Level PHP Framework Powered By Ian</em>
+            </h3>
+            <h3 class="mb-5">
+                <a class="social-link text-white" href="https://github.com/IanBrison/Bravel">
+                    <em>View The Source on Github</em>
+                </a>
+                <i class="icon-social-github"></i>
+            </h3>
+        </div>
+        <div class="overlay"></div>
+    </header>
+
+    <!-- Services -->
+    <section class="content-section bg-primary text-white text-center" id="services">
+        <div class="container">
+            <div class="content-section-heading">
+                <h3 class="text-secondary mb-0">The Unique Points</h3>
+                <h2 class="mb-5">What Bravel Offers</h2>
+            </div>
+            <div class="row">
+                <div class="col-lg-3 col-md-6 mb-5 mb-lg-0">
+                    <span class="service-icon rounded-circle mx-auto mb-3">
+                        <i class="icon-settings"></i>
+                    </span>
+                    <h4>
+                        <strong>Functions</strong>
+                    </h4>
+                    <p class="text-faded mb-0">Bravel provides many components!</p>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-5 mb-lg-0">
+                    <span class="service-icon rounded-circle mx-auto mb-3">
+                        <i class="icon-pencil"></i>
+                    </span>
+                    <h4>
+                        <strong>Coding</strong>
+                    </h4>
+                    <p class="text-faded mb-0">Bravel leads to a clean architecture!</p>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-5 mb-md-0">
+                    <span class="service-icon rounded-circle mx-auto mb-3">
+                        <i class="icon-like"></i>
+                    </span>
+                    <h4>
+                        <strong>Famous</strong>
+                    </h4>
+                    <p class="text-faded mb-0">0.000001 Million people use Bravel!</p>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <span class="service-icon rounded-circle mx-auto mb-3">
+                        <i class="icon-emotsmile"></i>
+                    </span>
+                    <h4>
+                        <strong>Community</strong>
+                    </h4>
+                    <p class="text-faded mb-0">Bravel wants your commitment!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer text-center">
+        <div class="container">
+            <ul class="list-inline mb-5">
+                <li class="list-inline-item">
+                    <a class="social-link rounded-circle text-white mr-3" href="https://www.facebook.com/ianbrison8">
+                        <i class="icon-social-facebook"></i>
+                    </a>
+                </li>
+                <li class="list-inline-item">
+                    <a class="social-link rounded-circle text-white mr-3" href="https://twitter.com/brison_ian">
+                        <i class="icon-social-twitter"></i>
+                    </a>
+                </li>
+                <li class="list-inline-item">
+                    <a class="social-link rounded-circle text-white" href="https://github.com/IanBrison">
+                        <i class="icon-social-github"></i>
+                    </a>
+                </li>
+            </ul>
+            <p class="text-muted small mb-0">Copyright &copy; Bravel 2019</p>
+        </div>
+    </footer>
 
 {% endblock %}
