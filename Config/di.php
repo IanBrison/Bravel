@@ -18,6 +18,6 @@ return [
     ],
 
     'aliases' => [
-        App\Domain\Repository\ExampleRepository::class => App\Infrastructure\Dao\ExampleDbDao::class,
+        App\Service\Repository\ExampleRepository::class => App\Infrastructure\Query\ExampleDbQuery::class,
     ]
 ];

@@ -4,7 +4,7 @@ namespace App\Service\Presenter;
 
 use Core\Presenter\ViewModel;
 use Core\Presenter\BasicViewModel;
-use App\Domain\Model\ExampleModel;
+use App\Model\Read\ExampleModel;
 
 class WelcomeInfo implements ViewModel {
 

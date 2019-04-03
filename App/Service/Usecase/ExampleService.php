@@ -3,7 +3,7 @@
 namespace App\Service\Usecase;
 
 use Core\Di\DiContainer as Di;
-use App\Domain\Repository\ExampleRepository;
+use App\Service\Repository\ExampleRepository;
 use App\Service\Presenter\WelcomeInfo;
 
 class ExampleService {

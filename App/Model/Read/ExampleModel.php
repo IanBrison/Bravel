@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\Model;
+namespace App\Model\Read;
 
 interface ExampleModel {
 
