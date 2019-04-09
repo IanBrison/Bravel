@@ -4,5 +4,5 @@ namespace Core\Exception;
 
 interface BravelException {
 
-    public function handle($isDebubMode);
+    public function handle($isDebugMode);
 }
