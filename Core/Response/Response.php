@@ -3,9 +3,6 @@
 namespace Core\Response;
 
 use Core\Di\DiContainer as Di;
-use Core\Response\StatusCode;
-use Core\Response\Content;
-use Core\Response\HttpHeaders;
 
 class Response {
 
