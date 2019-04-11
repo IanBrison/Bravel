@@ -4,12 +4,8 @@ namespace Core;
 
 use Core\Environment\Environment;
 use Core\Di\DiContainer as Di;
-use Core\Request\Request;
 use Core\Response\Response;
-use Core\Response\StatusCode;
 use Core\Routing\Router;
-use Core\Routing\Action;
-use Core\View\View;
 use Core\Exception\BravelExceptionHandler;
 
 abstract class BravelApplication {
