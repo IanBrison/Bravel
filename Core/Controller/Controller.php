@@ -5,6 +5,7 @@ namespace Core\Controller;
 use Core\Di\DiContainer as Di;
 use Core\Presenter\View;
 use Core\Presenter\ViewModel;
+use Core\Presenter\JsonModel;
 use Core\Response\Response;
 use Core\Response\StatusCode;
 use Core\Response\HttpHeader;
@@ -37,6 +38,10 @@ abstract class Controller {
 
     protected function view(ViewModel $vm) {
         return $vm->present();
+    }
+
+    protected function json(JsonModel $jm) {
+        return json_encode($jm->emit());
     }
 
     protected function redirect(string $url) {
