@@ -19,9 +19,9 @@ class BravelExceptionHandler extends \Exception implements BravelException {
         $this->registeredExceptions = Environment::getConfig('exception.registeredExceptions');
     }
 
-    public function handle($isDebubMode) {
+    public function handle($isDebugMode) {
         if (in_array(get_class($this->e), $this->registeredExceptions)) {
-            return $this->e->handle($isDebubMode);
+            return $this->e->handle($isDebugMode);
         }
 
         $status_code = Di::get(StatusCode::class)->setCode(500)->setText('Internal Server Error');

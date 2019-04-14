@@ -7,6 +7,7 @@ use Core\Di\DiContainer as Di;
 use Core\Response\Response;
 use Core\Routing\Router;
 use Core\Exception\BravelExceptionHandler;
+use App\System\Exception\HttpNotFoundException;
 
 abstract class BravelApplication {
 

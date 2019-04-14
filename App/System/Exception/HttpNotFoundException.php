@@ -10,9 +10,9 @@ use Core\Presenter\View;
 
 class HttpNotFoundException extends \Exception implements BravelException {
 
-    public function handle($isDebubMode) {
+    public function handle($isDebugMode) {
         $status_code = Di::get(StatusCode::class)->setCode(404)->setText('Not Found');
-        $message = $isDebubMode ? $this->getMessage() : 'Page not found.';
+        $message = $isDebugMode ? $this->getMessage() : 'Page not found.';
         $message = htmlspecialchars($message, ENT_QUOTES, 'UTF-8');
 
         $content = Di::get(View::class)->render('error/404', ['message' => $message], null);

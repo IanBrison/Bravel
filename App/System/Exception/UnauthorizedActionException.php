@@ -13,7 +13,7 @@ use Core\Routing\Router;
 
 class UnauthorizedActionException extends \Exception implements BravelException {
 
-    public function handle($isDebubMode) {
+    public function handle($isDebugMode) {
         $redirectUrl = Di::get(Router::class)->getAction()->getRedirectUrl();
         if (!empty($redirectUrl)) {
             $this->redirectToLoginUrl($redirectUrl);
