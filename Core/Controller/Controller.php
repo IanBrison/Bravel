@@ -3,9 +3,12 @@
 namespace Core\Controller;
 
 use Core\Di\DiContainer as Di;
+use Core\Presenter\Url;
+use Core\Presenter\UrlPresenter;
 use Core\Presenter\View;
-use Core\Presenter\ViewModel;
-use Core\Presenter\JsonModel;
+use Core\Presenter\Json;
+use Core\Presenter\ViewPresenter;
+use Core\Presenter\JsonPresenter;
 use Core\Response\Response;
 use Core\Response\StatusCode;
 use Core\Response\HttpHeader;
@@ -27,36 +30,31 @@ abstract class Controller {
             throw new HttpNotFoundException('Forwarded 404 page from ' . $this->controllerName . '/' . $method);
         }
 
-        $content = call_user_func_array(array($this, $method), $params);
+        call_user_func_array(array($this, $method), $params);
 
-        Di::set(Response::class, Di::get(Response::class)->setContent($content));
     }
 
     protected function render(string $template, array $variables = array()) {
-        return Di::get(View::class)->render($template, $variables);
+        Di::get(View::class)->render($template, $variables);
     }
 
-    protected function view(ViewModel $vm) {
-        return $vm->present();
-    }
-
-    protected function json(JsonModel $jm) {
-        return json_encode($jm->emit());
-    }
+    protected function transform(string $template, array $variables = array()) {
+        Di::get(Json::class)->transform($template, $variables);
+	}
 
     protected function redirect(string $url) {
-        if (!preg_match('#https?://#', $url)) {
-            $request = Di::get(Request::class);
-            $protocol = $request->isSsl() ? 'https://' : 'http://';
-            $host = $request->getHost();
-            $baseUrl = $request->getBaseUrl();
+        Di::get(Url::class)->redirect($url);
+    }
 
-            $url = $protocol . $host . $baseUrl . $url;
-        }
+    protected function view(ViewPresenter $vp) {
+        $vp->presentView();
+    }
 
-        $statusCode = Di::get(StatusCode::class)->setCode(302)->setText('Found');
-        $header = Di::get(HttpHeader::class)->setName('Location')->setValue($url);
-        $httpHeaders = Di::get(HttpHeaders::class)->addHeader($header);
-        Di::set(Response::class, Di::get(Response::class)->setStatusCode($statusCode)->setHttpHeaders($httpHeaders));
+    protected function json(JsonPresenter $jp) {
+        $jp->presentJson();
+    }
+
+    protected function url(UrlPresenter $up) {
+        $up->presentUrl();
     }
 }
