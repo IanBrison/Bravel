@@ -6,22 +6,19 @@ use Twig\Loader\FilesystemLoader as Twig_FilesystemLoader;
 use Twig\Environment as Twig_Environment;
 use Core\Di\DiContainer as Di;
 use Core\Environment\Environment;
-use Core\Session\Session;
-use Core\Presenter\BuiltIns\ViewModels\CsrfToken;
+use Core\Response\Response;
 
-class View {
-
-    const BRAVEL_CORE_TEMPLATE_DIRECTORY = '/core/Presenter/BuiltIns/Views';
+class View extends Presenter {
 
     protected $twig; // the twig instance itself
     protected $extension; // the extension of the template files
 
     public function __construct() {
-        $baseDir = Environment::getDir(Environment::getConfig('view.base_path'));
-        $bravelDir = Environment::getDir(self::BRAVEL_CORE_TEMPLATE_DIRECTORY);
+        $baseTemplateDirectory = Environment::getDir(Environment::getConfig('view.base_path'));
+        $bravelTemplateDirectory = Environment::getDir($this->bravelCoreTemplateDirectory('/Views'));
         $templateDirectories = array(
-            $baseDir,
-            $bravelDir,
+            $baseTemplateDirectory,
+            $bravelTemplateDirectory,
         );
         $loader = new Twig_FilesystemLoader($templateDirectories);
         $this->twig = new Twig_Environment($loader, ['strict_variables' => true]);
@@ -30,11 +27,7 @@ class View {
     }
 
     public function render(string $template, array $variables = array()) {
-        return $this->twig->render($template . $this->extension, $variables);
-    }
-
-    public function generateCsrfTokenViewModel(): CsrfToken {
-        $token = Di::get(Session::class)->generateCsrfToken();
-        return new CsrfToken($token);
+        $content = $this->twig->render($template . $this->extension, $variables);
+	    Di::set(Response::class, Di::get(Response::class)->setContent($content));
     }
 }
