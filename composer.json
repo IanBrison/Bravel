@@ -1,5 +1,5 @@
 {
-    "name": "ian/bravel",
+    "name": "IanBrison/Bravel",
     "description": "The Next PHP Framework",
     "type": "project",
     "authors": [
@@ -10,7 +10,7 @@
     ],
     "scripts": {
         "test": [
-            "docker run -v $PWD:/root/Bravel php:7.2-cli /root/Bravel/vendor/bin/phpunit --testdox /root/Bravel/test/"
+            "docker run -v $PWD:/root/Bravel php:7.2-cli /root/Bravel/vendor/bin/phpunit --testdox /root/Bravel/Test/"
         ],
         "framework-test": [
             "docker run -v $PWD:/root/Bravel php:7.2-cli /root/Bravel/vendor/bin/phpunit --testdox /root/Bravel/core/Test/FrameworkTests/"
