@@ -18,6 +18,5 @@ return [
     ],
 
     'aliases' => [
-        App\Service\Repository\ExampleRepository::class => App\Infrastructure\Query\ExampleDbQuery::class,
     ]
 ];
