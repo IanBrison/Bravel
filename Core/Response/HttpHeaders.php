@@ -2,8 +2,6 @@
 
 namespace Core\Response;
 
-use Core\Response\HttpHeader;
-
 class HttpHeaders {
 
     protected $headers;
