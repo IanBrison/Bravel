@@ -25,7 +25,12 @@ abstract class Controller {
         $this->controllerName = get_class($this);
     }
 
-    public function run(string $method, array $params = array()) {
+	/**
+	 * @param string $method
+	 * @param array $params
+	 * @throws HttpNotFoundException
+	 */
+	public function run(string $method, array $params = array()) {
         if (!method_exists($this, $method)) {
             throw new HttpNotFoundException('Forwarded 404 page from ' . $this->controllerName . '/' . $method);
         }

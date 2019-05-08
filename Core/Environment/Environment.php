@@ -12,7 +12,12 @@ class Environment {
 
     private static $cachedConfigs;
 
-    public static function getConfig(string $configStr) {
+	/**
+	 * @param string $configStr
+	 * @return array|mixed
+	 * @throws Exception
+	 */
+	public static function getConfig(string $configStr) {
         $configStrArray = explode('.', $configStr);
 
         $value = self::setConfigCache($configStrArray[0]);
@@ -27,7 +32,12 @@ class Environment {
         return $value;
     }
 
-    private static function setConfigCache(string $configFileName): array {
+	/**
+	 * @param string $configFileName
+	 * @return array
+	 * @throws Exception
+	 */
+	private static function setConfigCache(string $configFileName): array {
         if (array_key_exists($configFileName, self::$cachedConfigs)) {
             return self::$cachedConfigs;
         }

@@ -13,7 +13,12 @@ class BravelExceptionHandler extends \Exception implements BravelException {
     private $e;
     private $registeredExceptions;
 
-    public function __construct(\Throwable $e) {
+	/**
+	 * BravelExceptionHandler constructor.
+	 * @param \Throwable $e
+	 * @throws \Exception
+	 */
+	public function __construct(\Throwable $e) {
         parent::__construct();
         $this->e = $e;
         $this->registeredExceptions = Environment::getConfig('exception.registeredExceptions');

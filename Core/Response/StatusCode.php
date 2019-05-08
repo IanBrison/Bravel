@@ -2,11 +2,11 @@
 
 namespace Core\Response;
 
-use Core\Exceptions\UnacceptableSettingException;
+use App\System\Exception\UnacceptableSettingException;
 
 class StatusCode {
 
-    const AVAIABLE_CODES = [200, 302, 403, 404, 500];
+    const AVAILABLE_CODES = [200, 302, 403, 404, 500];
 
     protected $code;
     protected $text;
@@ -16,8 +16,13 @@ class StatusCode {
         $this->text = '';
     }
 
-    public function setCode(int $code): StatusCode {
-        if (in_array($code, self::AVAIABLE_CODES)) {
+	/**
+	 * @param int $code
+	 * @return StatusCode
+	 * @throws UnacceptableSettingException
+	 */
+	public function setCode(int $code): StatusCode {
+        if (in_array($code, self::AVAILABLE_CODES)) {
             $this->code = $code;
             return $this;
         }

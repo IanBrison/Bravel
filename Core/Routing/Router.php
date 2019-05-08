@@ -48,7 +48,14 @@ class Router {
     }
 
     // resolve the specific action from the requested route
-    public function resolve(): self {
+
+	/**
+	 * @return Router
+	 * @throws HttpNotFoundException
+	 * @throws UnauthorizedActionException
+	 * @throws Exception
+	 */
+	public function resolve(): self {
         $pathInfo = Di::get(Request::class)->getPathInfo();
         if ('/' !== substr($pathInfo, 0, 1)) {
             $pathInfo = '/' . $pathInfo;
@@ -101,9 +108,10 @@ class Router {
         }, $routes);
     }
 
-    // concatenate the group url path to the front of the registerd route's url path
+    // concatenate the group url path to the front of the registered route's url path
     private static function applyGroupUrlPathToRoute(Route $route, string $groupUrlPath): Route {
         $routeClassName = get_class($route);
+        /** @var Route $newRoute */
         $newRoute = new $routeClassName($groupUrlPath . $route->getUrlPath(), $route->getAction());
         if ($route->needsAuth()) {
             $newRoute = $newRoute->withAuth($route->getAction()->getRedirectUrl());
