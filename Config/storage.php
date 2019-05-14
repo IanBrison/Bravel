@@ -1,7 +1,7 @@
 <?php
 
 /*
- * config file for storaging files
+ * config file for storing files
  *
  * LocalDriver is available
  */

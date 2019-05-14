@@ -18,7 +18,8 @@
     },
     "require": {
         "twig/twig": "^2.0",
-        "vlucas/phpdotenv": "^3.0"
+        "vlucas/phpdotenv": "^3.0",
+        "ext-pdo": "*"
     },
     "autoload": {
         "psr-4": {

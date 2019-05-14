@@ -1,9 +1,9 @@
 <?php
 
-namespace Core\Datasource;
+namespace Core\DataSource;
 
-use \PDO;
-use \Exception;
+use PDO;
+use Exception;
 use Core\Environment\Environment;
 
 class DbManager {

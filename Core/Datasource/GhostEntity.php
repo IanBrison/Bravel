@@ -1,6 +1,6 @@
 <?php
 
-namespace Core\Datasource;
+namespace Core\DataSource;
 
 use Core\Di\DiContainer as Di;
 

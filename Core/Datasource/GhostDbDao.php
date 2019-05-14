@@ -1,6 +1,6 @@
 <?php
 
-namespace Core\Datasource;
+namespace Core\DataSource;
 
 class GhostDbDao extends DbDao {
 
