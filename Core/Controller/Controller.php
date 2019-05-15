@@ -9,11 +9,6 @@ use Core\Presenter\View;
 use Core\Presenter\Json;
 use Core\Presenter\ViewPresenter;
 use Core\Presenter\JsonPresenter;
-use Core\Response\Response;
-use Core\Response\StatusCode;
-use Core\Response\HttpHeader;
-use Core\Response\HttpHeaders;
-use Core\Request\Request;
 use App\System\Exception\HttpNotFoundException;
 
 abstract class Controller {
@@ -25,41 +20,40 @@ abstract class Controller {
         $this->controllerName = get_class($this);
     }
 
-	/**
-	 * @param string $method
-	 * @param array $params
-	 * @throws HttpNotFoundException
-	 */
-	public function run(string $method, array $params = array()) {
+    /**
+     * @param string $method
+     * @param array  $params
+     * @throws HttpNotFoundException
+     */
+    public function run(string $method, array $params = array()) {
         if (!method_exists($this, $method)) {
             throw new HttpNotFoundException('Forwarded 404 page from ' . $this->controllerName . '/' . $method);
         }
 
         call_user_func_array(array($this, $method), $params);
-
     }
 
     protected function render(string $template, array $variables = array()) {
-        Di::get(View::class)->render($template, $variables);
+        Di::get(View::class)->presentWithNoVP($template, $variables);
     }
 
     protected function transform(string $template, array $variables = array()) {
-        Di::get(Json::class)->transform($template, $variables);
+        Di::get(Json::class)->presentWithNoJP($template, $variables);
 	}
 
     protected function redirect(string $url) {
-        Di::get(Url::class)->redirect($url);
+        Di::get(Url::class)->presentWithNoUP($url);
     }
 
     protected function view(ViewPresenter $vp) {
-        $vp->presentView();
+        Di::get(View::class)->present($vp);
     }
 
     protected function json(JsonPresenter $jp) {
-        $jp->presentJson();
+        Di::get(Json::class)->present($jp);
     }
 
     protected function url(UrlPresenter $up) {
-        $up->presentUrl();
+        Di::get(Url::class)->present($up);
     }
 }

@@ -9,7 +9,7 @@ use Core\Response\HttpHeader;
 use Core\Response\HttpHeaders;
 use Core\Response\Response;
 
-class Url {
+class Url extends Presenter {
 
 	public function redirect(string $url) {
 		if (!preg_match('#https?://#', $url)) {
@@ -20,7 +20,19 @@ class Url {
 
             $url = $protocol . $host . $baseUrl . $url;
         }
+		return $url;
+	}
 
+	public function present(UrlPresenter $up) {
+		$url = $up->presentUrl();
+        $statusCode = Di::get(StatusCode::class)->setCode(302)->setText('Found');
+        $header = Di::get(HttpHeader::class)->setName('Location')->setValue($url);
+        $httpHeaders = Di::get(HttpHeaders::class)->addHeader($header);
+        Di::set(Response::class, Di::get(Response::class)->setStatusCode($statusCode)->setHttpHeaders($httpHeaders));
+	}
+
+	public function presentWithNoUP(string $url) {
+		$url = $this->redirect($url);
         $statusCode = Di::get(StatusCode::class)->setCode(302)->setText('Found');
         $header = Di::get(HttpHeader::class)->setName('Location')->setValue($url);
         $httpHeaders = Di::get(HttpHeaders::class)->addHeader($header);

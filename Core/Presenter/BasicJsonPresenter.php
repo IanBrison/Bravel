@@ -21,7 +21,9 @@ trait BasicJsonPresenter {
         return Di::get(Json::class)->transform($this->jsonTemplate(), ['jp' => $this]);
     }
 
-    public function csrfTokenPresenter(): CsrfTokenPresenter {
-        return Di::get(View::class)->generateCsrfTokenPresenter();
+    public function presentCsrfTokenJson() {
+        /** @var CsrfTokenPresenter $csrfPresenter */
+        $csrfPresenter = Di::get(Json::class)->generateCsrfTokenPresenter();
+        return $csrfPresenter->presentJson();
     }
 }

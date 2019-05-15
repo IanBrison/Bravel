@@ -27,7 +27,15 @@ class View extends Presenter {
     }
 
     public function render(string $template, array $variables = array()) {
-        $content = $this->twig->render($template . $this->extension, $variables);
+        return $this->twig->render($template . $this->extension, $variables);
+    }
+
+    public function present(ViewPresenter $vp) {
+	    Di::set(Response::class, Di::get(Response::class)->setContent($vp->presentView()));
+    }
+
+    public function presentWithNoVP(string $template, array $variables = array()) {
+        $content = $this->render($template, $variables);
 	    Di::set(Response::class, Di::get(Response::class)->setContent($content));
     }
 }

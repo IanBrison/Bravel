@@ -21,7 +21,9 @@ trait BasicViewPresenter {
         return Di::get(View::class)->render($this->viewTemplate(), ['vp' => $this]);
     }
 
-    public function csrfTokenPresenter(): CsrfTokenPresenter {
-        return Di::get(View::class)->generateCsrfTokenPresenter();
+    public function presentCsrfTokenView() {
+        /** @var CsrfTokenPresenter $csrfPresenter */
+        $csrfPresenter = Di::get(View::class)->generateCsrfTokenPresenter();
+        return $csrfPresenter->presentView();
     }
 }

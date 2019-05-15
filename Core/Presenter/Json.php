@@ -20,7 +20,15 @@ class Json extends Presenter {
 
 	public function transform(string $template, array $variables = array()) {
 		extract($variables);
-        $content = json_encode(require $this->getAppropriateFile($template));
+        return json_encode(require $this->getAppropriateFile($template));
+	}
+
+	public function present(JsonPresenter $jp) {
+		Di::set(Response::class, Di::get(Response::class)->setContent($jp->presentJson()));
+	}
+
+	public function presentWithNoJP(string $template, array $variables = array()) {
+		$content = $this->transform($template, $variables);
 		Di::set(Response::class, Di::get(Response::class)->setContent($content));
 	}
 
