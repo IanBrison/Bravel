@@ -2,6 +2,7 @@
 
 namespace Core\Test\FrameworkTests;
 
+use Exception;
 use \Mockery;
 use Core\Test\BravelTestCase;
 use Core\Di\DiContainer as Di;
@@ -261,7 +262,7 @@ class RoutingTest extends BravelTestCase {
 
         $this->preparePostRequest('/normal/post', false, false);
 
-        $this->expectException(\Exception::class);
+        $this->expectException(Exception::class);
         $action = $router->resolve()->getAction();
     }
 

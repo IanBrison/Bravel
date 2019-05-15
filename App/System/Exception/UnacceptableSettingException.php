@@ -2,5 +2,7 @@
 
 namespace App\System\Exception;
 
-class UnacceptableSettingException extends \Exception {
+use Exception;
+
+class UnacceptableSettingException extends Exception {
 }

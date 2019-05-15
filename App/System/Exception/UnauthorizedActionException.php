@@ -10,8 +10,9 @@ use Core\Response\StatusCode;
 use Core\Response\HttpHeader;
 use Core\Response\HttpHeaders;
 use Core\Routing\Router;
+use Exception;
 
-class UnauthorizedActionException extends \Exception implements BravelException {
+class UnauthorizedActionException extends Exception implements BravelException {
 
     public function handle($isDebugMode) {
         $redirectUrl = Di::get(Router::class)->getAction()->getRedirectUrl();

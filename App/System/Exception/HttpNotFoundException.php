@@ -7,8 +7,9 @@ use Core\Exception\BravelException;
 use Core\Response\Response;
 use Core\Response\StatusCode;
 use Core\Presenter\View;
+use Exception;
 
-class HttpNotFoundException extends \Exception implements BravelException {
+class HttpNotFoundException extends Exception implements BravelException {
 
     public function handle($isDebugMode) {
         $status_code = Di::get(StatusCode::class)->setCode(404)->setText('Not Found');

@@ -3,6 +3,7 @@
 namespace Core\Di;
 
 use Core\Environment\Environment;
+use Exception;
 
 class DiContainer {
 
@@ -40,7 +41,7 @@ class DiContainer {
 	/**
 	 * initialize the container
 	 * fill the arrays with the configured values
-	 * @throws \Exception
+	 * @throws Exception
 	 */
 	public static function initialize(): void {
 		if (self::$hasInitialized) return;
@@ -186,7 +187,7 @@ class Mock {
 	 * try to resolve from the given arguments
 	 * @param mixed ...$args
 	 * @return mixed
-	 * @throws \Exception
+	 * @throws Exception
 	 */
 	public function get(...$args) {
 		foreach ($this->instances as $instance) {
@@ -205,6 +206,6 @@ class Mock {
 			if ($isMatched) return $instance['registeredObject'];
 		}
 
-		throw new \Exception("No mock object registered with the given arguments");
+		throw new Exception("No mock object registered with the given arguments");
 	}
 }

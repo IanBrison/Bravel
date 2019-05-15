@@ -8,6 +8,7 @@ use Core\Response\Response;
 use Core\Routing\Router;
 use Core\Exception\BravelExceptionHandler;
 use App\System\Exception\HttpNotFoundException;
+use Throwable;
 
 abstract class BravelApplication {
 
@@ -102,7 +103,7 @@ abstract class BravelApplication {
             }
 
             $controller->run($action->getMethod(), $action->getParams());
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             Di::get(BravelExceptionHandler::class, $e)->handle($this->isDebugMode());
         }
 

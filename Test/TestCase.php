@@ -4,6 +4,7 @@ namespace Test;
 
 use Core\Di\DiContainer as Di;
 use Core\Environment\Environment;
+use Exception;
 use PHPUnit\Framework\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase {
@@ -13,7 +14,7 @@ abstract class TestCase extends BaseTestCase {
 	}
 
 	/**
-	 * @throws \Exception
+	 * @throws Exception
 	 */
 	protected function setUp(): void {
 		parent::setUp();

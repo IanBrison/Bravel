@@ -7,18 +7,20 @@ use Core\Environment\Environment;
 use Core\Response\Response;
 use Core\Response\StatusCode;
 use Core\Presenter\View;
+use Exception;
+use Throwable;
 
-class BravelExceptionHandler extends \Exception implements BravelException {
+class BravelExceptionHandler extends Exception implements BravelException {
 
     private $e;
     private $registeredExceptions;
 
 	/**
 	 * BravelExceptionHandler constructor.
-	 * @param \Throwable $e
-	 * @throws \Exception
+	 * @param Throwable $e
+	 * @throws Exception
 	 */
-	public function __construct(\Throwable $e) {
+	public function __construct(Throwable $e) {
         parent::__construct();
         $this->e = $e;
         $this->registeredExceptions = Environment::getConfig('exception.registeredExceptions');
