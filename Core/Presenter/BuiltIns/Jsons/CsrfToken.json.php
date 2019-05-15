@@ -1,6 +1,8 @@
 <?php
 
-/** @var \Core\Presenter\BuiltIns\Presenters\CsrfTokenPresenter $jp */
+use Core\Presenter\BuiltIns\Presenters\CsrfTokenPresenter;
+
+/** @var CsrfTokenPresenter $jp */
 return [
 	$jp->tokenFormName() => $jp->token(),
 ];

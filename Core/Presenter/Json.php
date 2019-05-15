@@ -5,6 +5,7 @@ namespace Core\Presenter;
 use Core\Di\DiContainer as Di;
 use Core\Environment\Environment;
 use Core\Response\Response;
+use Exception;
 
 class Json extends Presenter {
 
@@ -18,7 +19,13 @@ class Json extends Presenter {
 		$this->extension = '.json.php';
 	}
 
-	public function transform(string $template, array $variables = array()) {
+    /**
+     * @param string $template
+     * @param array  $variables
+     * @return false|string
+     * @throws Exception
+     */
+    public function transform(string $template, array $variables = array()) {
 		extract($variables);
         return json_encode(require $this->getAppropriateFile($template));
 	}
@@ -27,12 +34,22 @@ class Json extends Presenter {
 		Di::set(Response::class, Di::get(Response::class)->setContent($jp->presentJson()));
 	}
 
-	public function presentWithNoJP(string $template, array $variables = array()) {
+    /**
+     * @param string $template
+     * @param array  $variables
+     * @throws Exception
+     */
+    public function presentWithNoJP(string $template, array $variables = array()) {
 		$content = $this->transform($template, $variables);
 		Di::set(Response::class, Di::get(Response::class)->setContent($content));
 	}
 
-	private function getAppropriateFile(string $template): string {
+    /**
+     * @param string $template
+     * @return string
+     * @throws Exception
+     */
+    private function getAppropriateFile(string $template): string {
 		$defaultFile = $this->basePath . $template . $this->extension;
 		if (file_exists($defaultFile)) {
 			return $defaultFile;
@@ -41,6 +58,6 @@ class Json extends Presenter {
 		if (file_exists($bravelFile)) {
 			return $bravelFile;
 		}
-		throw new \Exception("No Json Template File '$template' Found");
+		throw new Exception("No Json Template File '$template' Found");
 	}
 }
