@@ -4,13 +4,12 @@ namespace Core\Exception;
 
 use Core\Di\DiContainer as Di;
 use Core\Environment\Environment;
-use Core\Response\Response;
 use Core\Response\StatusCode;
 use Core\Presenter\View;
 use Exception;
 use Throwable;
 
-class BravelExceptionHandler extends Exception implements BravelException {
+class BravelExceptionHandler {
 
     private $e;
     private $registeredExceptions;
@@ -21,14 +20,16 @@ class BravelExceptionHandler extends Exception implements BravelException {
 	 * @throws Exception
 	 */
 	public function __construct(Throwable $e) {
-        parent::__construct();
         $this->e = $e;
         $this->registeredExceptions = Environment::getConfig('exception.registeredExceptions');
     }
 
     public function handle($isDebugMode) {
         if (in_array(get_class($this->e), $this->registeredExceptions)) {
-            return $this->e->handle($isDebugMode);
+            if ($this->e instanceof BravelException) {
+                return $this->e->handle($isDebugMode);
+            }
+            //TODO: show that the thrown error has no handle method
         }
 
         Di::get(StatusCode::class)->setCode(500)->setText('Internal Server Error');
@@ -43,6 +44,6 @@ class BravelExceptionHandler extends Exception implements BravelException {
             $message_stack[] = $message;
         }
 
-        Di::get(View::class)->render('error/handler', ['main_message' => $main_message, 'message_stack' => $message_stack]);
+        Di::get(View::class)->presentWithNoVP('error/handler', ['main_message' => $main_message, 'message_stack' => $message_stack]);
     }
 }
