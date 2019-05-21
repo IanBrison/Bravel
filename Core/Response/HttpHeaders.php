@@ -15,6 +15,9 @@ class HttpHeaders {
         return $this;
     }
 
+    /**
+     * @return HttpHeader[]
+     */
     public function getHeaders(): array {
         return $this->headers;
     }

@@ -7,7 +7,9 @@ use Core\Di\DiContainer as Di;
 class Response {
 
     protected $content;
+    /** @var StatusCode $statusCode */
     protected $statusCode;
+    /** @var HttpHeaders $httpHeaders */
     protected $httpHeaders;
 
     public function __construct() {
