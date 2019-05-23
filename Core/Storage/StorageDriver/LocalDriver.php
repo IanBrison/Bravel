@@ -5,6 +5,7 @@ namespace Core\Storage\StorageDriver;
 use Core\Environment\Environment;
 use Core\Storage\File;
 use Core\Storage\StorageDriver;
+use Exception;
 
 class LocalDriver implements StorageDriver {
 
@@ -13,6 +14,11 @@ class LocalDriver implements StorageDriver {
     private $urlDir; // the public directory path to access the storage directory
     private $baseDir; // the private directory path to access the storage directory
 
+    /**
+     * LocalDriver constructor.
+     * @param string $path
+     * @throws Exception
+     */
     public function __construct(string $path) {
         $this->urlDir = Environment::getConfig('storage.drivers.Local.basePath') . $path . '/';
         $this->baseDir = Environment::getDir(self::LOCAL_STORAGE_DIRECTORY . $this->urlDir);
