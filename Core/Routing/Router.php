@@ -47,15 +47,15 @@ class Router {
         return $this;
     }
 
-    // resolve the specific action from the requested route
 
-	/**
-	 * @return Router
-	 * @throws HttpNotFoundException
-	 * @throws UnauthorizedActionException
-	 * @throws Exception
-	 */
-	public function resolve(): self {
+    /**
+     * resolve the specific action from the requested route
+     *
+     * @return Router
+     * @throws HttpNotFoundException
+     * @throws UnauthorizedActionException
+     */
+    public function resolve(): self {
         $pathInfo = Di::get(Request::class)->getPathInfo();
         if ('/' !== substr($pathInfo, 0, 1)) {
             $pathInfo = '/' . $pathInfo;
