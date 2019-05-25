@@ -2,8 +2,9 @@
 
 namespace Core\DataSource;
 
-use PDO;
 use Core\Di\DiContainer as Di;
+use PDO;
+use PDOStatement;
 
 abstract class DbDao {
 
@@ -24,6 +25,7 @@ abstract class DbDao {
     }
 
     public function execute(string $sql, $params = array()) {
+        /** @var PDOStatement $stmt */
         $stmt = Di::get(DbManager::class)->getConnection($this->connectionName)->prepare($sql);
         $stmt->execute($params);
 

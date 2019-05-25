@@ -12,6 +12,10 @@ class DbManager {
     protected $connections;
     protected $connectionParams;
 
+    /**
+     * DbManager constructor.
+     * @throws Exception
+     */
     public function __construct() {
         $databaseSettings = Environment::getConfig('database');
 
@@ -32,11 +36,21 @@ class DbManager {
         ), $params);
     }
 
+    /**
+     * @param String|null $connectionName
+     * @return PDO
+     * @throws Exception
+     */
     public function getConnection(?String $connectionName = null): PDO {
         $connectionName = $connectionName ?? $this->defaultConnectionName;
         return $this->connections[$connectionName] ?? $this->_getConnection($connectionName);
     }
 
+    /**
+     * @param String $connectionName
+     * @return PDO
+     * @throws Exception
+     */
     private function _getConnection(String $connectionName): PDO {
         if (empty($this->connectionParams[$connectionName])) {
             throw new Exception("No db connection params configured for `$connectionName`");

@@ -7,6 +7,7 @@ class GhostDbDao extends DbDao {
     private $container;
 
     public function __construct() {
+        parent::__construct();
         $this->container = array();
     }
 
