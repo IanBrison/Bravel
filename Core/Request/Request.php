@@ -8,7 +8,7 @@ class Request {
 
     const CSRF_TOKEN_FORM_NAME = '_token';
 
-    public function isPost() {
+    public function isPost(): bool {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             return true;
         }
@@ -60,11 +60,11 @@ class Request {
         return false;
     }
 
-    public function getRequestUri() {
+    public function getRequestUri(): string {
         return $_SERVER['REQUEST_URI'];
     }
 
-    public function getBaseUrl() {
+    public function getBaseUrl(): string {
         $scriptName = $_SERVER['SCRIPT_NAME'];
 
         $requestUri = $this->getRequestUri();
@@ -78,7 +78,7 @@ class Request {
         return '';
     }
 
-    public function getPathInfo() {
+    public function getPathInfo(): string {
         $baseUrl = $this->getBaseUrl();
         $requestUri = $this->getRequestUri();
 
