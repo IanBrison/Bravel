@@ -27,7 +27,8 @@ class BravelExceptionHandler {
     public function handle($isDebugMode) {
         if (in_array(get_class($this->e), $this->registeredExceptions)) {
             if ($this->e instanceof BravelException) {
-                return $this->e->handle($isDebugMode);
+                $this->e->handle($isDebugMode);
+                return;
             }
             //TODO: show that the thrown error has no handle method
         }
