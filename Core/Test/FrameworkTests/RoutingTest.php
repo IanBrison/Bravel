@@ -229,7 +229,7 @@ class RoutingTest extends BravelTestCase {
         $this->prepareGetRequest('/auth/get', false);
 
         $this->expectException(UnauthorizedActionException::class);
-        $action = $router->resolve()->getAction();
+        $router->resolve()->getAction();
     }
 
     /**
@@ -246,7 +246,7 @@ class RoutingTest extends BravelTestCase {
         $this->preparePostRequest('/auth/post', true, false);
 
         $this->expectException(UnauthorizedActionException::class);
-        $action = $router->resolve()->getAction();
+        $router->resolve()->getAction();
     }
 
     /**
@@ -263,7 +263,7 @@ class RoutingTest extends BravelTestCase {
         $this->preparePostRequest('/normal/post', false, false);
 
         $this->expectException(Exception::class);
-        $action = $router->resolve()->getAction();
+        $router->resolve()->getAction();
     }
 
     /**
@@ -280,7 +280,7 @@ class RoutingTest extends BravelTestCase {
         $this->prepareGetRequest('/get', false);
 
         $this->expectException(HttpNotFoundException::class);
-        $action = $router->resolve()->getAction();
+        $router->resolve()->getAction();
     }
 
     /**
@@ -297,6 +297,6 @@ class RoutingTest extends BravelTestCase {
         $this->preparePostRequest('/post', true, false);
 
         $this->expectException(HttpNotFoundException::class);
-        $action = $router->resolve()->getAction();
+        $router->resolve()->getAction();
     }
 }
