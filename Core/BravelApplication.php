@@ -54,7 +54,7 @@ abstract class BravelApplication {
     // return the absolute RootDir Path for configuring relative Paths
     abstract public function getRootDir(): string;
 
-    // configure things for the qpplication at the beginning
+    // configure things for the application at the beginning
     abstract protected function configure();
 
     // return if the application is in debug mode
