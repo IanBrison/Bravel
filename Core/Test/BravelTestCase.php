@@ -2,28 +2,27 @@
 
 namespace Core\Test;
 
+use Core\Di\DiContainer as Di;
+use Core\Environment\Environment;
+use Exception;
 use PHPUnit\Framework\TestCase;
-use Core\BravelApplication;
 
 abstract class BravelTestCase extends TestCase {
-    
-    public static function setUpBeforeClass(): void {
-        new TestBravelApplication(true);
-    }
-}
 
-class TestBravelApplication extends BravelApplication {
+	public static function setUpBeforeClass(): void {
+		Environment::initialize(__DIR__, '/config');
+	}
 
-    protected $controllerDirNamespace = 'App\\Controllers\\';
-    protected $configPath = '/config';
+	/**
+	 * @throws Exception
+	 */
+	protected function setUp(): void {
+		parent::setUp();
+		Di::initialize();
+	}
 
-    public function getRootDir(): string {
-        return dirname(__FILE__);
-    }
-
-    protected function registerRoutes(): array {
-        return [];
-    }
-
-    protected function configure() {}
+	protected function tearDown(): void {
+		parent::tearDown();
+		Di::clear();
+	}
 }

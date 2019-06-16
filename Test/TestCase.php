@@ -2,16 +2,11 @@
 
 namespace Test;
 
-use Core\Di\DiContainer as Di;
-use Core\Environment\Environment;
+use App\Service\DiContainer as Di;
 use Exception;
 use PHPUnit\Framework\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase {
-
-	public static function setUpBeforeClass(): void {
-		Environment::initialize(dirname(__FILE__) . '/..', '/config');
-	}
 
 	/**
 	 * @throws Exception
