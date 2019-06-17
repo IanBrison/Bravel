@@ -3,5 +3,5 @@
 use Core\Routing\Router;
 
 return [
-    Router::get('/', 'ExampleController', 'getWelcome'),
+	Router::get('/', 'ExampleController', 'getWelcome'),
 ];

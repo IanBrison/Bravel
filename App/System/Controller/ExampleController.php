@@ -6,7 +6,7 @@ use Core\Controller\Controller;
 
 class ExampleController extends Controller {
 
-    public function getWelcome() {
-        $this->render('welcome');
-    }
+	public function getWelcome() {
+		$this->render('welcome');
+	}
 }

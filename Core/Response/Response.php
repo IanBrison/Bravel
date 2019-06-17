@@ -6,40 +6,40 @@ use Core\Di\DiContainer as Di;
 
 class Response {
 
-    protected $content;
-    /** @var StatusCode $statusCode */
-    protected $statusCode;
-    /** @var HttpHeaders $httpHeaders */
-    protected $httpHeaders;
+	protected $content;
+	/** @var StatusCode $statusCode */
+	protected $statusCode;
+	/** @var HttpHeaders $httpHeaders */
+	protected $httpHeaders;
 
-    public function __construct() {
-        $this->content = '';
-        $this->statusCode = Di::get(StatusCode::class);
-        $this->httpHeaders = Di::get(HttpHeaders::class);
-    }
+	public function __construct() {
+		$this->content = '';
+		$this->statusCode = Di::get(StatusCode::class);
+		$this->httpHeaders = Di::get(HttpHeaders::class);
+	}
 
-    public function setContent(String $content): self {
-        $this->content = $content;
-        return $this;
-    }
+	public function setContent(String $content): self {
+		$this->content = $content;
+		return $this;
+	}
 
-    public function setStatusCode(StatusCode $statusCode): self {
-        $this->statusCode = $statusCode;
-        return $this;
-    }
+	public function setStatusCode(StatusCode $statusCode): self {
+		$this->statusCode = $statusCode;
+		return $this;
+	}
 
-    public function setHttpHeaders(HttpHeaders $httpHeaders): self {
-        $this->httpHeaders = $httpHeaders;
-        return $this;
-    }
+	public function setHttpHeaders(HttpHeaders $httpHeaders): self {
+		$this->httpHeaders = $httpHeaders;
+		return $this;
+	}
 
-    public function send() {
-        header('HTTP/1.1 ' . $this->statusCode->getCode() . ' ' . $this->statusCode->getText());
+	public function send() {
+		header('HTTP/1.1 ' . $this->statusCode->getCode() . ' ' . $this->statusCode->getText());
 
-        foreach ($this->httpHeaders->getHeaders() as $httpHeader) {
-            header($httpHeader->getName() . ': ' . $httpHeader->getValue());
-        }
+		foreach ($this->httpHeaders->getHeaders() as $httpHeader) {
+			header($httpHeader->getName() . ': ' . $httpHeader->getValue());
+		}
 
-        echo $this->content;
-    }
+		echo $this->content;
+	}
 }

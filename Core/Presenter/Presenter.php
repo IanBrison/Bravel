@@ -8,14 +8,14 @@ use Core\Presenter\BuiltIns\Presenters\CsrfTokenPresenter;
 
 abstract class Presenter {
 
-    const BRAVEL_CORE_TEMPLATE_DIRECTORY = '/core/Presenter/BuiltIns';
+	const BRAVEL_CORE_TEMPLATE_DIRECTORY = '/core/Presenter/BuiltIns';
 
-    protected function bravelCoreTemplateDirectory(string $path): string {
-    	return self::BRAVEL_CORE_TEMPLATE_DIRECTORY . $path;
-    }
+	protected function bravelCoreTemplateDirectory(string $path): string {
+		return self::BRAVEL_CORE_TEMPLATE_DIRECTORY . $path;
+	}
 
-    public function generateCsrfTokenPresenter(): CsrfTokenPresenter {
-        $token = Di::get(Session::class)->generateCsrfToken();
-        return Di::get(CsrfTokenPresenter::class, $token);
-    }
+	public function generateCsrfTokenPresenter(): CsrfTokenPresenter {
+		$token = Di::get(Session::class)->generateCsrfToken();
+		return Di::get(CsrfTokenPresenter::class, $token);
+	}
 }

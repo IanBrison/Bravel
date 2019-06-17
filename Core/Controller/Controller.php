@@ -13,35 +13,35 @@ use App\System\Exception\HttpNotFoundException;
 
 abstract class Controller {
 
-    // controller name of the class extending this
-    protected $controllerName;
+	// controller name of the class extending this
+	protected $controllerName;
 
-    public function __construct() {
-        $this->controllerName = get_class($this);
-    }
-
-    /**
-     * @param string $method
-     * @param array  $params
-     * @throws HttpNotFoundException
-     */
-    public function run(string $method, array $params = array()) {
-        if (!method_exists($this, $method)) {
-            throw new HttpNotFoundException('Forwarded 404 page from ' . $this->controllerName . '/' . $method);
-        }
-
-        call_user_func_array(array($this, $method), $params);
-    }
-
-    protected function render(string $template, array $variables = array()) {
-        Di::get(View::class)->presentWithNoVP($template, $variables);
-    }
-
-    protected function transform(string $template, array $variables = array()) {
-        Di::get(Json::class)->presentWithNoJP($template, $variables);
+	public function __construct() {
+		$this->controllerName = get_class($this);
 	}
 
-    protected function redirect(string $url) {
+	/**
+	 * @param string $method
+	 * @param array  $params
+	 * @throws HttpNotFoundException
+	 */
+	public function run(string $method, array $params = array()) {
+		if (!method_exists($this, $method)) {
+			throw new HttpNotFoundException('Forwarded 404 page from ' . $this->controllerName . '/' . $method);
+		}
+
+		call_user_func_array(array($this, $method), $params);
+	}
+
+	protected function render(string $template, array $variables = array()) {
+		Di::get(View::class)->presentWithNoVP($template, $variables);
+	}
+
+	protected function transform(string $template, array $variables = array()) {
+		Di::get(Json::class)->presentWithNoJP($template, $variables);
+	}
+
+	protected function redirect(string $url) {
         Di::get(Url::class)->presentWithNoUP($url);
     }
 

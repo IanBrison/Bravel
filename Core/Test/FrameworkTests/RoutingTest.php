@@ -22,91 +22,91 @@ use App\System\Exception\HttpNotFoundException;
  */
 class RoutingTest extends BravelTestCase {
 
-    private function prepareRouter(array $getRoutes, array $postRoutes): Router {
-        $routes = array_merge($getRoutes, $postRoutes);
-        $router = new Router();
-        $router->compileRoutes($routes);
-        return $router;
-    }
+	private function prepareRouter(array $getRoutes, array $postRoutes): Router {
+		$routes = array_merge($getRoutes, $postRoutes);
+		$router = new Router();
+		$router->compileRoutes($routes);
+		return $router;
+	}
 
-    private function prepareGetRequest(string $pathInfo, bool $isAuthenticated) {
-        $request = Mockery::mock(Request::class);
-        $request->shouldReceive('getPathInfo')->andReturn($pathInfo);
-        $request->shouldReceive('isPost')->andReturn(false);
+	private function prepareGetRequest(string $pathInfo, bool $isAuthenticated) {
+		$request = Mockery::mock(Request::class);
+		$request->shouldReceive('getPathInfo')->andReturn($pathInfo);
+		$request->shouldReceive('isPost')->andReturn(false);
 
-        $session = Mockery::mock(Session::class);
-        $session->shouldReceive('isAuthenticated')->andReturn($isAuthenticated);
+		$session = Mockery::mock(Session::class);
+		$session->shouldReceive('isAuthenticated')->andReturn($isAuthenticated);
 
-        Di::set(Request::class, $request);
-        Di::set(Session::class, $session);
-    }
+		Di::set(Request::class, $request);
+		Di::set(Session::class, $session);
+	}
 
-    private function preparePostRequest(string $pathInfo, bool $checkCsrfToken, bool $isAuthenticated) {
-        $request = Mockery::mock(Request::class);
-        $request->shouldReceive('getPathInfo')->andReturn($pathInfo);
-        $request->shouldReceive('isPost')->andReturn(true);
-        $request->shouldReceive('getCsrfToken')->andReturn('test_csrf_token');
+	private function preparePostRequest(string $pathInfo, bool $checkCsrfToken, bool $isAuthenticated) {
+		$request = Mockery::mock(Request::class);
+		$request->shouldReceive('getPathInfo')->andReturn($pathInfo);
+		$request->shouldReceive('isPost')->andReturn(true);
+		$request->shouldReceive('getCsrfToken')->andReturn('test_csrf_token');
 
-        $session = Mockery::mock(Session::class);
-        $session->shouldReceive('checkCsrfToken')->with('test_csrf_token')->andReturn($checkCsrfToken);
-        $session->shouldReceive('isAuthenticated')->andReturn($isAuthenticated);
+		$session = Mockery::mock(Session::class);
+		$session->shouldReceive('checkCsrfToken')->with('test_csrf_token')->andReturn($checkCsrfToken);
+		$session->shouldReceive('isAuthenticated')->andReturn($isAuthenticated);
 
-        Di::set(Request::class, $request);
-        Di::set(Session::class, $session);
-    }
+		Di::set(Request::class, $request);
+		Di::set(Session::class, $session);
+	}
 
-    /**
-     * @test
-     * @covers Router::get
-     * @covers Route::__construct
-     * @covers Route::withAuth
-     */
-    public function testRouterRegistersGetRoutes() {
-        $getRoute = Router::get('/normal/get', 'NormalGetController', 'normalGet');
-        $getRoute2 = Router::get('/complex/:id/get', 'ComplexGetController', 'complexGet');
-        $getRoute3 = Router::get('/auth/get', 'AuthGetController', 'authGet')->withAuth();
+	/**
+	 * @test
+	 * @covers Router::get
+	 * @covers Route::__construct
+	 * @covers Route::withAuth
+	 */
+	public function testRouterRegistersGetRoutes() {
+		$getRoute = Router::get('/normal/get', 'NormalGetController', 'normalGet');
+		$getRoute2 = Router::get('/complex/:id/get', 'ComplexGetController', 'complexGet');
+		$getRoute3 = Router::get('/auth/get', 'AuthGetController', 'authGet')->withAuth();
 
-        $this->assertInstanceOf(GetRoute::class, $getRoute);
-        $this->assertInstanceOf(GetRoute::class, $getRoute2);
-        $this->assertInstanceOf(GetRoute::class, $getRoute3);
+		$this->assertInstanceOf(GetRoute::class, $getRoute);
+		$this->assertInstanceOf(GetRoute::class, $getRoute2);
+		$this->assertInstanceOf(GetRoute::class, $getRoute3);
 
-        return [$getRoute, $getRoute2, $getRoute3];
-    }
+		return [$getRoute, $getRoute2, $getRoute3];
+	}
 
-    /**
-     * @test
-     * @covers Router::post
-     */
-    public function testRouterRegistersPostRoutes() {
-        $postRoute = Router::post('/normal/post', 'NormalPostController', 'normalPost');
-        $postRoute2 = Router::post('/complex/:id/post', 'ComplexPostController', 'complexPost');
-        $postRoute3 = Router::post('/auth/post', 'AuthPostController', 'authPost')->withAuth();
+	/**
+	 * @test
+	 * @covers Router::post
+	 */
+	public function testRouterRegistersPostRoutes() {
+		$postRoute = Router::post('/normal/post', 'NormalPostController', 'normalPost');
+		$postRoute2 = Router::post('/complex/:id/post', 'ComplexPostController', 'complexPost');
+		$postRoute3 = Router::post('/auth/post', 'AuthPostController', 'authPost')->withAuth();
 
-        $this->assertInstanceOf(PostRoute::class, $postRoute);
-        $this->assertInstanceOf(PostRoute::class, $postRoute2);
-        $this->assertInstanceOf(PostRoute::class, $postRoute3);
+		$this->assertInstanceOf(PostRoute::class, $postRoute);
+		$this->assertInstanceOf(PostRoute::class, $postRoute2);
+		$this->assertInstanceOf(PostRoute::class, $postRoute3);
 
-        return [$postRoute, $postRoute2, $postRoute3];
-    }
+		return [$postRoute, $postRoute2, $postRoute3];
+	}
 
-    /**
-     * @test
-     * @depends testRouterRegistersGetRoutes
-     * @depends testRouterRegistersPostRoutes
-     * @covers Router::compileRoutes
-     * @covers Router::resolve
-     * @covers Router::getAction
-     * @covers Action::getController
-     * @covers Action::getMethod
-     */
-    public function testRouterResolvesNormalGetRequest($getRoutes, $postRoutes) {
-        $router = $this->prepareRouter($getRoutes, $postRoutes);
+	/**
+	 * @test
+	 * @depends testRouterRegistersGetRoutes
+	 * @depends testRouterRegistersPostRoutes
+	 * @covers Router::compileRoutes
+	 * @covers Router::resolve
+	 * @covers Router::getAction
+	 * @covers Action::getController
+	 * @covers Action::getMethod
+	 */
+	public function testRouterResolvesNormalGetRequest($getRoutes, $postRoutes) {
+		$router = $this->prepareRouter($getRoutes, $postRoutes);
 
-        $this->prepareGetRequest('/normal/get', false);
+		$this->prepareGetRequest('/normal/get', false);
 
-        $action = $router->resolve()->getAction();
-        $this->assertSame('NormalGetController', $action->getController());
-        $this->assertSame('normalGet', $action->getMethod());
+		$action = $router->resolve()->getAction();
+		$this->assertSame('NormalGetController', $action->getController());
+	    $this->assertSame('normalGet', $action->getMethod());
     }
 
     /**

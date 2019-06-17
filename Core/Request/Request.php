@@ -6,72 +6,72 @@ use Core\Storage\File;
 
 class Request {
 
-    const CSRF_TOKEN_FORM_NAME = '_token';
+	const CSRF_TOKEN_FORM_NAME = '_token';
 
-    public function isPost(): bool {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            return true;
-        }
+	public function isPost(): bool {
+		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+			return true;
+		}
 
-        return false;
-    }
+		return false;
+	}
 
-    public function getGet(string $name, $default = null) {
-        if (isset($_GET[$name])) {
-            return $_GET[$name];
-        }
+	public function getGet(string $name, $default = null) {
+		if (isset($_GET[$name])) {
+			return $_GET[$name];
+		}
 
-        return $default;
-    }
+		return $default;
+	}
 
-    public function getPost(string $name, $default = null) {
-        if (isset($_POST[$name])) {
-            return $_POST[$name];
-        }
+	public function getPost(string $name, $default = null) {
+		if (isset($_POST[$name])) {
+			return $_POST[$name];
+		}
 
-        return $default;
-    }
+		return $default;
+	}
 
-    public function getCsrfToken(): string {
-        return $this->getPost(self::CSRF_TOKEN_FORM_NAME, '');
-    }
+	public function getCsrfToken(): string {
+		return $this->getPost(self::CSRF_TOKEN_FORM_NAME, '');
+	}
 
-    public function getFile(string $name, $default = null) {
-        if (isset($_FILES[$name]['tmp_name'])) {
-            return new File($_FILES[$name]['tmp_name']);
-        }
+	public function getFile(string $name, $default = null) {
+		if (isset($_FILES[$name]['tmp_name'])) {
+			return new File($_FILES[$name]['tmp_name']);
+		}
 
-        return $default;
-    }
+		return $default;
+	}
 
-    public function getHost(): string {
-        if (!empty($_SERVER['HTTP_HOST'])) {
-            return $_SERVER['HTTP_HOST'];
-        }
+	public function getHost(): string {
+		if (!empty($_SERVER['HTTP_HOST'])) {
+			return $_SERVER['HTTP_HOST'];
+		}
 
-        return $_SERVER['SERVER_NAME'];
-    }
+		return $_SERVER['SERVER_NAME'];
+	}
 
-    public function isSsl(): bool {
-        if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') {
-            return true;
-        }
+	public function isSsl(): bool {
+		if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') {
+			return true;
+		}
 
-        return false;
-    }
+		return false;
+	}
 
-    public function getRequestUri(): string {
-        return $_SERVER['REQUEST_URI'];
-    }
+	public function getRequestUri(): string {
+		return $_SERVER['REQUEST_URI'];
+	}
 
-    public function getBaseUrl(): string {
-        $scriptName = $_SERVER['SCRIPT_NAME'];
+	public function getBaseUrl(): string {
+		$scriptName = $_SERVER['SCRIPT_NAME'];
 
-        $requestUri = $this->getRequestUri();
+		$requestUri = $this->getRequestUri();
 
-        if (0 === strpos($requestUri, $scriptName)) {
-            return $scriptName;
-        } else if (0 === strpos($requestUri, dirname($scriptName))) {
+		if (0 === strpos($requestUri, $scriptName)) {
+			return $scriptName;
+	    } else if (0 === strpos($requestUri, dirname($scriptName))) {
             return rtrim(dirname($scriptName), '/');
         }
 

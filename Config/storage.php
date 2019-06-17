@@ -6,16 +6,16 @@
  * LocalDriver is available
  */
 return [
-    'drivers' => [
-        'Local' => [
-            'basePath' => '/storage',
-        ],
-    ],
+	'drivers' => [
+		'Local' => [
+			'basePath' => '/storage',
+		],
+	],
 
-    'locations' => [
-        'example' => [
-            'driver' => 'Local',
-            'path' => '/example',
-        ],
-    ],
+	'locations' => [
+		'example' => [
+			'driver' => 'Local',
+			'path' => '/example',
+		],
+	],
 ];

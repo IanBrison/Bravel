@@ -11,26 +11,26 @@ use App\System\Exception\HttpNotFoundException;
 
 class Router {
 
-    private $getRoutes;  // the given get routes
-    private $postRoutes; // the given post routes
+	private $getRoutes;  // the given get routes
+	private $postRoutes; // the given post routes
 
-    public function __construct() {
-        $this->getRoutes = array();
-        $this->postRoutes = array();
-    }
+	public function __construct() {
+		$this->getRoutes = array();
+		$this->postRoutes = array();
+	}
 
-    // compile the given routes
-    public function compileRoutes(array $routes): self {
-        foreach ($routes as $route) {
-            if (is_array($route)) {
-                // compile the routes recursively
-                $this->compileRoutes($route);
-                continue;
-            }
-            $tokens = explode('/', ltrim($route->getUrlPath(), '/'));
-            foreach ($tokens as $i => $token) {
-                if (0 === strpos($token, ':')) {
-                    $name = substr($token, 1);
+	// compile the given routes
+	public function compileRoutes(array $routes): self {
+		foreach ($routes as $route) {
+			if (is_array($route)) {
+				// compile the routes recursively
+				$this->compileRoutes($route);
+				continue;
+			}
+			$tokens = explode('/', ltrim($route->getUrlPath(), '/'));
+			foreach ($tokens as $i => $token) {
+				if (0 === strpos($token, ':')) {
+			        $name = substr($token, 1);
                     $token = '(?P<' . $name . '>[^/]+)';
                 }
                 $tokens[$i] = $token;
